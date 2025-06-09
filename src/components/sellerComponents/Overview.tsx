@@ -15,7 +15,7 @@ const Overview = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-4 my-6">
+      <div className="grid grid-cols-3 gap-y-4 gap-x-6 my-6">
         <SalesAnalyticsCard
           title="Total Sales"
           currentValue={2450}

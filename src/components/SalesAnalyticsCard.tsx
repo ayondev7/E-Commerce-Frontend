@@ -32,7 +32,7 @@ const SalesAnalyticsCard: React.FC<SalesAnalyticsCardProps> = ({
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-border-primary p-6 h-full">
-      <div className="flex flex-col gap-x-4 gap-y-1">
+      <div className="flex flex-col gap-x-4 gap-y-2">
         <p className="text-sm text-gray-500 font-medium">
           {title}
         </p>
