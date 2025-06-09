@@ -21,6 +21,9 @@ const data = [
 ];
 
 const RevenueChart = () => {
+  const isIncreasing = data[data.length - 1].revenue > data[0].revenue;
+  const lineColor = isIncreasing ? "#0ACC58" : "#da4445";
+
   return (
     <div className="bg-background-primary p-6 rounded-lg border border-border-primary shadow-sm">
       <h1 className="text-xl font-bold mb-6">Revenue Trend (30 days)</h1>
@@ -56,10 +59,10 @@ const RevenueChart = () => {
             <Line
               type="monotone"
               dataKey="revenue"
-              stroke="#2A4EC7"
+              stroke={lineColor}
               strokeWidth={2}
-              dot={{ fill: '#2A4EC7', strokeWidth: 2 }}
-              activeDot={{ r: 6, fill: '#2A4EC7' }}
+              dot={{ fill: lineColor, strokeWidth: 2 }}
+              activeDot={{ r: 6, fill: lineColor }}
             />
           </LineChart>
         </ResponsiveContainer>

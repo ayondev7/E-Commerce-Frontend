@@ -17,19 +17,19 @@ const Overview = () => {
 
       <div className="grid grid-cols-3 gap-y-4 gap-x-6 my-6">
         <SalesAnalyticsCard
-          title="Total Sales"
+          title="Sales Today"
           currentValue={2450}
           previousValue={2000}
           period="today"
         />
         <SalesAnalyticsCard
-          title="Total Orders"
+          title="Sales This Week"
           currentValue={120}
           previousValue={100}
           period="today"
         />
         <SalesAnalyticsCard
-          title="Total Products"
+          title="Sales This Month"
           currentValue={10}
           previousValue={8}
           period="today"
@@ -50,7 +50,7 @@ const Overview = () => {
         <RevenueChart />
       </div>
 
-      <div className="bg-warning-secondary border border-[#FCCF9C] rounded-lg px-10 py-6 mb-10 flex items-center gap-3">
+      <div className="bg-warning-secondary border border-[#FCCF9C] rounded-lg px-10 py-6 mb-6 flex items-center gap-3">
         <AlertCircle className="text-[#C77414] w-6 h-6" />
         <div>
           <span className="text-[#C77414]">

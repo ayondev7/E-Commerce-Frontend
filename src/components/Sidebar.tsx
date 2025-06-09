@@ -16,21 +16,21 @@ const Sidebar = () => {
   ]
 
   return (
-    <aside className="w-76 pl-14 h-full bg-white relative z-[10] border-r border-border-primary flex flex-col">
+    <aside className="w-84 pl-14 h-full bg-white relative z-[10] border-r border-border-primary flex flex-col">
       <div className="p-4 flex-1">
         <nav className="space-y-2">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-4 py-2 rounded-md transition-colors ${
+              className={`flex items-center gap-3 px-4 py-4 rounded-md transition-colors ${
                 pathname === item.href
                   ? 'bg-danger-secondary text-danger-primary'
                   : 'text-text-secondary hover:bg-background-secondary'
               }`}
             >
-              <item.icon className="h-4 w-4" />
-              {item.name}
+              <item.icon className="h-5 w-5" />
+              <span className="text-base">{item.name}</span>
             </Link>
           ))}
         </nav>
