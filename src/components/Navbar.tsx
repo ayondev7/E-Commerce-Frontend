@@ -12,7 +12,7 @@ import {
 const Navbar = () => {
   return (
     <nav className="w-full bg-white py-6 px-18">
-      <div className="container h-full flex items-center justify-between">
+      <div className="container w-full h-full flex items-center justify-between">
         <Link
           href="/overview"
           className="text-[32px] font-bold text-text-tertiary"

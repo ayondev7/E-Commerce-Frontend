@@ -16,8 +16,8 @@ const Sidebar = () => {
   ]
 
   return (
-    <aside className="w-76 pl-14 min-h-screen bg-white relative z-[10] border-r border-border-primary">
-      <div className="p-4">
+    <aside className="w-76 pl-14 h-full bg-white relative z-[10] border-r border-border-primary flex flex-col">
+      <div className="p-4 flex-1">
         <nav className="space-y-2">
           {navItems.map((item) => (
             <Link

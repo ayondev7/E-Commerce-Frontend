@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
+import Overview from '../../../components/sellerComponents/Overview';
 
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+      <Overview />
+    </div>
   )
 }
 
