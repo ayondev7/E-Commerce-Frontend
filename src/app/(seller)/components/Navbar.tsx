@@ -11,7 +11,7 @@ import {
 
 const Navbar = () => {
   return (
-    <nav className="w-full bg-white shadow-sm py-6 px-18">
+    <nav className="w-full bg-white py-6 px-18">
       <div className="container h-full flex items-center justify-between">
         <Link
           href="/overview"

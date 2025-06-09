@@ -2,33 +2,34 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Home, Box, CreditCard, ShoppingCart, Settings } from 'lucide-react'
 
 const Sidebar = () => {
   const pathname = usePathname()
 
   const navItems = [
-    { name: 'Overview', href: '/overview' },
-    { name: 'Products', href: '/products' },
-    { name: 'Orders', href: '/orders' },
-    { name: 'Customers', href: '/customers' },
-    { name: 'Analytics', href: '/analytics' },
-    { name: 'Settings', href: '/settings' },
+    { name: 'Overview', href: '/overview', icon: Home },
+    { name: 'Products', href: '/products', icon: Box },
+    { name: 'Orders', href: '/orders', icon: ShoppingCart },
+    { name: 'Payments', href: '/payments', icon: CreditCard },
+    { name: 'Settings', href: '/settings', icon: Settings },
   ]
 
   return (
-    <aside className="w-64 min-h-screen bg-white shadow-sm relative z-[10]">
+    <aside className="w-76 pl-14 min-h-screen bg-white relative z-[10] border-r border-border-primary">
       <div className="p-4">
         <nav className="space-y-2">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`block px-4 py-2 rounded-md transition-colors ${
+              className={`flex items-center gap-3 px-4 py-2 rounded-md transition-colors ${
                 pathname === item.href
-                  ? 'bg-blue-50 text-blue-600'
-                  : 'hover:bg-gray-100'
+                  ? 'bg-danger-secondary text-danger-primary'
+                  : 'text-text-secondary hover:bg-background-secondary'
               }`}
             >
+              <item.icon className="h-4 w-4" />
               {item.name}
             </Link>
           ))}
