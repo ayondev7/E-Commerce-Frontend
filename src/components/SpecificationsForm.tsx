@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -44,6 +44,16 @@ const SpecificationsForm = () => {
       setNewFeature("");
       setShowFeatureInput(false);
     }
+  };
+
+  const cancelCondition = () => {
+    setNewCondition("");
+    setShowConditionInput(false);
+  };
+
+  const cancelFeature = () => {
+    setNewFeature("");
+    setShowFeatureInput(false);
   };
 
   return (
@@ -139,87 +149,101 @@ const SpecificationsForm = () => {
           </div>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Condition <span className="text-danger-primary">*</span>
-          </label>
-          <div className="space-y-2">
-            {conditions.map((condition) => (
-              <div key={condition} className="flex items-center space-x-2">
-                <Checkbox id={condition} className="rounded-full" />
-                <label htmlFor={condition} className="text-sm">
-                  {condition}
-                </label>
-              </div>
-            ))}
-            {!showConditionInput ? (
-              <button
-                onClick={() => setShowConditionInput(true)}
-                className="flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-                Add new condition
-              </button>
-            ) : (
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={newCondition}
-                  onChange={(e) => setNewCondition(e.target.value)}
-                  placeholder="Enter new condition"
-                  className="w-48 px-3 py-1.5 text-sm border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
-                  autoFocus
-                />
+        <div className="grid grid-cols-2 gap-8">
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Condition <span className="text-danger-primary">*</span>
+            </label>
+            <div className="space-y-2">
+              {conditions.map((condition) => (
+                <div key={condition} className="flex items-center space-x-2">
+                  <Checkbox id={condition} className="rounded-full" />
+                  <label htmlFor={condition} className="text-sm">
+                    {condition}
+                  </label>
+                </div>
+              ))}
+              {!showConditionInput ? (
                 <button
-                  onClick={addCondition}
-                  className="px-3 py-1.5 text-sm text-primary hover:text-primary/80 transition-colors"
+                  onClick={() => setShowConditionInput(true)}
+                  className="flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors"
                 >
-                  Add
+                  <Plus className="w-4 h-4" />
+                  Add new condition
                 </button>
-              </div>
-            )}
+              ) : (
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={newCondition}
+                    onChange={(e) => setNewCondition(e.target.value)}
+                    placeholder="Enter new condition"
+                    className="w-48 px-3 py-1.5 text-sm border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                    autoFocus
+                  />
+                  <button
+                    onClick={addCondition}
+                    className="px-3 py-1.5 text-sm text-primary hover:text-primary/80 transition-colors"
+                  >
+                    Add
+                  </button>
+                  <button
+                    onClick={cancelCondition}
+                    className="px-3 py-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Features <span className="text-danger-primary">*</span>
-          </label>
-          <div className="space-y-2">
-            {features.map((feature) => (
-              <div key={feature} className="flex items-center space-x-2">
-                <Checkbox id={feature} className="rounded-full" />
-                <label htmlFor={feature} className="text-sm">
-                  {feature}
-                </label>
-              </div>
-            ))}
-            {!showFeatureInput ? (
-              <button
-                onClick={() => setShowFeatureInput(true)}
-                className="flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-                Add new feature
-              </button>
-            ) : (
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={newFeature}
-                  onChange={(e) => setNewFeature(e.target.value)}
-                  placeholder="Enter new feature"
-                  className="w-48 px-3 py-1.5 text-sm border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
-                  autoFocus
-                />
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Features <span className="text-danger-primary">*</span>
+            </label>
+            <div className="space-y-2">
+              {features.map((feature) => (
+                <div key={feature} className="flex items-center space-x-2">
+                  <Checkbox id={feature} className="rounded-full" />
+                  <label htmlFor={feature} className="text-sm">
+                    {feature}
+                  </label>
+                </div>
+              ))}
+              {!showFeatureInput ? (
                 <button
-                  onClick={addFeature}
-                  className="px-3 py-1.5 text-sm text-primary hover:text-primary/80 transition-colors"
+                  onClick={() => setShowFeatureInput(true)}
+                  className="flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors"
                 >
-                  Add
+                  <Plus className="w-4 h-4" />
+                  Add new feature
                 </button>
-              </div>
-            )}
+              ) : (
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={newFeature}
+                    onChange={(e) => setNewFeature(e.target.value)}
+                    placeholder="Enter new feature"
+                    className="w-48 px-3 py-1.5 text-sm border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                    autoFocus
+                  />
+                  <button
+                    onClick={addFeature}
+                    className="px-3 py-1.5 text-sm text-primary hover:text-primary/80 transition-colors"
+                  >
+                    Add
+                  </button>
+                  <button
+                    onClick={cancelFeature}
+                    className="px-3 py-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
