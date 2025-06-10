@@ -4,6 +4,9 @@ import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import GeneralInformationForm from './GeneralInformationForm';
 import SpecificationsForm from './SpecificationsForm';
+import PricingInventoryForm from './PricingInventoryForm';
+import AdditionalInformationForm from './AdditionalInformationForm';
+import { Checkbox } from './ui/checkbox';
 
 const AddProductForm = () => {
   const router = useRouter();
@@ -27,6 +30,16 @@ const AddProductForm = () => {
       <div className="space-y-8">
         <GeneralInformationForm />
         <SpecificationsForm />
+        <PricingInventoryForm />
+        
+        <div className="flex items-center space-x-2">
+          <Checkbox id="negotiation"  className="rounded-[3px] border-2 border-text-primary data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500"  />
+          <label htmlFor="negotiation" className="text-sm font-medium">
+            Enable Negotiation
+          </label>
+        </div>
+
+        <AdditionalInformationForm />
       </div>
     </div>
   );

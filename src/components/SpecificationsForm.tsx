@@ -57,7 +57,7 @@ const SpecificationsForm = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-background-primary p-6 rounded-sm border border-border-primary">
       <h2 className="text-xl font-semibold">Specifications</h2>
       
       <div className="space-y-4">

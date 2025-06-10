@@ -37,14 +37,14 @@ const DeleteProductModal = ({
         <div className="flex gap-y-2 gap-x-5 justify-center">
           <button
             onClick={onClose}
-            className="flex items-center gap-2 px-4 py-2 rounded-sm border border-border-primary text-text-primary hover:bg-background-hover transition-colors cursor-pointer"
+            className="flex items-center justify-center gap-2 px-4 py-2 rounded-sm border border-border-primary text-text-primary hover:bg-background-hover transition-colors cursor-pointer w-[125px]"
           >
             <X className="w-6 h-6" />
             <span className="font-medium">Cancel</span>
           </button>
           <button
             onClick={onDelete}
-            className="flex items-center gap-2 px-4 py-2 rounded-sm bg-danger-primary text-white hover:bg-danger-primary/90 transition-colors cursor-pointer"
+            className="flex items-center justify-center gap-2 px-4 py-2 rounded-sm bg-danger-primary text-white hover:bg-danger-primary/90 transition-colors cursor-pointer w-[125px]"
           >
             <Trash className="w-6 h-6" />
             <span className="font-medium">Delete</span>
