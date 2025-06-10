@@ -1,15 +1,38 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const PricingInventoryForm = () => {
+interface PricingInventoryFormProps {
+  initialData?: {
+    price?: number;
+    salePrice?: number;
+    quantity?: number;
+    sku?: string;
+  };
+}
+
+const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
+  const [price, setPrice] = useState("");
+  const [salePrice, setSalePrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [sku, setSku] = useState("");
+
+  useEffect(() => {
+    if (initialData) {
+      if (initialData.price !== undefined) setPrice(initialData.price.toString());
+      if (initialData.salePrice !== undefined) setSalePrice(initialData.salePrice.toString());
+      if (initialData.quantity !== undefined) setQuantity(initialData.quantity.toString());
+      if (initialData.sku !== undefined) setSku(initialData.sku);
+    }
+  }, [initialData]);
+
   return (
     <div className="space-y-6.5 bg-background-primary p-6 rounded-sm border border-border-primary">
       <h2 className="text-2xl font-medium">Pricing & Inventory</h2>
-      
-      <div className="space-y-4">
+
+      <div className="space-y-5">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xl font-medium 2.5">
+            <label className="block text-xl font-medium mb-2.5">
               Price ($) <span className="text-danger-primary">*</span>
             </label>
             <input
@@ -17,6 +40,8 @@ const PricingInventoryForm = () => {
               step="0.01"
               min="0"
               placeholder="0.00"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
               className="w-full px-5 py-2.5 text-base border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
@@ -30,6 +55,8 @@ const PricingInventoryForm = () => {
               step="0.01"
               min="0"
               placeholder="0.00"
+              value={salePrice}
+              onChange={(e) => setSalePrice(e.target.value)}
               className="w-full px-5 py-2.5 text-base border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
@@ -44,6 +71,8 @@ const PricingInventoryForm = () => {
               type="number"
               min="0"
               placeholder="0"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
               className="w-full px-5 py-2.5 text-base border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
@@ -55,6 +84,8 @@ const PricingInventoryForm = () => {
             <input
               type="text"
               placeholder="Enter SKU"
+              value={sku}
+              onChange={(e) => setSku(e.target.value)}
               className="w-full px-5 py-2.5 text-base border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
@@ -64,4 +95,4 @@ const PricingInventoryForm = () => {
   );
 };
 
-export default PricingInventoryForm; 
+export default PricingInventoryForm;

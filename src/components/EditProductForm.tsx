@@ -12,14 +12,28 @@ const EditProductForm = () => {
   const router = useRouter();
 
   const existingSpecs = {
-  brand: "apple",
-  model: "iphone14",
-  storage: "256",
-  ram: "6",
-  color: "black",
-  conditions: ["Good", "Fair"],
-  features: ["Bluetooth", "Touch Screen"],
-};
+    brand: "apple",
+    model: "iphone14",
+    storage: "256",
+    ram: "6",
+    color: "black",
+    conditions: ["Good", "Fair"],
+    features: ["Bluetooth", "Touch Screen"],
+  };
+
+  const existingPricing = {
+    price: 499.99,
+    salePrice: 449.99,
+    quantity: 20,
+    sku: "SKU123456",
+  };
+
+  const existingAdditionalInformation = {
+    tags: "smartphone, android, 5G",
+    seoTitle: "Best Android Smartphones 2025",
+    seoDescription:
+      "Discover the top Android smartphones of 2025 with cutting-edge 5G technology.",
+  };
 
   return (
     <div>
@@ -40,20 +54,10 @@ const EditProductForm = () => {
       <div className="space-y-8">
         <GeneralInformationForm />
         <SpecificationsForm initialData={existingSpecs} />
-        <PricingInventoryForm />
-
-        <div className="flex items-center bg-white p-6 gap-x-2.5 border border-border-primary rounded-sm">
-          <Checkbox
-            id="negotiation"
-            className="rounded-[3px] border-2 border-text-primary data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-3 [&_svg]:!h-3 [&_svg]:!stroke-5"
-          />
-          <label htmlFor="negotiation" className="text-xl">
-            Enable Negotiation
-          </label>
-        </div>
+        <PricingInventoryForm initialData={existingPricing} />
 
         <div className="space-y-6 bg-background-primary p-6 rounded-sm border border-border-primary">
-          <AdditionalInformationForm />
+          <AdditionalInformationForm initialData={existingAdditionalInformation} />
         </div>
 
         <div className="flex justify-between bg-white border-t border-border-primary p-4">
@@ -70,6 +74,6 @@ const EditProductForm = () => {
       </div>
     </div>
   );
-}
+};
 
-export default EditProductForm
+export default EditProductForm;
