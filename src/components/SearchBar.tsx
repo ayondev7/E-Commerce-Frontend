@@ -12,9 +12,9 @@ import {
 
 const SearchBar = () => {
   return (
-    <div className="w-full h-14 border-t border-b border-border-primary px-18 py-10">
+    <div className="w-full h-13 border-t border-b border-border-primary px-18 py-10">
       <div className="container h-full flex items-center">
-        <div className="w-full relative flex items-center gap-x-6">
+        <div className="w-full relative flex items-center gap-x-5">
           <div className="flex-1 relative flex items-center border border-text-secondary rounded-md">
             <Select>
               <SelectTrigger className="w-[135px] text-text-secondary border-0 rounded-none rounded-l-md text-base focus:ring-0 focus:ring-offset-0 [&[data-state=open]>svg]:rotate-180">

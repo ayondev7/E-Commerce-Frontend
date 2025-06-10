@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { Plus, X } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -10,29 +10,80 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const SpecificationsForm = () => {
+type SpecificationsFormProps = {
+  initialData?: {
+    brand?: string;
+    model?: string;
+    storage?: string;
+    ram?: string;
+    color?: string;
+    conditions?: string[];
+    features?: string[];
+  };
+};
+
+const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
+  const [selectedStorage, setSelectedStorage] = useState("");
+  const [selectedRAM, setSelectedRAM] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+
   const [conditions, setConditions] = useState<string[]>([
     "New",
     "Like New",
     "Good",
     "Fair",
-    "Poor"
+    "Poor",
   ]);
   const [features, setFeatures] = useState<string[]>([
     "Water Resistant",
     "Bluetooth",
     "Wi-Fi",
     "GPS",
-    "Touch Screen"
+    "Touch Screen",
   ]);
+
   const [showConditionInput, setShowConditionInput] = useState(false);
   const [showFeatureInput, setShowFeatureInput] = useState(false);
   const [newCondition, setNewCondition] = useState("");
   const [newFeature, setNewFeature] = useState("");
 
+  useEffect(() => {
+    if (initialData) {
+      setSelectedBrand(initialData.brand || "");
+      setSelectedModel(initialData.model || "");
+      setSelectedStorage(initialData.storage || "");
+      setSelectedRAM(initialData.ram || "");
+      setSelectedColor(initialData.color || "");
+      setSelectedConditions(initialData.conditions || []);
+      setSelectedFeatures(initialData.features || []);
+    }
+  }, [initialData]);
+
+  const toggleCondition = (condition: string) => {
+    setSelectedConditions((prev) =>
+      prev.includes(condition)
+        ? prev.filter((c) => c !== condition)
+        : [...prev, condition]
+    );
+  };
+
+  const toggleFeature = (feature: string) => {
+    setSelectedFeatures((prev) =>
+      prev.includes(feature)
+        ? prev.filter((f) => f !== feature)
+        : [...prev, feature]
+    );
+  };
+
   const addCondition = () => {
     if (newCondition.trim()) {
-      setConditions([...conditions, newCondition.trim()]);
+      const newCond = newCondition.trim();
+      setConditions([...conditions, newCond]);
+      setSelectedConditions([...selectedConditions, newCond]);
       setNewCondition("");
       setShowConditionInput(false);
     }
@@ -40,7 +91,9 @@ const SpecificationsForm = () => {
 
   const addFeature = () => {
     if (newFeature.trim()) {
-      setFeatures([...features, newFeature.trim()]);
+      const newFeat = newFeature.trim();
+      setFeatures([...features, newFeat]);
+      setSelectedFeatures([...selectedFeatures, newFeat]);
       setNewFeature("");
       setShowFeatureInput(false);
     }
@@ -59,13 +112,13 @@ const SpecificationsForm = () => {
   return (
     <div className="space-y-6.5 bg-background-primary p-6 rounded-sm border border-border-primary">
       <h2 className="text-2xl font-medium">Specifications</h2>
-      
+
       <div className="space-y-5">
         <div>
           <label className="block font-medium text-xl mb-2.5">
             Brand <span className="text-danger-primary">*</span>
           </label>
-          <Select>
+          <Select value={selectedBrand} onValueChange={setSelectedBrand}>
             <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-secondary focus:ring-0 text-base">
               <SelectValue placeholder="Select brand" />
             </SelectTrigger>
@@ -83,7 +136,7 @@ const SpecificationsForm = () => {
             <label className="block font-medium text-xl mb-2.5">
               Model <span className="text-danger-primary">*</span>
             </label>
-            <Select>
+            <Select value={selectedModel} onValueChange={setSelectedModel}>
               <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-secondary focus:ring-0 text-base">
                 <SelectValue placeholder="Select model" />
               </SelectTrigger>
@@ -99,7 +152,7 @@ const SpecificationsForm = () => {
             <label className="block font-medium text-xl mb-2.5">
               Storage <span className="text-danger-primary">*</span>
             </label>
-            <Select>
+            <Select value={selectedStorage} onValueChange={setSelectedStorage}>
               <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-secondary focus:ring-0 text-base">
                 <SelectValue placeholder="Select storage" />
               </SelectTrigger>
@@ -118,7 +171,7 @@ const SpecificationsForm = () => {
             <label className="block font-medium text-xl mb-2.5">
               RAM <span className="text-danger-primary">*</span>
             </label>
-            <Select>
+            <Select value={selectedRAM} onValueChange={setSelectedRAM}>
               <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-secondary focus:ring-0 text-base">
                 <SelectValue placeholder="Select RAM" />
               </SelectTrigger>
@@ -135,7 +188,7 @@ const SpecificationsForm = () => {
             <label className="block font-medium text-xl mb-2.5">
               Color <span className="text-danger-primary">*</span>
             </label>
-            <Select>
+            <Select value={selectedColor} onValueChange={setSelectedColor}>
               <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-secondary focus:ring-0 text-base">
                 <SelectValue placeholder="Select color" />
               </SelectTrigger>
@@ -149,15 +202,20 @@ const SpecificationsForm = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-2 gap-x-8">
           <div>
-            <label className="block font-medium text-xl mb-2.5">
+            <label className="block font-medium text-xl mb-5">
               Condition <span className="text-danger-primary">*</span>
             </label>
-            <div className="space-y-2">
+            <div className="space-y-4">
               {conditions.map((condition) => (
                 <div key={condition} className="flex items-center space-x-2">
-                  <Checkbox id={condition} className="rounded-full border-text-primary border-2 data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-2 [&_svg]:!h-2 [&_svg]:!stroke-5" />
+                  <Checkbox
+                    id={condition}
+                    checked={selectedConditions.includes(condition)}
+                    onCheckedChange={() => toggleCondition(condition)}
+                    className="rounded-full border-text-primary border-2 data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-2 [&_svg]:!h-2 [&_svg]:!stroke-5"
+                  />
                   <label htmlFor={condition} className="text-base">
                     {condition}
                   </label>
@@ -199,13 +257,18 @@ const SpecificationsForm = () => {
           </div>
 
           <div>
-            <label className="block font-medium text-xl mb-2.5">
+            <label className="block font-medium text-xl mb-5">
               Features <span className="text-danger-primary">*</span>
             </label>
-            <div className="space-y-2">
+            <div className="space-y-4">
               {features.map((feature) => (
                 <div key={feature} className="flex items-center space-x-2">
-                  <Checkbox id={feature} className="rounded-full border-text-primary border-2 data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-2 [&_svg]:!h-2 [&_svg]:!stroke-5" />
+                  <Checkbox
+                    id={feature}
+                    checked={selectedFeatures.includes(feature)}
+                    onCheckedChange={() => toggleFeature(feature)}
+                    className="rounded-full border-text-primary border-2 data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-2 [&_svg]:!h-2 [&_svg]:!stroke-5"
+                  />
                   <label htmlFor={feature} className="text-base">
                     {feature}
                   </label>
