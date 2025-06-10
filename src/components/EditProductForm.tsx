@@ -35,6 +35,12 @@ const EditProductForm = () => {
       "Discover the top Android smartphones of 2025 with cutting-edge 5G technology.",
   };
 
+  const existingGeneralInformation = {
+  title: "Awesome Phone",
+  description: "This phone is great for everything.",
+  category: "electronics",
+};
+
   return (
     <div>
       <div className="flex items-center gap-x-2">
@@ -52,7 +58,7 @@ const EditProductForm = () => {
       </h2>
 
       <div className="space-y-8">
-        <GeneralInformationForm />
+        <GeneralInformationForm initialData={existingGeneralInformation} />
         <SpecificationsForm initialData={existingSpecs} />
         <PricingInventoryForm initialData={existingPricing} />
 

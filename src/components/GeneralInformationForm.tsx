@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Upload } from "lucide-react";
 import {
   Select,
@@ -9,7 +9,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const GeneralInformationForm = () => {
+interface GeneralInformationFormProps {
+  initialData?: {
+    title?: string;
+    description?: string;
+    category?: string;
+  };
+}
+
+const GeneralInformationForm = ({
+  initialData,
+}: GeneralInformationFormProps) => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState<string | undefined>(undefined);
   const [images, setImages] = useState<File[]>([]);
 
   const handleImageDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -41,10 +54,18 @@ const GeneralInformationForm = () => {
     setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
+  useEffect(() => {
+    if (initialData) {
+      if (initialData.title !== undefined) setTitle(initialData.title);
+      if (initialData.description !== undefined)
+        setDescription(initialData.description);
+      if (initialData.category !== undefined) setCategory(initialData.category);
+    }
+  }, [initialData]);
+
   return (
     <div className="space-y-6.5 bg-background-primary p-6 rounded-sm border border-border-primary">
       <h2 className="text-2xl font-medium">General Information</h2>
-
       <div className="space-y-4">
         <div>
           <label htmlFor="title" className="block font-medium text-xl mb-2.5">
@@ -55,9 +76,10 @@ const GeneralInformationForm = () => {
             id="title"
             className="w-full px-5 py-2.5 border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary text-base"
             placeholder="Enter product title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-
         <div>
           <label
             htmlFor="description"
@@ -70,14 +92,14 @@ const GeneralInformationForm = () => {
             rows={4}
             className="w-full px-5 py-2.5 border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary resize-none text-base"
             placeholder="Enter product description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-
         <div>
           <label className="block font-medium text-xl mb-2.5">
             Product Images <span className="text-danger-primary">*</span>
           </label>
-
           <div
             className="border-2 border-dashed min-h-[280px] border-border-primary rounded-sm px-5 py-2.5 text-center flex flex-col justify-center items-center gap-y-5"
             onDragOver={(e) => e.preventDefault()}
@@ -90,7 +112,6 @@ const GeneralInformationForm = () => {
             <div className="text-base text-text-secondary">
               or click to browse files (PNG, JPG, WEBP up to 5MB each)
             </div>
-
             <input
               type="file"
               id="images"
@@ -107,7 +128,6 @@ const GeneralInformationForm = () => {
               Select Files
             </button>
           </div>
-
           {images.length > 0 && (
             <div className="mt-4 grid grid-cols-4 gap-4">
               {images.map((image, index) => (
@@ -128,13 +148,16 @@ const GeneralInformationForm = () => {
             </div>
           )}
         </div>
-
         <div>
           <label className="block font-medium text-xl mb-2.5">
             Category <span className="text-danger-primary">*</span>
           </label>
-          <Select>
-            <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-primary focus:ring-0 text-base">
+          <Select onValueChange={setCategory} value={category}>
+            <SelectTrigger
+              className={`w-full px-5 py-2.5 rounded-sm border-border-primary focus:outline-none focus:ring-0 text-base ${
+                category ? "text-text-primary" : "text-text-secondary"
+              }`}
+            >
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>

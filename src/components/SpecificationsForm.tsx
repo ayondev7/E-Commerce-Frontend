@@ -119,7 +119,7 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
             Brand <span className="text-danger-primary">*</span>
           </label>
           <Select value={selectedBrand} onValueChange={setSelectedBrand}>
-            <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-secondary focus:ring-0 text-base">
+            <SelectTrigger className={`w-full px-5 py-2.5 rounded-sm border-border-primary focus:ring-0 text-base ${selectedBrand ? "text-text-primary" : "text-text-secondary"}`}>
               <SelectValue placeholder="Select brand" />
             </SelectTrigger>
             <SelectContent>
@@ -137,7 +137,7 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
               Model <span className="text-danger-primary">*</span>
             </label>
             <Select value={selectedModel} onValueChange={setSelectedModel}>
-              <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-secondary focus:ring-0 text-base">
+              <SelectTrigger className={`w-full px-5 py-2.5 rounded-sm border-border-primary focus:ring-0 text-base ${selectedModel ? "text-text-primary" : "text-text-secondary"}`}>
                 <SelectValue placeholder="Select model" />
               </SelectTrigger>
               <SelectContent>
@@ -153,7 +153,7 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
               Storage <span className="text-danger-primary">*</span>
             </label>
             <Select value={selectedStorage} onValueChange={setSelectedStorage}>
-              <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-secondary focus:ring-0 text-base">
+              <SelectTrigger className={`w-full px-5 py-2.5 rounded-sm border-border-primary focus:ring-0 text-base ${selectedStorage ? "text-text-primary" : "text-text-secondary"}`}>
                 <SelectValue placeholder="Select storage" />
               </SelectTrigger>
               <SelectContent>
@@ -172,7 +172,7 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
               RAM <span className="text-danger-primary">*</span>
             </label>
             <Select value={selectedRAM} onValueChange={setSelectedRAM}>
-              <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-secondary focus:ring-0 text-base">
+              <SelectTrigger className={`w-full px-5 py-2.5 rounded-sm border-border-primary focus:ring-0 text-base ${selectedRAM ? "text-text-primary" : "text-text-secondary"}`}>
                 <SelectValue placeholder="Select RAM" />
               </SelectTrigger>
               <SelectContent>
@@ -189,7 +189,7 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
               Color <span className="text-danger-primary">*</span>
             </label>
             <Select value={selectedColor} onValueChange={setSelectedColor}>
-              <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-secondary focus:ring-0 text-base">
+              <SelectTrigger className={`w-full px-5 py-2.5 rounded-sm border-border-primary focus:ring-0 text-base ${selectedColor ? "text-text-primary" : "text-text-secondary"}`}>
                 <SelectValue placeholder="Select color" />
               </SelectTrigger>
               <SelectContent>
