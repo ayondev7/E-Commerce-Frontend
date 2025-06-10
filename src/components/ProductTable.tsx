@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Edit, Trash2 } from 'lucide-react';
 import {
   Table,
@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import DeleteProductModal from './DeleteProductModal';
 
 interface Product {
   id: string;
@@ -24,6 +25,20 @@ interface ProductTableProps {
 }
 
 const ProductTable = ({ products }: ProductTableProps) => {
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  const handleDeleteClick = (product: Product) => {
+    setSelectedProduct(product);
+    setDeleteModalOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    // Handle delete logic here
+    setDeleteModalOpen(false);
+    setSelectedProduct(null);
+  };
+
   const getStatusStyles = (status: string) => {
     switch (status) {
       case 'active':
@@ -38,51 +53,65 @@ const ProductTable = ({ products }: ProductTableProps) => {
   };
 
   return (
-    <div className="border rounded-sm bg-background-primary">
-      <Table>
-        <TableHeader>
-          <TableRow className="border-b">
-            <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Image</TableHead>
-            <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Name</TableHead>
-            <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">SKU</TableHead>
-            <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Price</TableHead>
-            <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Stock</TableHead>
-            <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Status</TableHead>
-            <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {products.map((product) => (
-            <TableRow key={product.id} className="border-b last:border-b-0">
-              <TableCell className="px-4 py-4">
-                <img src={product.image} alt={product.name} className="w-11 h-11 object-cover rounded-sm" />
-              </TableCell>
-              <TableCell className="text-text-primary px-4 py-4 text-base">{product.name}</TableCell>
-              <TableCell className="text-text-primary px-4 py-4 text-base">{product.sku}</TableCell>
-              <TableCell className="text-text-primary px-4 py-4 text-base">${product.price.toFixed(2)}</TableCell>
-              <TableCell className="text-text-primary px-4 py-4 text-base">{product.stock}</TableCell>
-              <TableCell className="px-4 py-4">
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusStyles(product.status)}`}>
-                  {product.status.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-                </span>
-              </TableCell>
-              <TableCell className="px-4 py-4">
-                <div className="flex gap-2">
-                  <button className="flex items-center gap-1 px-4 py-2 hover:bg-background-hover rounded-sm text-text-primary border border-border-primary text-base">
-                    <Edit className="w-4 h-4" />
-                    <span className="font-medium">Edit</span>
-                  </button>
-                  <button className="flex items-center gap-1 px-4 py-2 hover:bg-background-hover rounded-sm text-danger-primary border border-[#f5cdd5] text-base">
-                    <Trash2 className="w-4 h-4" />
-                    <span className="font-medium">Delete</span>
-                  </button>
-                </div>
-              </TableCell>
+    <>
+      <div className="border rounded-sm bg-background-primary">
+        <Table>
+          <TableHeader>
+            <TableRow className="border-b">
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Image</TableHead>
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Name</TableHead>
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">SKU</TableHead>
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Price</TableHead>
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Stock</TableHead>
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Status</TableHead>
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Actions</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+          </TableHeader>
+          <TableBody>
+            {products.map((product) => (
+              <TableRow key={product.id} className="border-b last:border-b-0">
+                <TableCell className="px-4 py-4">
+                  <img src={product.image} alt={product.name} className="w-11 h-11 object-cover rounded-sm" />
+                </TableCell>
+                <TableCell className="text-text-primary px-4 py-4 text-base">{product.name}</TableCell>
+                <TableCell className="text-text-primary px-4 py-4 text-base">{product.sku}</TableCell>
+                <TableCell className="text-text-primary px-4 py-4 text-base">${product.price.toFixed(2)}</TableCell>
+                <TableCell className="text-text-primary px-4 py-4 text-base">{product.stock}</TableCell>
+                <TableCell className="px-4 py-4">
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusStyles(product.status)}`}>
+                    {product.status.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                  </span>
+                </TableCell>
+                <TableCell className="px-4 py-4">
+                  <div className="flex gap-2">
+                    <button className="flex items-center gap-1 px-4 py-2 hover:bg-background-hover rounded-sm text-text-primary border border-border-primary text-base cursor-pointer">
+                      <Edit className="w-4 h-4" />
+                      <span className="font-medium">Edit</span>
+                    </button>
+                    <button 
+                      onClick={() => handleDeleteClick(product)}
+                      className="flex items-center gap-1 px-4 py-2 hover:bg-background-hover rounded-sm text-danger-primary border border-[#f5cdd5] text-base cursor-pointer"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      <span className="font-medium">Delete</span>
+                    </button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      {selectedProduct && (
+        <DeleteProductModal
+          isOpen={deleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          onDelete={handleDeleteConfirm}
+          productName={selectedProduct.name}
+        />
+      )}
+    </>
   );
 };
 
