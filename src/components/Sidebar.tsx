@@ -25,8 +25,8 @@ const Sidebar = () => {
               href={item.href}
               className={`flex items-center gap-3 px-4 py-4 rounded-md transition-colors ${
                 pathname === item.href
-                  ? 'bg-danger-secondary text-danger-primary'
-                  : 'text-text-secondary hover:bg-background-secondary'
+                  ? 'bg-danger-secondary text-danger-primary font-medium'
+                  : 'text-text-secondary hover:bg-background-secondary font-normal'
               }`}
             >
               <item.icon className="h-5 w-5" />

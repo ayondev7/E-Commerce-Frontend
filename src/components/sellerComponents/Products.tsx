@@ -1,10 +1,13 @@
 "use client";
 import React from "react";
 import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import ProductTable from "../ProductTable";
 import ProductSearchBar from "../ProductSearchBar"; 
 
 const Products = () => {
+  const router = useRouter();
+
   const sampleProducts = [
     {
       id: "1",
@@ -82,7 +85,10 @@ const Products = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-semibold">Products</h1>
-        <button className="flex items-center gap-2 px-5 py-[10px] bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors">
+        <button 
+          onClick={() => router.push('/add-product')}
+          className="flex items-center gap-2 px-5 py-[10px] bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors cursor-pointer"
+        >
           <Plus className="w-4 h-4" />
           Add Product
         </button>
