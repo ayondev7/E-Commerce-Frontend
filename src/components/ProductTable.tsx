@@ -31,50 +31,50 @@ const ProductTable = ({ products }: ProductTableProps) => {
       case 'low_stock':
         return 'bg-warning-secondary text-warning-primary';
       case 'out_of_stock':
-        return 'bg-error-secondary text-error-primary';
+        return 'bg-danger-secondary text-danger-primary';
       default:
         return '';
     }
   };
 
   return (
-    <div className="border rounded-lg bg-background-primary">
+    <div className="border rounded-sm bg-background-primary">
       <Table>
         <TableHeader>
           <TableRow className="border-b">
-            <TableHead className="text-text-secondary font-medium px-4 py-2">Image</TableHead>
-            <TableHead className="text-text-secondary font-medium px-4 py-3">Name</TableHead>
-            <TableHead className="text-text-secondary font-medium px-4 py-3">SKU</TableHead>
-            <TableHead className="text-text-secondary font-medium px-4 py-3">Price</TableHead>
-            <TableHead className="text-text-secondary font-medium px-4 py-3">Stock</TableHead>
-            <TableHead className="text-text-secondary font-medium px-4 py-3">Status</TableHead>
-            <TableHead className="text-text-secondary font-medium px-4 py-3">Actions</TableHead>
+            <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Image</TableHead>
+            <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Name</TableHead>
+            <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">SKU</TableHead>
+            <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Price</TableHead>
+            <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Stock</TableHead>
+            <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Status</TableHead>
+            <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {products.map((product) => (
             <TableRow key={product.id} className="border-b last:border-b-0">
               <TableCell className="px-4 py-4">
-                <img src={product.image} alt={product.name} className="w-11 h-11 object-cover rounded" />
+                <img src={product.image} alt={product.name} className="w-11 h-11 object-cover rounded-sm" />
               </TableCell>
-              <TableCell className="text-text-primary px-4 py-4">{product.name}</TableCell>
-              <TableCell className="text-text-primary px-4 py-4">{product.sku}</TableCell>
-              <TableCell className="text-text-primary px-4 py-4">${product.price.toFixed(2)}</TableCell>
-              <TableCell className="text-text-primary px-4 py-4">{product.stock}</TableCell>
+              <TableCell className="text-text-primary px-4 py-4 text-base">{product.name}</TableCell>
+              <TableCell className="text-text-primary px-4 py-4 text-base">{product.sku}</TableCell>
+              <TableCell className="text-text-primary px-4 py-4 text-base">${product.price.toFixed(2)}</TableCell>
+              <TableCell className="text-text-primary px-4 py-4 text-base">{product.stock}</TableCell>
               <TableCell className="px-4 py-4">
-                <span className={`px-2 py-1 rounded-full text-sm ${getStatusStyles(product.status)}`}>
-                  {product.status.replace('_', ' ')}
+                <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusStyles(product.status)}`}>
+                  {product.status.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                 </span>
               </TableCell>
               <TableCell className="px-4 py-4">
                 <div className="flex gap-2">
-                  <button className="flex items-center gap-1 px-3 py-2 hover:bg-background-hover rounded-md text-text-secondary border border-border-primary">
+                  <button className="flex items-center gap-1 px-4 py-2 hover:bg-background-hover rounded-sm text-text-primary border border-border-primary text-base">
                     <Edit className="w-4 h-4" />
-                    <span>Edit</span>
+                    <span className="font-medium">Edit</span>
                   </button>
-                  <button className="flex items-center gap-1 px-3 py-2 hover:bg-background-hover rounded-md text-error-primary border border-error-primary">
+                  <button className="flex items-center gap-1 px-4 py-2 hover:bg-background-hover rounded-sm text-danger-primary border border-[#f5cdd5] text-base">
                     <Trash2 className="w-4 h-4" />
-                    <span>Delete</span>
+                    <span className="font-medium">Delete</span>
                   </button>
                 </div>
               </TableCell>
