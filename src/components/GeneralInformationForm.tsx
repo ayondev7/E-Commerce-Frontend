@@ -15,68 +15,82 @@ const GeneralInformationForm = () => {
   const handleImageDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const files = Array.from(e.dataTransfer.files);
-    const validFiles = files.filter(file => 
-      file.type.startsWith('image/') && 
-      file.size <= 5 * 1024 * 1024 && 
-      images.length + files.length <= 4
+    const validFiles = files.filter(
+      (file) =>
+        file.type.startsWith("image/") &&
+        file.size <= 5 * 1024 * 1024 &&
+        images.length + files.length <= 4
     );
-    setImages(prev => [...prev, ...validFiles]);
+    setImages((prev) => [...prev, ...validFiles]);
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
-      const validFiles = files.filter(file => 
-        file.type.startsWith('image/') && 
-        file.size <= 5 * 1024 * 1024 && 
-        images.length + files.length <= 4
+      const validFiles = files.filter(
+        (file) =>
+          file.type.startsWith("image/") &&
+          file.size <= 5 * 1024 * 1024 &&
+          images.length + files.length <= 4
       );
-      setImages(prev => [...prev, ...validFiles]);
+      setImages((prev) => [...prev, ...validFiles]);
     }
   };
 
   const removeImage = (index: number) => {
-    setImages(prev => prev.filter((_, i) => i !== index));
+    setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
-    <div className="space-y-6 bg-background-primary p-6 rounded-sm border border-border-primary">
-      <h2 className="text-xl font-semibold">General Information</h2>
-      
+    <div className="space-y-6.5 bg-background-primary p-6 rounded-sm border border-border-primary">
+      <h2 className="text-2xl font-medium">General Information</h2>
+
       <div className="space-y-4">
         <div>
-          <label htmlFor="title" className="block text-sm font-medium mb-1">
+          <label htmlFor="title" className="block font-medium text-xl mb-2.5">
             Product Title <span className="text-danger-primary">*</span>
           </label>
           <input
             type="text"
             id="title"
-            className="w-full px-4 py-2 border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
+            className="w-full px-5 py-2.5 border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary text-base"
             placeholder="Enter product title"
           />
         </div>
 
         <div>
-          <label htmlFor="description" className="block text-sm font-medium mb-1">
+          <label
+            htmlFor="description"
+            className="block font-medium text-xl mb-2.5"
+          >
             Description <span className="text-danger-primary">*</span>
           </label>
           <textarea
             id="description"
             rows={4}
-            className="w-full px-4 py-2 border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary resize-none"
+            className="w-full px-5 py-2.5 border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary resize-none text-base"
             placeholder="Enter product description"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">
+          <label className="block font-medium text-xl mb-2.5">
             Product Images <span className="text-danger-primary">*</span>
           </label>
+
           <div
-            className="border-2 border-dashed border-border-primary rounded-sm p-6 text-center"
+            className="border-2 border-dashed min-h-[280px] border-border-primary rounded-sm px-5 py-2.5 text-center flex flex-col justify-center items-center gap-y-5"
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleImageDrop}
           >
+            <Upload className="w-9 h-9 text-text-primary" strokeWidth={1} />
+            <div className="text-xl font-medium text-text-primary">
+              Drag & drop product images
+            </div>
+            <div className="text-base text-text-secondary">
+              or click to browse files (PNG, JPG, WEBP up to 5MB each)
+            </div>
+
             <input
               type="file"
               id="images"
@@ -85,18 +99,13 @@ const GeneralInformationForm = () => {
               className="hidden"
               onChange={handleImageUpload}
             />
-            <label
-              htmlFor="images"
-              className="cursor-pointer flex flex-col items-center gap-2"
+            <button
+              type="button"
+              onClick={() => document.getElementById("images")?.click()}
+              className="px-5 py-2.5 text-text-primary border font-medium border-border-primary text-base rounded-sm hover:cursor-pointer transition"
             >
-              <Upload className="w-8 h-8 text-text-secondary" />
-              <div className="text-sm">
-                <span className="text-primary">Click to upload</span> or drag and drop
-              </div>
-              <div className="text-xs text-text-secondary">
-                Maximum 4 images, 5MB each
-              </div>
-            </label>
+              Select Files
+            </button>
           </div>
 
           {images.length > 0 && (
@@ -121,11 +130,11 @@ const GeneralInformationForm = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">
+          <label className="block font-medium text-xl mb-2.5">
             Category <span className="text-danger-primary">*</span>
           </label>
           <Select>
-            <SelectTrigger className="w-full border-border-primary text-text-primary focus:ring-0">
+            <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-primary focus:ring-0 text-base">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
@@ -140,4 +149,4 @@ const GeneralInformationForm = () => {
   );
 };
 
-export default GeneralInformationForm; 
+export default GeneralInformationForm;

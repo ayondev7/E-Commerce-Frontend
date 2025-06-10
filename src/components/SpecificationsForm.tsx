@@ -57,16 +57,16 @@ const SpecificationsForm = () => {
   };
 
   return (
-    <div className="space-y-6 bg-background-primary p-6 rounded-sm border border-border-primary">
-      <h2 className="text-xl font-semibold">Specifications</h2>
+    <div className="space-y-6.5 bg-background-primary p-6 rounded-sm border border-border-primary">
+      <h2 className="text-2xl font-medium">Specifications</h2>
       
-      <div className="space-y-4">
+      <div className="space-y-5">
         <div>
-          <label className="block text-sm font-medium mb-1">
+          <label className="block font-medium text-xl mb-2.5">
             Brand <span className="text-danger-primary">*</span>
           </label>
           <Select>
-            <SelectTrigger className="w-full border-border-primary text-text-primary focus:ring-0">
+            <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-secondary focus:ring-0 text-base">
               <SelectValue placeholder="Select brand" />
             </SelectTrigger>
             <SelectContent>
@@ -80,11 +80,11 @@ const SpecificationsForm = () => {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1">
+            <label className="block font-medium text-xl mb-2.5">
               Model <span className="text-danger-primary">*</span>
             </label>
             <Select>
-              <SelectTrigger className="w-full border-border-primary text-text-primary focus:ring-0">
+              <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-secondary focus:ring-0 text-base">
                 <SelectValue placeholder="Select model" />
               </SelectTrigger>
               <SelectContent>
@@ -96,11 +96,11 @@ const SpecificationsForm = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">
+            <label className="block font-medium text-xl mb-2.5">
               Storage <span className="text-danger-primary">*</span>
             </label>
             <Select>
-              <SelectTrigger className="w-full border-border-primary text-text-primary focus:ring-0">
+              <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-secondary focus:ring-0 text-base">
                 <SelectValue placeholder="Select storage" />
               </SelectTrigger>
               <SelectContent>
@@ -115,11 +115,11 @@ const SpecificationsForm = () => {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1">
+            <label className="block font-medium text-xl mb-2.5">
               RAM <span className="text-danger-primary">*</span>
             </label>
             <Select>
-              <SelectTrigger className="w-full border-border-primary text-text-primary focus:ring-0">
+              <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-secondary focus:ring-0 text-base">
                 <SelectValue placeholder="Select RAM" />
               </SelectTrigger>
               <SelectContent>
@@ -132,11 +132,11 @@ const SpecificationsForm = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">
+            <label className="block font-medium text-xl mb-2.5">
               Color <span className="text-danger-primary">*</span>
             </label>
             <Select>
-              <SelectTrigger className="w-full border-border-primary text-text-primary focus:ring-0">
+              <SelectTrigger className="w-full px-5 py-2.5 rounded-sm border-border-primary text-text-secondary focus:ring-0 text-base">
                 <SelectValue placeholder="Select color" />
               </SelectTrigger>
               <SelectContent>
@@ -151,14 +151,14 @@ const SpecificationsForm = () => {
 
         <div className="grid grid-cols-2 gap-8">
           <div>
-            <label className="block text-sm font-medium mb-1">
+            <label className="block font-medium text-xl mb-2.5">
               Condition <span className="text-danger-primary">*</span>
             </label>
             <div className="space-y-2">
               {conditions.map((condition) => (
                 <div key={condition} className="flex items-center space-x-2">
-                  <Checkbox id={condition} className="rounded-full" />
-                  <label htmlFor={condition} className="text-sm">
+                  <Checkbox id={condition} className="rounded-full border-text-primary border-2 data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-2 [&_svg]:!h-2 [&_svg]:!stroke-5" />
+                  <label htmlFor={condition} className="text-base">
                     {condition}
                   </label>
                 </div>
@@ -166,7 +166,7 @@ const SpecificationsForm = () => {
               {!showConditionInput ? (
                 <button
                   onClick={() => setShowConditionInput(true)}
-                  className="flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors"
+                  className="flex items-center gap-1 mt-3 text-base text-blue-500 transition-colors"
                 >
                   <Plus className="w-4 h-4" />
                   Add new condition
@@ -178,18 +178,18 @@ const SpecificationsForm = () => {
                     value={newCondition}
                     onChange={(e) => setNewCondition(e.target.value)}
                     placeholder="Enter new condition"
-                    className="w-48 px-3 py-1.5 text-sm border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="w-48 px-3 py-1.5 text-base border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
                     autoFocus
                   />
                   <button
                     onClick={addCondition}
-                    className="px-3 py-1.5 text-sm text-primary hover:text-primary/80 transition-colors"
+                    className="px-3 py-1.5 text-base text-primary hover:text-primary/80 transition-colors"
                   >
                     Add
                   </button>
                   <button
                     onClick={cancelCondition}
-                    className="px-3 py-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors"
+                    className="px-3 py-1.5 text-base text-text-secondary hover:text-text-primary transition-colors"
                   >
                     Cancel
                   </button>
@@ -199,14 +199,14 @@ const SpecificationsForm = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">
+            <label className="block font-medium text-xl mb-2.5">
               Features <span className="text-danger-primary">*</span>
             </label>
             <div className="space-y-2">
               {features.map((feature) => (
                 <div key={feature} className="flex items-center space-x-2">
-                  <Checkbox id={feature} className="rounded-full" />
-                  <label htmlFor={feature} className="text-sm">
+                  <Checkbox id={feature} className="rounded-full border-text-primary border-2 data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-2 [&_svg]:!h-2 [&_svg]:!stroke-5" />
+                  <label htmlFor={feature} className="text-base">
                     {feature}
                   </label>
                 </div>
@@ -214,7 +214,7 @@ const SpecificationsForm = () => {
               {!showFeatureInput ? (
                 <button
                   onClick={() => setShowFeatureInput(true)}
-                  className="flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors"
+                  className="flex items-center mt-3 gap-1 text-base text-blue-500 transition-colors"
                 >
                   <Plus className="w-4 h-4" />
                   Add new feature
@@ -226,18 +226,18 @@ const SpecificationsForm = () => {
                     value={newFeature}
                     onChange={(e) => setNewFeature(e.target.value)}
                     placeholder="Enter new feature"
-                    className="w-48 px-3 py-1.5 text-sm border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="w-48 px-3 py-1.5 text-base border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
                     autoFocus
                   />
                   <button
                     onClick={addFeature}
-                    className="px-3 py-1.5 text-sm text-primary hover:text-primary/80 transition-colors"
+                    className="px-3 py-1.5 text-base text-primary hover:text-primary/80 transition-colors"
                   >
                     Add
                   </button>
                   <button
                     onClick={cancelFeature}
-                    className="px-3 py-1.5 text-sm text-text-secondary hover:text-text-primary transition-colors"
+                    className="px-3 py-1.5 text-base text-text-secondary hover:text-text-primary transition-colors"
                   >
                     Cancel
                   </button>
@@ -251,4 +251,4 @@ const SpecificationsForm = () => {
   );
 };
 
-export default SpecificationsForm; 
+export default SpecificationsForm;
