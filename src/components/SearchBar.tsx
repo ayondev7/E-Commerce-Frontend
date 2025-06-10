@@ -17,7 +17,7 @@ const SearchBar = () => {
         <div className="w-full relative flex items-center gap-x-6">
           <div className="flex-1 relative flex items-center border border-text-secondary rounded-md">
             <Select>
-              <SelectTrigger className="w-[130px] text-text-secondary border-0 rounded-none rounded-l-md text-base focus:ring-0 focus:ring-offset-0">
+              <SelectTrigger className="w-[135px] text-text-secondary border-0 rounded-none rounded-l-md text-base focus:ring-0 focus:ring-offset-0">
                 <SelectValue placeholder="Categories" className="text-base text-text-secondary" />
               </SelectTrigger>
               <SelectContent className="z-[100] text-base text-text-secondary bg-white">
@@ -39,7 +39,7 @@ const SearchBar = () => {
             </div>
           </div>
           
-          <button className="h-10 px-6 bg-button-primary text-white rounded-md hover:bg-opacity-90 transition-colors text-base">
+          <button className="h-10 px-6 bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors text-base">
             Search
           </button>
         </div>
