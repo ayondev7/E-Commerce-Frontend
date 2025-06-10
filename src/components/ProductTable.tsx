@@ -42,37 +42,37 @@ const ProductTable = ({ products }: ProductTableProps) => {
       <Table>
         <TableHeader>
           <TableRow className="border-b">
-            <TableHead className="text-text-secondary font-medium">Image</TableHead>
-            <TableHead className="text-text-secondary font-medium">Name</TableHead>
-            <TableHead className="text-text-secondary font-medium">SKU</TableHead>
-            <TableHead className="text-text-secondary font-medium">Price</TableHead>
-            <TableHead className="text-text-secondary font-medium">Stock</TableHead>
-            <TableHead className="text-text-secondary font-medium">Status</TableHead>
-            <TableHead className="text-text-secondary font-medium">Actions</TableHead>
+            <TableHead className="text-text-secondary font-medium px-4 py-2">Image</TableHead>
+            <TableHead className="text-text-secondary font-medium px-4 py-3">Name</TableHead>
+            <TableHead className="text-text-secondary font-medium px-4 py-3">SKU</TableHead>
+            <TableHead className="text-text-secondary font-medium px-4 py-3">Price</TableHead>
+            <TableHead className="text-text-secondary font-medium px-4 py-3">Stock</TableHead>
+            <TableHead className="text-text-secondary font-medium px-4 py-3">Status</TableHead>
+            <TableHead className="text-text-secondary font-medium px-4 py-3">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {products.map((product) => (
             <TableRow key={product.id} className="border-b last:border-b-0">
-              <TableCell>
-                <img src={product.image} alt={product.name} className="w-12 h-12 object-cover rounded" />
+              <TableCell className="px-4 py-4">
+                <img src={product.image} alt={product.name} className="w-11 h-11 object-cover rounded" />
               </TableCell>
-              <TableCell className="text-text-primary">{product.name}</TableCell>
-              <TableCell className="text-text-primary">{product.sku}</TableCell>
-              <TableCell className="text-text-primary">${product.price.toFixed(2)}</TableCell>
-              <TableCell className="text-text-primary">{product.stock}</TableCell>
-              <TableCell>
+              <TableCell className="text-text-primary px-4 py-4">{product.name}</TableCell>
+              <TableCell className="text-text-primary px-4 py-4">{product.sku}</TableCell>
+              <TableCell className="text-text-primary px-4 py-4">${product.price.toFixed(2)}</TableCell>
+              <TableCell className="text-text-primary px-4 py-4">{product.stock}</TableCell>
+              <TableCell className="px-4 py-4">
                 <span className={`px-2 py-1 rounded-full text-sm ${getStatusStyles(product.status)}`}>
                   {product.status.replace('_', ' ')}
                 </span>
               </TableCell>
-              <TableCell>
+              <TableCell className="px-4 py-4">
                 <div className="flex gap-2">
-                  <button className="flex items-center gap-1 px-3 py-2 hover:bg-background-hover rounded-md text-text-secondary">
+                  <button className="flex items-center gap-1 px-3 py-2 hover:bg-background-hover rounded-md text-text-secondary border border-border-primary">
                     <Edit className="w-4 h-4" />
                     <span>Edit</span>
                   </button>
-                  <button className="flex items-center gap-1 px-3 py-2 hover:bg-background-hover rounded-md text-error-primary">
+                  <button className="flex items-center gap-1 px-3 py-2 hover:bg-background-hover rounded-md text-error-primary border border-error-primary">
                     <Trash2 className="w-4 h-4" />
                     <span>Delete</span>
                   </button>
