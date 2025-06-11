@@ -1,12 +1,11 @@
 "use client";
-import React from "react";
-import { Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import ProductTable from "../ProductTable";
 import OrderProductSearchBar from "../OrderProductSearchBar";
+import Tab from "../Tab";
 
-const Products = () => {
-  const router = useRouter();
+const Orders = () => {
+  const [tabValue, setTabValue] = useState<string>("all");
 
   const sampleProducts = [
     {
@@ -81,26 +80,34 @@ const Products = () => {
     },
   ];
 
+  const tabOptions = [
+    { value: "all", label: "All" },
+    { value: "pending", label: "Pending" },
+    { value: "shipped", label: "Shipped" },
+    { value: "cancelled", label: "Cancelled" },
+  ];
+
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-semibold">Products</h1>
-        <button 
-          onClick={() => router.push('/add-product')}
-          className="flex items-center gap-2 px-5 py-[10px] bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors cursor-pointer"
-        >
-          <Plus className="w-4 h-4" />
-          Add Product
-        </button>
+      <div>
+        <h1 className="text-3xl font-semibold">Orders</h1>
       </div>
 
-     <div>
-     <OrderProductSearchBar type="product" />
-     </div>
+      <div>
+        <OrderProductSearchBar type="order" />
+      </div>
+
+      <div>
+        <Tab
+          options={tabOptions}
+          value={tabValue}
+          onValueChange={setTabValue}
+        />
+      </div>
 
       <ProductTable products={sampleProducts} />
     </div>
   );
 };
 
-export default Products;
+export default Orders;
