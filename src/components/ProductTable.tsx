@@ -83,16 +83,16 @@ const ProductTable = ({ products }: ProductTableProps) => {
                   </span>
                 </TableCell>
                 <TableCell className="px-4 py-4">
-                  <div className="flex gap-2">
-                    <button className="flex items-center gap-1 px-4 py-2 hover:bg-background-hover rounded-sm text-text-primary border border-border-primary text-base cursor-pointer">
-                      <Edit className="w-4 h-4" />
+                  <div className="flex gap-2.5">
+                    <button className="flex items-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-text-primary border border-border-primary text-base cursor-pointer">
+                      <Edit className="w-5 h-5" />
                       <span className="font-medium">Edit</span>
                     </button>
                     <button 
                       onClick={() => handleDeleteClick(product)}
-                      className="flex items-center gap-1 px-4 py-2 hover:bg-background-hover rounded-sm text-danger-primary border border-[#f5cdd5] text-base cursor-pointer"
+                      className="flex items-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-button-primary text-base cursor-pointer"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-5 h-5" />
                       <span className="font-medium">Delete</span>
                     </button>
                   </div>

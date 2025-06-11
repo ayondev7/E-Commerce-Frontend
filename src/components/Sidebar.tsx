@@ -27,7 +27,7 @@ const Sidebar = () => {
                   pathname.startsWith(p)
                 )) ||
               (item.href === '/orders' &&
-                ['/orders', '/view-orders'].some(p =>
+                ['/orders', '/view-order'].some(p =>
                   pathname.startsWith(p)
                 ))
 

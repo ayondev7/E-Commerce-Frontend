@@ -1,82 +1,54 @@
 "use client";
 import React, { useState } from "react";
-import ProductTable from "../ProductTable";
+import OrdersTable from "../OrdersTable";
 import OrderProductSearchBar from "../OrderProductSearchBar";
 import Tab from "../Tab";
 
 const Orders = () => {
   const [tabValue, setTabValue] = useState<string>("all");
 
-  const sampleProducts = [
+  const sampleOrders = [
     {
-      id: "1",
-      image:
-        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop",
-      name: "Premium Headphones",
-      sku: "SKU123",
-      price: 99.99,
-      stock: 200,
-      status: "active" as const,
+      id: "ORD-1001",
+      date: "2025-05-15",
+      buyer: "Alice Johnson",
+      amount: 249.99,
+      status: "pending" as const,
     },
     {
-      id: "2",
-      image:
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&h=200&fit=crop",
-      name: "Smart Watch",
-      sku: "SKU124",
-      price: 199.99,
-      stock: 10,
-      status: "low_stock" as const,
+      id: "ORD-1002",
+      date: "2025-05-14",
+      buyer: "Michael Smith",
+      amount: 129.50,
+      status: "shipped" as const,
     },
     {
-      id: "3",
-      image:
-        "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=200&h=200&fit=crop",
-      name: "Wireless Earbuds",
-      sku: "SKU125",
-      price: 79.99,
-      stock: 0,
-      status: "out_of_stock" as const,
+      id: "ORD-1003",
+      date: "2025-05-13",
+      buyer: "Samantha Lee",
+      amount: 89.00,
+      status: "cancelled" as const,
     },
     {
-      id: "4",
-      image:
-        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&h=200&fit=crop",
-      name: "Running Shoes",
-      sku: "SKU126",
-      price: 129.99,
-      stock: 150,
-      status: "active" as const,
+      id: "ORD-1004",
+      date: "2025-05-10",
+      buyer: "Daniel Kim",
+      amount: 340.75,
+      status: "delivered" as const,
     },
     {
-      id: "5",
-      image:
-        "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=200&h=200&fit=crop",
-      name: "Leather Wallet",
-      sku: "SKU127",
-      price: 49.99,
-      stock: 5,
-      status: "low_stock" as const,
+      id: "ORD-1005",
+      date: "2025-05-09",
+      buyer: "Emily Davis",
+      amount: 559.20,
+      status: "shipped" as const,
     },
     {
-      id: "6",
-      image:
-        "https://images.unsplash.com/photo-1560343090-f0409e92791a?w=200&h=200&fit=crop",
-      name: "Backpack",
-      sku: "SKU128",
-      price: 89.99,
-      stock: 75,
-      status: "active" as const,
-    },
-    {
-      id: "7",
-      image:
-        "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop",
-      name: "Sunglasses",
-      sku: "SKU129",
-      price: 149.99,
-      stock: 0,
-      status: "out_of_stock" as const,
+      id: "ORD-1006",
+      date: "2025-05-08",
+      buyer: "Chris Brown",
+      amount: 219.99,
+      status: "delivered" as const,
     },
   ];
 
@@ -86,6 +58,11 @@ const Orders = () => {
     { value: "shipped", label: "Shipped" },
     { value: "cancelled", label: "Cancelled" },
   ];
+
+  const filteredOrders =
+    tabValue === "all"
+      ? sampleOrders
+      : sampleOrders.filter((order) => order.status === tabValue);
 
   return (
     <div className="space-y-6">
@@ -105,7 +82,7 @@ const Orders = () => {
         />
       </div>
 
-      <ProductTable products={sampleProducts} />
+      <OrdersTable orders={filteredOrders} />
     </div>
   );
 };
