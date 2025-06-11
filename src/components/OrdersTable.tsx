@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ViewOrderModal } from "./ViewOrderModal"; // Import the modal component
 
 interface Order {
   id: string;
@@ -16,6 +17,7 @@ interface Order {
   buyer: string;
   amount: number;
   status: "pending" | "shipped" | "delivered" | "cancelled";
+  product?: string; // Added for the modal
 }
 
 interface OrdersTableProps {
@@ -24,6 +26,8 @@ interface OrdersTableProps {
 
 const OrdersTable = ({ orders }: OrdersTableProps) => {
   const router = useRouter();
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
   const getStatusStyles = (status: string) => {
     switch (status) {
@@ -47,6 +51,22 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
       year: "numeric",
     };
     return new Date(dateStr).toLocaleDateString("en-US", options);
+  };
+
+  const handleShipClick = (order: Order) => {
+    setSelectedOrder(order);
+    setIsViewModalOpen(true);
+  };
+
+  const handleShipOrder = () => {
+    // Implement your ship order logic here
+    console.log("Shipping order:", selectedOrder?.id);
+    setIsViewModalOpen(false);
+    // You might want to update the order status in your state/API here
+  };
+
+  const handleViewClick = (orderId: string) => {
+    router.push(`/view-order/${orderId}`);
   };
 
   return (
@@ -101,14 +121,17 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
               <TableCell className="px-4 py-4">
                 <div className="flex gap-2.5">
                   <button
-                    onClick={() => router.push(`/view-order/${order.id}`)}
-                    className="flex items-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
+                    onClick={() => handleViewClick(order.id)}
+                    className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
                   >
                     <Eye className="w-5 h-5" />
                     <span className="font-medium">View</span>
                   </button>
                   {order.status === "pending" && (
-                    <button className="flex items-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-white border bg-button-primary text-base cursor-pointer">
+                    <button 
+                      onClick={() => handleShipClick(order)}
+                      className="flex justify-center items-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-white border bg-button-primary text-base cursor-pointer"
+                    >
                       <Truck className="w-5 h-5" />
                       <span className="font-medium">Ship</span>
                     </button>
@@ -119,6 +142,27 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
           ))}
         </TableBody>
       </Table>
+
+      
+      {selectedOrder && (
+        <ViewOrderModal
+          isOpen={isViewModalOpen}
+          onClose={() => setIsViewModalOpen(false)}
+          onCancel={() => {
+            setIsViewModalOpen(false);
+           
+          }}
+          onShip={handleShipOrder}
+          order={{
+            id: selectedOrder.id,
+            date: formatDate(selectedOrder.date),
+            status: selectedOrder.status,
+            product: selectedOrder.product || "Wireless Earbuds X200",
+            amount: `$${selectedOrder.amount.toFixed(2)}`,
+            customer: selectedOrder.buyer
+          }}
+        />
+      )}
     </div>
   );
 };

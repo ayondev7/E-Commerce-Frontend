@@ -3,6 +3,7 @@ import SalesAnalyticsCard from "../SalesAnalyticsCard";
 import OrderStatus from "../OrderStatus";
 import { AlertCircle } from "lucide-react";
 import RevenueChart from "../RevenueChart";
+import Link from "next/link";
 
 const Overview = () => {
   return (
@@ -50,16 +51,23 @@ const Overview = () => {
         <RevenueChart />
       </div>
 
-      <div className="bg-warning-secondary border border-[#FCCF9C] rounded-lg px-10 py-6 mb-6 flex items-center gap-3">
-        <AlertCircle className="text-[#C77414] w-6 h-6" />
-        <div>
-          <span className="text-[#C77414]">
-            You have 2 products running low.{" "}
-          </span>
-          <span className="text-[#C77414]">
-            Restock now to avoid stockouts.
-          </span>
+      <div className="bg-warning-secondary border justify-between border-[#FCCF9C] rounded-lg pl-10.5 pr-4 py-4 mb-6 flex items-center gap-3">
+        <div className="flex gap-x-2.5">
+          <AlertCircle className="text-[#C77414] w-6 h-6" />
+          <div>
+            <span className="text-[#C77414]">
+              You have 2 products running low.{" "}
+            </span>
+            <span className="text-[#C77414]">
+              Restock now to avoid stockouts.
+            </span>
+          </div>
         </div>
+        <Link href="/products">
+          <button className="rounded-sm hover:cursor-pointer border min-w-31 min-h-10 flex justify-center font-medium items-center border-warning-border text-warning-primary px-4 py-2 bg-white">
+            View Products
+          </button>
+        </Link>
       </div>
     </div>
   );

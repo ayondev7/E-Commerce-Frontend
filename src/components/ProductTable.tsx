@@ -1,4 +1,6 @@
+"use client";
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Edit, Trash2 } from 'lucide-react';
 import {
   Table,
@@ -27,6 +29,7 @@ interface ProductTableProps {
 const ProductTable = ({ products }: ProductTableProps) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const router = useRouter();
 
   const handleDeleteClick = (product: Product) => {
     setSelectedProduct(product);
@@ -34,9 +37,12 @@ const ProductTable = ({ products }: ProductTableProps) => {
   };
 
   const handleDeleteConfirm = () => {
-    // Handle delete logic here
     setDeleteModalOpen(false);
     setSelectedProduct(null);
+  };
+
+  const handleEditClick = (productId: string) => {
+    router.push(`/edit-product/1`);
   };
 
   const getStatusStyles = (status: string) => {
@@ -84,13 +90,16 @@ const ProductTable = ({ products }: ProductTableProps) => {
                 </TableCell>
                 <TableCell className="px-4 py-4">
                   <div className="flex gap-2.5">
-                    <button className="flex items-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-text-primary border border-border-primary text-base cursor-pointer">
+                    <button 
+                      onClick={() => handleEditClick(product.id)}
+                      className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
+                    >
                       <Edit className="w-5 h-5" />
                       <span className="font-medium">Edit</span>
                     </button>
                     <button 
                       onClick={() => handleDeleteClick(product)}
-                      className="flex items-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-button-primary text-base cursor-pointer"
+                      className="flex border border-danger-border justify-center items-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-button-primary text-base cursor-pointer"
                     >
                       <Trash2 className="w-5 h-5" />
                       <span className="font-medium">Delete</span>
@@ -115,4 +124,4 @@ const ProductTable = ({ products }: ProductTableProps) => {
   );
 };
 
-export default ProductTable; 
+export default ProductTable;

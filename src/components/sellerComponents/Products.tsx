@@ -87,9 +87,9 @@ const Products = () => {
         <h1 className="text-3xl font-semibold">Products</h1>
         <button 
           onClick={() => router.push('/add-product')}
-          className="flex items-center gap-2 px-5 py-[10px] bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors cursor-pointer"
+          className="flex items-center min-w-43.5 min-h-13 gap-2.5 px-5 py-2.5 font-medium bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors cursor-pointer"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-6 h-6" />
           Add Product
         </button>
       </div>
