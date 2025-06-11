@@ -25,6 +25,10 @@ const Sidebar = () => {
               (item.href === '/products' &&
                 ['/products', '/add-product', '/edit-product'].some(p =>
                   pathname.startsWith(p)
+                )) ||
+              (item.href === '/orders' &&
+                ['/orders', '/view-orders'].some(p =>
+                  pathname.startsWith(p)
                 ))
 
             return (
