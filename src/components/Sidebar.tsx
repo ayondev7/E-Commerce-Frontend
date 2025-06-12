@@ -1,7 +1,7 @@
-'use client';
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+"use client";
+import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Home,
   Box,
@@ -12,30 +12,30 @@ import {
   UserRound,
   HelpCircle,
   Truck,
-} from 'lucide-react';
+} from "lucide-react";
 
 const Sidebar = () => {
   const pathname = usePathname();
-  const [userType, setUserType] = useState<'seller' | 'customer'>('customer');
+  const userType = pathname.includes("/seller") ? "seller" : "customer";
 
   const sellerNavItems = [
-    { name: 'Overview', href: '/overview', icon: Home },
-    { name: 'Products', href: '/products', icon: Box },
-    { name: 'Orders', href: '/orders', icon: ShoppingCart },
-    { name: 'Payments', href: '/payments', icon: CreditCard },
-    { name: 'Settings', href: '/settings', icon: Settings },
+    { name: "Overview", href: "/seller/overview", icon: Home },
+    { name: "Products", href: "/seller/products", icon: Box },
+    { name: "Orders", href: "/seller/orders", icon: ShoppingCart },
+    { name: "Payments", href: "/seller/payments", icon: CreditCard },
+    { name: "Settings", href: "/seller/settings", icon: Settings },
   ];
 
   const customerNavItems = [
-    { name: 'Overview', href: '/overview', icon: Home },
-    { name: 'My Orders', href: '/my-orders', icon: Truck },
-    { name: 'Wishlist', href: '/wishlist', icon: Heart },
-    { name: 'Profile', href: '/profile', icon: UserRound },
-    { name: 'Support', href: '/support', icon: HelpCircle },
-    { name: 'Settings', href: '/settings', icon: Settings },
+    { name: "Overview", href: "/customer/overview", icon: Home },
+    { name: "My Orders", href: "/customer/my-orders", icon: Truck },
+    { name: "Wishlist", href: "/customer/wishlist", icon: Heart },
+    { name: "Profile", href: "/customer/profile", icon: UserRound },
+    { name: "Support", href: "/customer/support", icon: HelpCircle },
+    { name: "Settings", href: "/customer/settings", icon: Settings },
   ];
 
-  const navItems = userType === 'seller' ? sellerNavItems : customerNavItems;
+  const navItems = userType === "seller" ? sellerNavItems : customerNavItems;
 
   return (
     <aside className="w-84 pl-14 h-full bg-white relative z-[10] border-r border-border-primary flex flex-col">
@@ -44,14 +44,12 @@ const Sidebar = () => {
           {navItems.map((item) => {
             const isActive =
               pathname === item.href ||
-              (item.href === '/products' &&
-                ['/products', '/add-product', '/edit-product'].some(p =>
+              (item.href === "/seller/products" &&
+                ["/seller/products", "/seller/add-product", "/seller/edit-product"].some((p) =>
                   pathname.startsWith(p)
                 )) ||
-              (item.href === '/orders' &&
-                ['/orders', '/view-order'].some(p =>
-                  pathname.startsWith(p)
-                ));
+              (item.href === "/seller/orders" &&
+                ["/seller/orders", "/seller/view-order"].some((p) => pathname.startsWith(p)));
 
             return (
               <Link
@@ -59,8 +57,8 @@ const Sidebar = () => {
                 href={item.href}
                 className={`flex items-center gap-3 px-4 py-4 rounded-md transition-colors ${
                   isActive
-                    ? 'bg-danger-secondary text-danger-primary font-medium'
-                    : 'text-text-secondary hover:bg-background-secondary font-normal'
+                    ? "bg-danger-secondary text-danger-primary font-medium"
+                    : "text-text-secondary hover:bg-background-secondary font-normal"
                 }`}
               >
                 <item.icon className="h-6 w-6" />
