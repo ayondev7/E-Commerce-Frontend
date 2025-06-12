@@ -12,7 +12,7 @@ const CustomerLayout = ({
     <div className="h-screen bg-background-primary flex flex-col overflow-hidden">
       <div>
         <Navbar />
-        <SearchBar />
+        <SearchBar userType="customer" />
       </div>
       
       <div className="flex flex-1 overflow-hidden">

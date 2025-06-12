@@ -1,9 +1,5 @@
 import React from "react";
-import SalesAnalyticsCard from "../SalesAnalyticsCard";
-import OrderStatus from "../OrderStatus";
-import { AlertCircle, Package, Heart, Truck, Gift } from "lucide-react";
-import RevenueChart from "../RevenueChart";
-import Link from "next/link";
+import { Package, Heart, Truck, Gift } from "lucide-react";
 import CustomerOverviewCard from "../CustomerOverviewCard";
 import ActivityCard from "../ActivityCard";
 
@@ -102,7 +98,7 @@ const CustomerOverview = () => {
       <div className="mt-10">
         <ActivityCard activities={sampleActivities} />
       </div>
-      
+
     </div>
   );
 };

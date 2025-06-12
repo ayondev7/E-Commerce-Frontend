@@ -1,16 +1,21 @@
 "use client";
-import React from 'react'
-import { Search } from 'lucide-react'
-import { Input } from '@/components/ui/input'; 
+import React from "react";
+import { Search, Heart, ShoppingCart } from "lucide-react";
+import Link from "next/link";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
-const SearchBar = () => {
+type Props = {
+  userType: "seller" | "customer";
+};
+
+const SearchBar: React.FC<Props> = ({ userType }) => {
   return (
     <div className="w-full border-t border-b border-border-primary px-18 py-5">
       <div className="container h-full flex items-center">
@@ -26,9 +31,9 @@ const SearchBar = () => {
                 <SelectItem value="books" className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer">Books</SelectItem>
               </SelectContent>
             </Select>
-            
+
             <div className="h-8 w-px bg-border-primary" />
-            
+
             <div className="flex-1 flex items-center min-h-13">
               <Search className="h-6 w-6 text-text-secondary ml-3" />
               <Input
@@ -38,14 +43,31 @@ const SearchBar = () => {
               />
             </div>
           </div>
-          
-          <button className="h-10 px-6 bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors text-base">
+
+          <button className="h-12 min-w-29 px-4 py-2 font-medium bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors text-base">
             Search
           </button>
+
+          {userType === "customer" && (
+            <div className="flex gap-x-2.5">
+              <Link className="text-decoration: none" href="/wishlist">
+                <div className="flex items-center px-4 py-2 justify-center gap-x-2.5 text-base text-text-secondary hover:cursor-pointer">
+                  <Heart className="w-6 h-6" />
+                  <span>Wishlist</span>
+                </div>
+              </Link>
+              <Link className="text-decoration: none" href="/cart">
+                <div className="flex items-center px-4 py-2 gap-x-2.5 justify-center text-base text-text-secondary hover:cursor-pointer">
+                  <ShoppingCart className="w-6 h-6" />
+                  <span>Cart</span>
+                </div>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SearchBar 
+export default SearchBar;
