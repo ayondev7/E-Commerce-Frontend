@@ -1,5 +1,5 @@
 import React from 'react';
-import SellerOverview from '../../../components/sellerComponents/SellerOverview';
+import SellerOverview from '@/components/sellerComponents/SellerOverview';
 
 const page = () => {
   return (
