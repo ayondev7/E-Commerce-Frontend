@@ -5,6 +5,7 @@ import { AlertCircle, Package, Heart, Truck, Gift } from "lucide-react";
 import RevenueChart from "../RevenueChart";
 import Link from "next/link";
 import CustomerOverviewCard from "../CustomerOverviewCard";
+import ActivityCard from "../ActivityCard";
 
 const CustomerOverview = () => {
   const cardData = [
@@ -38,6 +39,44 @@ const CustomerOverview = () => {
     },
   ];
 
+  const sampleActivities = [
+    {
+      id: "1",
+      type: "order_delivered",
+      title: "Order Delivered",
+      description: "Your order #ORD-7895 has been delivered",
+      timestamp: "Today, 9:45 AM",
+    },
+    {
+      id: "2",
+      type: "wishlist_added",
+      title: "Added to Wishlist",
+      description: "You added 'Wireless Headphones' to your wishlist",
+      timestamp: "Yesterday, 4:30 PM",
+    },
+    {
+      id: "3",
+      type: "order_shipped",
+      title: "Order Shipped",
+      description: "Your order #ORD-7891 has been shipped",
+      timestamp: "Yesterday, 11:20 AM",
+    },
+    {
+      id: "4",
+      type: "review_posted",
+      title: "Review Posted",
+      description: "You posted a review for 'Smart Watch'",
+      timestamp: "May 20, 2023",
+    },
+    {
+      id: "5",
+      type: "coupon_applied",
+      title: "Coupon Applied",
+      description: "You used coupon 'SUMMER20' on your purchase",
+      timestamp: "May 18, 2023",
+    },
+  ];
+
   return (
     <div>
       <div>
@@ -60,38 +99,10 @@ const CustomerOverview = () => {
         ))}
       </div>
 
-      <div className="bg-background-primary my-10 p-4 rounded-lg border border-border-primary shadow-sm">
-        <h2 className="text-lg font-bold">Order Status</h2>
-        <div className="grid grid-cols-4 gap-4 my-3">
-          <OrderStatus status="pending" count={10} />
-          <OrderStatus status="shipped" count={10} />
-          <OrderStatus status="delivered" count={10} />
-          <OrderStatus status="cancelled" count={10} />
-        </div>
+      <div className="mt-10">
+        <ActivityCard activities={sampleActivities} />
       </div>
-
-      <div className="my-10">
-        <RevenueChart />
-      </div>
-
-      <div className="bg-warning-secondary border justify-between border-[#FCCF9C] rounded-lg pl-10.5 pr-4 py-4 mb-6 flex items-center gap-3">
-        <div className="flex gap-x-2.5">
-          <AlertCircle className="text-[#C77414] w-6 h-6" />
-          <div>
-            <span className="text-[#C77414]">
-              You have 2 products running low.{" "}
-            </span>
-            <span className="text-[#C77414]">
-              Restock now to avoid stockouts.
-            </span>
-          </div>
-        </div>
-        <Link href="/products">
-          <button className="rounded-sm hover:cursor-pointer border min-w-31 min-h-10 flex justify-center font-medium items-center border-warning-border text-warning-primary px-4 py-2 bg-white">
-            View Products
-          </button>
-        </Link>
-      </div>
+      
     </div>
   );
 };
