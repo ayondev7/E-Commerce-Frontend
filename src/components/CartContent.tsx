@@ -1,9 +1,22 @@
 import React, { useState } from "react";
-import { Store, Minus, Plus, Trash2 } from "lucide-react";
+import { Store, Minus, Plus, Trash2, ShoppingCart } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const CartContent = () => {
-  const [items, setItems] = useState([
+type CartItem = {
+  id: number;
+  name: string;
+  variant: string;
+  price: number;
+  quantity: number;
+  image: string;
+};
+
+type CartContentProps = {
+  type: "cart" | "wishlist";
+};
+
+const CartContent: React.FC<CartContentProps> = ({ type }) => {
+  const [items, setItems] = useState<CartItem[]>([
     {
       id: 1,
       name: "Wireless Noise-Cancelling Headphones",
@@ -24,9 +37,9 @@ const CartContent = () => {
     },
   ]);
 
-  const updateQuantity = (id, change) => {
-    setItems(
-      items.map((item) =>
+  const updateQuantity = (id: number, change: number) => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
         item.id === id
           ? { ...item, quantity: Math.max(1, item.quantity + change) }
           : item
@@ -34,8 +47,8 @@ const CartContent = () => {
     );
   };
 
-  const removeItem = (id) => {
-    setItems(items.filter((item) => item.id !== id));
+  const removeItem = (id: number) => {
+    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
   return (
@@ -69,33 +82,46 @@ const CartContent = () => {
                   </h3>
                   <button
                     onClick={() => removeItem(item.id)}
-                    className=" text-button-primary hover:cursor-pointer"
+                    className={`hover:cursor-pointer ${
+                      type === "wishlist"
+                        ? "text-text-secondary"
+                        : "text-button-primary"
+                    }`}
                   >
                     <Trash2 className="w-6 h-6" />
                   </button>
                 </div>
-                <p className="text-text-secondary text-base mb-2.5">{item.variant}</p>
+                <p className="text-text-secondary text-base mb-2.5">
+                  {item.variant}
+                </p>
                 <div className="flex items-start justify-between gap-x-2.5 w-full">
                   <p className="text-xl font-medium text-text-primary">
                     ${item.price.toFixed(2)}
                   </p>
-                  <div className="flex items-center gap-x-2">
-                    <button
-                      onClick={() => updateQuantity(item.id, -1)}
-                      className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-colors"
-                    >
-                      <Minus className="w-4 h-4 text-text-primary" />
+                  {type === "cart" ? (
+                    <div className="flex items-center gap-x-2">
+                      <button
+                        onClick={() => updateQuantity(item.id, -1)}
+                        className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-colors"
+                      >
+                        <Minus className="w-4 h-4 text-text-primary" />
+                      </button>
+                      <span className="text-base min-w-6 text-text-primary font-medium text-center">
+                        {item.quantity}
+                      </span>
+                      <button
+                        onClick={() => updateQuantity(item.id, 1)}
+                        className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-colors"
+                      >
+                        <Plus className="w-4 h-4 text-text-primary" />
+                      </button>
+                    </div>
+                  ) : (
+                    <button className="flex items-center min-h-12 min-w-39.5 justify-center gap-x-2.5 px-4 py-2 text-white font-medium text-base rounded-sm bg-button-primary hover:cursor-pointer">
+                      <ShoppingCart className="w-6 h-6" />
+                      <span className="text-sm font-medium">Add to Cart</span>
                     </button>
-                    <span className="text-base min-w-6 text-text-primary font-medium text-center">
-                      {item.quantity}
-                    </span>
-                    <button
-                      onClick={() => updateQuantity(item.id, 1)}
-                      className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-colors"
-                    >
-                      <Plus className="w-4 h-4 text-text-primary" />
-                    </button>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>

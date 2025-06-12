@@ -43,8 +43,8 @@ const ShoppingCart: React.FC = () => {
               Delete
             </button>
           </div>
-          <CartContent />
-          <CartContent />
+          <CartContent type="cart" />
+          <CartContent type="cart" />
         </div>
 
         <div>
