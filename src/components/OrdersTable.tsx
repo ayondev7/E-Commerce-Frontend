@@ -1,6 +1,15 @@
+"use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Eye, Truck } from "lucide-react";
+import {
+  Eye,
+  Truck,
+  Repeat,
+  Ban,
+  MoreHorizontal,
+  ShoppingBag,
+  LocateIcon,
+} from "lucide-react";
 import {
   Table,
   TableBody,
@@ -9,7 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ViewOrderModal } from "./ViewOrderModal"; // Import the modal component
+import { ViewOrderModal } from "./ViewOrderModal";
 
 interface Order {
   id: string;
@@ -17,14 +26,15 @@ interface Order {
   buyer: string;
   amount: number;
   status: "pending" | "shipped" | "delivered" | "cancelled";
-  product?: string; // Added for the modal
+  product?: string;
 }
 
 interface OrdersTableProps {
   orders: Order[];
+  userType: "seller" | "customer";
 }
 
-const OrdersTable = ({ orders }: OrdersTableProps) => {
+const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
   const router = useRouter();
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
@@ -59,10 +69,8 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
   };
 
   const handleShipOrder = () => {
-    // Implement your ship order logic here
     console.log("Shipping order:", selectedOrder?.id);
     setIsViewModalOpen(false);
-    // You might want to update the order status in your state/API here
   };
 
   const handleViewClick = (orderId: string) => {
@@ -80,11 +88,13 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
             <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
               Date
             </TableHead>
+            {userType === "seller" && (
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
+                Buyer
+              </TableHead>
+            )}
             <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
-              Buyer
-            </TableHead>
-            <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
-              Amount
+              {userType === "seller" ? "Amount" : "Total"}
             </TableHead>
             <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
               Status
@@ -103,9 +113,11 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
               <TableCell className="text-text-primary px-4 py-4 text-base">
                 {formatDate(order.date)}
               </TableCell>
-              <TableCell className="text-text-primary px-4 py-4 text-base">
-                {order.buyer}
-              </TableCell>
+              {userType === "seller" && (
+                <TableCell className="text-text-primary px-4 py-4 text-base">
+                  {order.buyer}
+                </TableCell>
+              )}
               <TableCell className="text-text-primary px-4 py-4 text-base">
                 ${order.amount.toFixed(2)}
               </TableCell>
@@ -118,40 +130,77 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
                   {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                 </span>
               </TableCell>
-              <TableCell className="px-4 py-4">
-                <div className="flex gap-2.5">
-                  <button
-                    onClick={() => handleViewClick(order.id)}
-                    className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
-                  >
-                    <Eye className="w-5 h-5" />
-                    <span className="font-medium">View</span>
-                  </button>
-                  {order.status === "pending" && (
-                    <button 
-                      onClick={() => handleShipClick(order)}
-                      className="flex justify-center items-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-white border bg-button-primary text-base cursor-pointer"
+              <TableCell className="px-4 py-4 relative">
+                {userType === "seller" ? (
+                  <div className="flex gap-2.5">
+                    <button
+                      onClick={() => handleViewClick(order.id)}
+                      className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
                     >
-                      <Truck className="w-5 h-5" />
-                      <span className="font-medium">Ship</span>
+                      <Eye className="w-6 h-6" />
+                      <span className="font-medium">View</span>
                     </button>
-                  )}
-                </div>
+                    {order.status === "pending" && (
+                      <button
+                        onClick={() => handleShipClick(order)}
+                        className="flex justify-center items-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-white border bg-button-primary text-base cursor-pointer"
+                      >
+                        <Truck className="w-6 h-6" />
+                        <span className="font-medium">Ship</span>
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <div className="flex justify-between items-center gap-x-2">
+                    <div className="flex justify-between items-center gap-x-2">
+                      <div className="flex gap-2.5">
+                        {order.status === "delivered" && (
+                          <button className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 rounded-sm text-text-primary border border-border-primary text-base cursor-pointer">
+                            <ShoppingBag className="w-6 h-6" />
+                            <span className="font-medium">Buy Again</span>
+                          </button>
+                        )}
+
+                        {order.status === "shipped" && (
+                          <button className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 rounded-sm text-text-primary border border-border-primary text-base cursor-pointer">
+                            <LocateIcon className="w-6 h-6" />
+                            <span className="font-medium">Track</span>
+                          </button>
+                        )}
+
+                        {order.status === "pending" && (
+                          <button className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 rounded-sm text-text-primary border border-border-primary text-base cursor-pointer">
+                            <Ban className="w-6 h-6" />
+                            <span className="font-medium">Cancel</span>
+                          </button>
+                        )}
+
+                        {order.status === "cancelled" && (
+                          <button className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 rounded-sm text-text-primary border border-border-primary text-base cursor-pointer">
+                            <Repeat className="w-6 h-6" />
+                            <span className="font-medium">Reorder</span>
+                          </button>
+                        )}
+                      </div>
+
+                      <button className="flex items-center justify-center absolute left-43">
+                        <MoreHorizontal className="w-6 h-6 text-text-primary" />
+                      </button>
+                    </div>
+
+                  </div>
+                )}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
 
-      
-      {selectedOrder && (
+      {userType === "seller" && selectedOrder && (
         <ViewOrderModal
           isOpen={isViewModalOpen}
           onClose={() => setIsViewModalOpen(false)}
-          onCancel={() => {
-            setIsViewModalOpen(false);
-           
-          }}
+          onCancel={() => setIsViewModalOpen(false)}
           onShip={handleShipOrder}
           order={{
             id: selectedOrder.id,
@@ -159,7 +208,7 @@ const OrdersTable = ({ orders }: OrdersTableProps) => {
             status: selectedOrder.status,
             product: selectedOrder.product || "Wireless Earbuds X200",
             amount: `$${selectedOrder.amount.toFixed(2)}`,
-            customer: selectedOrder.buyer
+            customer: selectedOrder.buyer,
           }}
         />
       )}

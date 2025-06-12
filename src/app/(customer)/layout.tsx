@@ -12,12 +12,12 @@ const CustomerLayout = ({
     <div className="h-screen bg-background-primary flex flex-col overflow-hidden">
       <div>
         <Navbar />
-        <SearchBar userType="customer" />
+        <SearchBar userType="seller" />
       </div>
       
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
-        <main className="flex-1 bg-background-secondary pl-5 py-6 pr-12 overflow-y-auto">
+        <main className="flex-1 bg-background-secondary pl-5 py-6 pr-14 overflow-y-auto">
           {children}
         </main>
       </div>
@@ -25,4 +25,4 @@ const CustomerLayout = ({
   )
 }
 
-export default CustomerLayout
+export default CustomerLayout 

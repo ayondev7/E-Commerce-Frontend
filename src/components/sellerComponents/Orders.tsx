@@ -82,7 +82,7 @@ const Orders = () => {
         />
       </div>
 
-      <OrdersTable orders={filteredOrders} />
+      <OrdersTable userType="seller" orders={filteredOrders} />
     </div>
   );
 };
