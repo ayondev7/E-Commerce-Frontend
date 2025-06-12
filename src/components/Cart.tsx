@@ -34,7 +34,7 @@ const Cart: React.FC = () => {
               <Checkbox
                 checked={selectAll}
                 onCheckedChange={(checked) => setSelectAll(!!checked)}
-                className="w-4.5 h-4.5 border-border-secondary border-2 shadow-none"
+                className="w-4.5 h-4.5 border-border-secondary border-2 rounded-[3px] shadow-none"
               />
               Select All (4 Items)
             </div>
