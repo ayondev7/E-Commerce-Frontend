@@ -5,7 +5,7 @@ import CartContent from "./CartContent";
 import CartOrderSummary from "./CartOrderSummary";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const Cart: React.FC = () => {
+const ShoppingCart: React.FC = () => {
   const [promoCode, setPromoCode] = useState<string>("");
   const [subtotal] = useState<number>(0.0);
   const [shipping] = useState<number>(0.0);
@@ -34,7 +34,7 @@ const Cart: React.FC = () => {
               <Checkbox
                 checked={selectAll}
                 onCheckedChange={(checked) => setSelectAll(!!checked)}
-                className="w-4.5 h-4.5 border-border-secondary border-2 rounded-[3px] shadow-none"
+                className="w-4.5 h-4.5 border-border-secondary border-2 rounded-[3px] shadow-none data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-3 [&_svg]:!h-3 [&_svg]:!stroke-5 hover:cursor-pointer"
               />
               Select All (4 Items)
             </div>
@@ -47,7 +47,7 @@ const Cart: React.FC = () => {
           <CartContent />
         </div>
 
-        <div className="max-w-md p-6 bg-gray-50">
+        <div>
           <CartOrderSummary
             promoCode={promoCode}
             setPromoCode={setPromoCode}
@@ -63,4 +63,4 @@ const Cart: React.FC = () => {
   );
 };
 
-export default Cart;
+export default ShoppingCart;

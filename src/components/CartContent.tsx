@@ -42,7 +42,7 @@ const CartContent = () => {
     <div className="w-full">
       <div className="bg-white rounded-sm border border-border-primary p-5">
         <div className="flex items-center gap-x-4 mb-5 pb-2.5 border-b border-border-primary">
-          <Checkbox className="w-4.5 h-4.5 border-border-secondary border-2 rounded-[3px] shadow-none" />
+          <Checkbox className="w-4.5 h-4.5 border-border-secondary border-2 rounded-[3px] shadow-none data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-3 [&_svg]:!h-3 [&_svg]:!stroke-5 hover:cursor-pointer" />
           <Store className="w-5 h-5 text-text-secondary" />
           <span className="text-text-secondary text-base">
             Tech Gadget Store
@@ -52,7 +52,7 @@ const CartContent = () => {
         <div className="space-y-5">
           {items.map((item) => (
             <div key={item.id} className="flex items-center gap-4">
-              <Checkbox className="w-4.5 h-4.5 border-border-secondary border-2 rounded-[3px] shadow-none" />
+              <Checkbox className="w-4.5 h-4.5 border-border-secondary hover:cursor-pointer border-2 rounded-[3px] shadow-none data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-3 [&_svg]:!h-3 [&_svg]:!stroke-5" />
 
               <div className="w-24 h-24 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                 <img
@@ -79,14 +79,14 @@ const CartContent = () => {
                   <p className="text-xl font-medium text-text-primary">
                     ${item.price.toFixed(2)}
                   </p>
-                  <div className="flex items-center gap-x-4">
+                  <div className="flex items-center gap-x-2">
                     <button
                       onClick={() => updateQuantity(item.id, -1)}
                       className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-colors"
                     >
                       <Minus className="w-4 h-4 text-text-primary" />
                     </button>
-                    <span className="text-base text-text-primary font-medium text-center">
+                    <span className="text-base min-w-6 text-text-primary font-medium text-center">
                       {item.quantity}
                     </span>
                     <button
