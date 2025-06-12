@@ -12,12 +12,12 @@ import {
 
 const SearchBar = () => {
   return (
-    <div className="w-full h-13 border-t border-b border-border-primary px-18 py-10">
+    <div className="w-full border-t border-b border-border-primary px-18 py-5">
       <div className="container h-full flex items-center">
         <div className="w-full relative flex items-center gap-x-5">
           <div className="flex-1 relative flex items-center border border-text-secondary rounded-md">
             <Select>
-              <SelectTrigger className="w-[135px] text-text-secondary border-0 rounded-none rounded-l-md text-base focus:ring-0 focus:ring-offset-0 [&[data-state=open]>svg]:rotate-180">
+              <SelectTrigger className="w-[145px] min-h-13 space-x-2.5 [&>svg]:w-6 [&>svg]:h-6 text-text-secondary border-0 rounded-none rounded-l-md text-base focus:ring-0 focus:ring-offset-0 [&[data-state=open]>svg]:rotate-180">
                 <SelectValue placeholder="Categories" className="text-base text-text-secondary" />
               </SelectTrigger>
               <SelectContent className="z-[100] text-base text-text-secondary bg-white">
@@ -27,9 +27,9 @@ const SearchBar = () => {
               </SelectContent>
             </Select>
             
-            <div className="h-6 w-px bg-border-primary" />
+            <div className="h-8 w-px bg-border-primary" />
             
-            <div className="flex-1 flex items-center">
+            <div className="flex-1 flex items-center min-h-13">
               <Search className="h-6 w-6 text-text-secondary ml-3" />
               <Input
                 type="text"
