@@ -5,7 +5,7 @@ import { AlertCircle } from "lucide-react";
 import RevenueChart from "../RevenueChart";
 import Link from "next/link";
 
-const Overview = () => {
+const SellerOverview = () => {
   return (
     <div>
       <div className="space-y-2">
@@ -73,4 +73,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default SellerOverview;

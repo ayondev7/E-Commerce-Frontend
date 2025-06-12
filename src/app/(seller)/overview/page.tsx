@@ -1,10 +1,10 @@
 import React from 'react';
-import Overview from '../../../components/sellerComponents/Overview';
+import SellerOverview from '../../../components/sellerComponents/SellerOverview';
 
 const page = () => {
   return (
     <div>
-      <Overview />
+      <SellerOverview />
     </div>
   )
 }

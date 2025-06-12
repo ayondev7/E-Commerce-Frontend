@@ -1,19 +1,41 @@
-"use client";
-import React from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Home, Box, CreditCard, ShoppingCart, Settings } from 'lucide-react'
+'use client';
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import {
+  Home,
+  Box,
+  CreditCard,
+  ShoppingCart,
+  Settings,
+  Heart,
+  UserRound,
+  HelpCircle,
+  Truck,
+} from 'lucide-react';
 
 const Sidebar = () => {
-  const pathname = usePathname()
+  const pathname = usePathname();
+  const [userType, setUserType] = useState<'seller' | 'customer'>('customer');
 
-  const navItems = [
+  const sellerNavItems = [
     { name: 'Overview', href: '/overview', icon: Home },
     { name: 'Products', href: '/products', icon: Box },
     { name: 'Orders', href: '/orders', icon: ShoppingCart },
     { name: 'Payments', href: '/payments', icon: CreditCard },
     { name: 'Settings', href: '/settings', icon: Settings },
-  ]
+  ];
+
+  const customerNavItems = [
+    { name: 'Overview', href: '/overview', icon: Home },
+    { name: 'My Orders', href: '/my-orders', icon: Truck },
+    { name: 'Wishlist', href: '/wishlist', icon: Heart },
+    { name: 'Profile', href: '/profile', icon: UserRound },
+    { name: 'Support', href: '/support', icon: HelpCircle },
+    { name: 'Settings', href: '/settings', icon: Settings },
+  ];
+
+  const navItems = userType === 'seller' ? sellerNavItems : customerNavItems;
 
   return (
     <aside className="w-84 pl-14 h-full bg-white relative z-[10] border-r border-border-primary flex flex-col">
@@ -29,7 +51,7 @@ const Sidebar = () => {
               (item.href === '/orders' &&
                 ['/orders', '/view-order'].some(p =>
                   pathname.startsWith(p)
-                ))
+                ));
 
             return (
               <Link
@@ -41,15 +63,15 @@ const Sidebar = () => {
                     : 'text-text-secondary hover:bg-background-secondary font-normal'
                 }`}
               >
-                <item.icon className="h-5 w-5" />
+                <item.icon className="h-6 w-6" />
                 <span className="text-base">{item.name}</span>
               </Link>
-            )
+            );
           })}
         </nav>
       </div>
     </aside>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
