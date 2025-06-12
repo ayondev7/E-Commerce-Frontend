@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { Store, Minus, Plus, Trash2, ShoppingCart } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
