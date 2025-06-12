@@ -95,7 +95,11 @@ const CartContent: React.FC<CartContentProps> = ({ type }) => {
                 <p className="text-text-secondary text-base mb-2.5">
                   {item.variant}
                 </p>
-                <div className="flex items-start justify-between gap-x-2.5 w-full">
+                <div
+                  className={`flex justify-between gap-x-2.5 w-full ${
+                    type === "wishlist" ? "items-center" : "items-start"
+                  }`}
+                >
                   <p className="text-xl font-medium text-text-primary">
                     ${item.price.toFixed(2)}
                   </p>
