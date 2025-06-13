@@ -3,7 +3,7 @@ import { Check } from 'lucide-react'
 
 export default function CheckoutProcess() {
   return (
-    <div className="flex items-center justify-center gap-4 mb-8">
+    <div className="flex items-center justify-start gap-4 mb-8">
       <div className="flex items-center gap-2">
         <div className="w-8 h-8 rounded-full border-2 border-blue-600 flex items-center justify-center">
           <Check size={16} className="text-blue-600" />

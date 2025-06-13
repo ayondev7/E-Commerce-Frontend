@@ -4,50 +4,54 @@ import { MapPin, Check } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
 export default function ShippingInfoForm() {
-  const [selectedAddress, setSelectedAddress] = useState<"home" | "work">("home");
+  const [selectedAddress, setSelectedAddress] = useState<"Home" | "Work">(
+    "Home"
+  );
   const [billingAddressSame, setBillingAddressSame] = useState(true);
 
   return (
     <div className="bg-white border border-border-primary rounded-sm p-6.5">
-      <h2 className="text-2xl font-medium text-text-primary mb-6.5">Shipping Information</h2>
+      <h2 className="text-2xl font-medium text-text-primary mb-6.5">
+        Shipping Information
+      </h2>
 
       <div className="mb-5">
-        <h3 className="text-xl font-medium text-text-primary mb-2.5">Saved Addresses</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2.5 mb-5">
-          {["home", "work"].map((type) => (
+        <h3 className="text-xl font-medium text-text-primary mb-2.5">
+          Saved Addresses
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2.5">
+          {["Home", "Work"].map((type) => (
             <div
               key={type}
-              className={`border rounded-sm p-4 cursor-pointer ${
+              className={`border rounded-sm p-5 cursor-pointer ${
                 selectedAddress === type
-                  ? "border-button-primary bg-button-primary/10"
+                  ? "border-button-primary bg-[#FCE9EC]"
                   : "border-border-primary"
               }`}
-              onClick={() => setSelectedAddress(type as "home" | "work")}
+              onClick={() => setSelectedAddress(type as "Home" | "Work")}
             >
-              <div className="flex items-start gap-3">
-                <MapPin size={16} className="text-text-secondary mt-1" />
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-text-primary font-medium capitalize">{type}</span>
-                    {type === "home" && (
-                      <span className="flex items-center gap-1 text-xs text-button-primary">
-                        <Check size={12} />
-                        Default
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-base text-text-secondary font-normal">
-                    {type === "home"
-                      ? "12 Rosewood Lane, Flat 3A, Manchester, M14 5TP, United Kingdom"
-                      : "Unit 7, Orion Business Park, Buckingham Avenue, Slough, SL1 4QT, United Kingdom"}
-                  </p>
-                </div>
+              <div className="flex items-center gap-x-2.5 mb-2.5 relative">
+                <MapPin className="w-6 h-6 text-text-primary" />
+                <span className="text-text-primary font-medium text-xl">
+                  {type}
+                </span>
+                {type === "Home" && (
+                  <span className="flex items-center gap-x-1 text-base font-medium text-text-secondary">
+                    <Check className="w-6 h-6" />
+                    Default
+                  </span>
+                )}
                 {selectedAddress === type && (
-                  <div className="w-5 h-5 border-2 border-button-primary rounded-full flex items-center justify-center">
-                    <Check size={12} className="text-button-primary" />
+                  <div className="w-5 h-5 border-2 border-button-primary rounded-full flex items-center justify-center absolute right-0">
+                    <Check strokeWidth={4} className="text-button-primary w-2.5 h-2.5" />
                   </div>
                 )}
               </div>
+              <p className="text-base text-text-secondary font-normal">
+                {type === "Home"
+                  ? "12 Rosewood Lane, Flat 3A, Manchester, M14 5TP, United Kingdom"
+                  : "Unit 7, Orion Business Park, Buckingham, Avenue, Slough, SL1 4QT, United Kingdom"}
+              </p>
             </div>
           ))}
         </div>
@@ -176,7 +180,7 @@ export default function ShippingInfoForm() {
           id="billing-same"
           checked={billingAddressSame}
           onCheckedChange={(checked) => setBillingAddressSame(!!checked)}
-          className="w-5 h-5 border-text-primary hover:cursor-pointer border-3 rounded-[3px] shadow-none data-[state=checked]:border-custom-blue data-[state=checked]:bg-white data-[state=checked]:text-custom-blue [&_svg]:!w-2.5 [&_svg]:!h-2.5 [&_svg]:!stroke-5" 
+          className="w-5 h-5 border-text-primary hover:cursor-pointer border-3 rounded-[3px] shadow-none data-[state=checked]:border-custom-blue data-[state=checked]:bg-white data-[state=checked]:text-custom-blue [&_svg]:!w-2.5 [&_svg]:!h-2.5 [&_svg]:!stroke-5"
         />
         <label htmlFor="billing-same" className="text-base text-text-primary">
           Billing address is the same as shipping
