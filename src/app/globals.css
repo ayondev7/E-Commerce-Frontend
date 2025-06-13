@@ -37,6 +37,8 @@
 
   --color-info-primary: #2a4ec7;
   --color-info-secondary: #e9effd;
+
+  --color-custom-blue: #315CEA;
 }
 
 @layer base {
