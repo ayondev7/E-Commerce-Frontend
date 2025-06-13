@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Tab from "./Tab";
 import PersonalInfo from "./PersonalInfo";
 import AddressInfo from "./AddressInfo";
-import Transactions from "./Transactions";
+import PaymentTransactions from "./PaymentTransactions";
 const Profile = () => {
   const [tabValue, setTabValue] = useState<string>("personal");
 
@@ -33,7 +33,7 @@ const Profile = () => {
       <div className="mt-6">
         {tabValue === "personal" && <PersonalInfo />}
         {tabValue === "address" && <AddressInfo />}
-        {tabValue === "transactions" && <Transactions />}
+        {tabValue === "transactions" && <PaymentTransactions />}
       </div>
     </div>
   );
