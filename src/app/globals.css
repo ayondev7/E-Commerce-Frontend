@@ -17,6 +17,7 @@
   --color-text-secondary: #7d8184;
   --color-text-tertiary: #dd4343;
   --color-text-quaternary: #335be8;
+  --color-text-dark-grey: #7D8184;
 
   --color-success-primary: #1ea950;
   --color-success-secondary: #e9fbef;
@@ -29,9 +30,9 @@
   --color-danger-secondary: #fce9eb;
   --color-danger-border: #F9D2D9;
 
-  --color-button-primary: #da4445;
+  --color-button-primary: #DB4444;
 
-  --color-border-primary: #cdcfd6;
+  --color-border-primary: #D1D5DB;
   --color-border-secondary: #7d8184;
 
   --color-info-primary: #2a4ec7;

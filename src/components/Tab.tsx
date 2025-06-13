@@ -22,7 +22,7 @@ const Tab = ({ options, value, onValueChange }: TabProps) => {
             key={option.value}
             value={option.value}
             className={cn(
-              "w-full text-lg !px-5 !py-2.5 !h-12 transition-all",
+              "w-full text-lg !px-5 !py-2.5 !h-12 transition-all data-[state=active]:shadow-none",
               value === option.value
                 ? "bg-white text-text-primary font-medium border border-border-primary rounded-sm"
                 : "text-text-secondary font-normal border-0 rounded-none"
