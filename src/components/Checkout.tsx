@@ -11,7 +11,7 @@ export default function Checkout() {
   const [promoCode, setPromoCode] = useState("");
 
   return (
-    <div className="p-6 space-y-10">
+    <div className="pb-6 space-y-10">
       <div>
         <h1 className="text-3xl font-semibold text-text-primary mb-1">Checkout</h1>
         <p className="text-base text-text-secondary">Please review and complete your purchase</p>
