@@ -2,7 +2,7 @@ import React from "react";
 
 const ProductDetailsCard = () => {
   return (
-    <div className="flex gap-x-5 border bg-white border-border-primary rounded-sm p-5 w-max max-w-full">
+    <div className="flex gap-x-5 border bg-white border-border-primary rounded-md p-5 w-max max-w-full">
       <div className="max-w-29.5 max-h-29.5 rounded-sm overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop"

@@ -3,7 +3,7 @@ import { Mail, MapPin } from "lucide-react";
 
 const BuyerInformation = () => {
   return (
-    <div className="bg-white p-5 border border-border-primary rounded-sm">
+    <div className="bg-white p-5 border border-border-primary rounded-lg">
       <div className="text-2xl font-semibold mb-5">Buyer Information</div>
 
       <div className="space-y-5 text-base">

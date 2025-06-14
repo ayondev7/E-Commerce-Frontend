@@ -2,7 +2,7 @@ import React from "react";
 
 const PaymentInformation = () => {
   return (
-    <div className="border bg-white border-border-primary rounded-sm p-5">
+    <div className="border bg-white border-border-primary rounded-lg p-5">
       <div className="text-2xl font-semibold mb-5">Payment Info</div>
 
       <div className="grid grid-cols-2 gap-x-20">

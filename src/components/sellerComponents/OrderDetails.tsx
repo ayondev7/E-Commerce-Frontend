@@ -45,7 +45,7 @@ const OrderDetails = () => {
           </button>
         </div>
       </div>
-      <div className="mt-10 rounded-sm border border-border-primary bg-white p-5">
+      <div className="mt-10 rounded-lg border border-border-primary bg-white p-5">
         <ProductDetailsCard />
         <div className="flex gap-x-5 mt-5 items-start">
           <Timeline />
