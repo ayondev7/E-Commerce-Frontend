@@ -78,10 +78,10 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
   };
 
   return (
-    <div className="border rounded-sm bg-background-primary">
+    <div className="border border-border-primary rounded-lg bg-background-primary">
       <Table>
         <TableHeader>
-          <TableRow className="border-b">
+          <TableRow className="border-b border-border-primary">
             <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
               Order ID
             </TableHead>
@@ -106,7 +106,7 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
         </TableHeader>
         <TableBody>
           {orders.map((order) => (
-            <TableRow key={order.id} className="border-b last:border-b-0">
+            <TableRow key={order.id} className="border-b last:border-b-0 border-border-primary">
               <TableCell className="text-text-primary px-4 py-4 text-base">
                 {order.id}
               </TableCell>

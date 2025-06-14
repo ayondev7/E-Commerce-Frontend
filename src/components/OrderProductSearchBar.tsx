@@ -34,7 +34,7 @@ const OrderProductSearchBar = ({ type }: OrderProductSearchBarProps) => {
       {type === "product" && (
         <>
           <Select>
-            <SelectTrigger className="w-51 min-h-13 py-2.5 px-5 [&>svg]:w-6 [&>svg]:h-6 text-base text-text-primary focus:ring-0 focus:ring-offset-0 [&>svg]:text-text-primary [&[data-state=open]>svg]:rotate-180 rounded-md border-border-primary">
+            <SelectTrigger className="w-51 bg-white min-h-13 py-2.5 px-5 [&>svg]:w-6 [&>svg]:h-6 text-base text-text-primary focus:ring-0 focus:ring-offset-0 [&>svg]:text-text-primary [&[data-state=open]>svg]:rotate-180 rounded-md border-border-primary">
               <SelectValue placeholder="Categories" />
             </SelectTrigger>
             <SelectContent className="[&>div>div>span]:right-auto [&>div>div>span]:left-2">
@@ -51,7 +51,7 @@ const OrderProductSearchBar = ({ type }: OrderProductSearchBarProps) => {
           </Select>
 
           <Select>
-            <SelectTrigger className="w-51 py-2.5 min-h-13 px-5 [&>svg]:w-6 [&>svg]:h-6 text-base text-text-primary focus:ring-0 focus:ring-offset-0 [&>svg]:text-text-primary [&[data-state=open]>svg]:rotate-180 rounded-md border-border-primary">
+            <SelectTrigger className="w-51 bg-white py-2.5 min-h-13 px-5 [&>svg]:w-6 [&>svg]:h-6 text-base text-text-primary focus:ring-0 focus:ring-offset-0 [&>svg]:text-text-primary [&[data-state=open]>svg]:rotate-180 rounded-md border-border-primary">
               <SelectValue placeholder="Stock Status" />
             </SelectTrigger>
             <SelectContent className="[&>div>div>span]:right-auto [&>div>div>span]:left-2">
@@ -71,7 +71,7 @@ const OrderProductSearchBar = ({ type }: OrderProductSearchBarProps) => {
 
       {type === "customer" && (
         <Select>
-          <SelectTrigger className="w-51 text-base px-5 py-2.5 min-h-13 [&>svg]:w-6 [&>svg]:h-6 text-text-primary focus:ring-0 focus:ring-offset-0 [&>svg]:text-text-primary [&[data-state=open]>svg]:rotate-180 rounded-md border-border-primary">
+          <SelectTrigger className="w-51 text-base bg-white px-5 py-2.5 min-h-13 [&>svg]:w-6 [&>svg]:h-6 text-text-primary focus:ring-0 focus:ring-offset-0 [&>svg]:text-text-primary [&[data-state=open]>svg]:rotate-180 rounded-md border-border-primary">
             <SelectValue placeholder="Order Status" />
           </SelectTrigger>
           <SelectContent className="[&>div>div>span]:right-auto [&>div>div>span]:left-2">

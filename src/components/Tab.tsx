@@ -16,7 +16,7 @@ type TabProps = {
 const Tab = ({ options, value, onValueChange }: TabProps) => {
   return (
     <Tabs value={value} onValueChange={onValueChange} className="w-full">
-      <TabsList className={cn("w-full !p-1.5 !h-15 border border-border-primary bg-[#eff3f6] rounded-sm")}>
+      <TabsList className={cn("w-full !p-1.5 !h-15 border border-border-primary bg-[#eff3f6] rounded-lg")}>
         {options.map((option) => (
           <TabsTrigger
             key={option.value}
@@ -24,7 +24,7 @@ const Tab = ({ options, value, onValueChange }: TabProps) => {
             className={cn(
               "w-full text-lg !px-5 !py-2.5 !h-12 transition-all data-[state=active]:shadow-none",
               value === option.value
-                ? "bg-white text-text-primary font-medium border border-border-primary rounded-sm"
+                ? "bg-white text-text-primary font-medium border border-border-primary rounded-lg"
                 : "text-text-secondary font-normal border-0 rounded-none"
             )}
           >
