@@ -74,7 +74,7 @@ const GeneralInformationForm = ({
           <input
             type="text"
             id="title"
-            className="w-full px-5 py-2.5 border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary text-base"
+            className="w-full min-h-13 px-5 py-2.5 border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary text-base"
             placeholder="Enter product title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}

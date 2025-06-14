@@ -86,7 +86,7 @@ const Products = () => {
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-semibold">Products</h1>
         <button 
-          onClick={() => router.push('/add-product')}
+          onClick={() => router.push('/seller/add-product')}
           className="flex items-center min-w-43.5 min-h-13 gap-2.5 px-5 py-2.5 font-medium bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors cursor-pointer"
         >
           <Plus className="w-6 h-6" />
