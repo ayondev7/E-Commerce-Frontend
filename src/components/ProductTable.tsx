@@ -60,10 +60,10 @@ const ProductTable = ({ products }: ProductTableProps) => {
 
   return (
     <>
-      <div className="border rounded-sm bg-background-primary">
+      <div className="border border-border-primary rounded-lg bg-white">
         <Table>
           <TableHeader>
-            <TableRow className="border-b">
+            <TableRow className="border-b border-border-primary">
               <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Image</TableHead>
               <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Name</TableHead>
               <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">SKU</TableHead>
@@ -75,7 +75,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
           </TableHeader>
           <TableBody>
             {products.map((product) => (
-              <TableRow key={product.id} className="border-b last:border-b-0">
+              <TableRow key={product.id} className="border-b last:border-b-0 border-border-primary">
                 <TableCell className="px-4 py-4">
                   <img src={product.image} alt={product.name} className="w-11 h-11 object-cover rounded-sm" />
                 </TableCell>
