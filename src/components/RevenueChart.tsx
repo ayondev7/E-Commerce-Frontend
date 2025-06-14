@@ -26,7 +26,7 @@ const RevenueChart = () => {
   const areaFillColor = isIncreasing ? "rgba(10, 204, 88, 0.3)" : "rgba(218, 68, 69, 0.3)";
 
   return (
-    <div className="bg-background-primary p-6 rounded-lg border border-border-primary shadow-sm">
+    <div className="bg-background-primary p-6 rounded-lg border border-border-primary">
       <h1 className="text-xl font-bold mb-6">Revenue Trend (30 days)</h1>
       <div className="h-[400px]">
         <ResponsiveContainer width="100%" height="100%">

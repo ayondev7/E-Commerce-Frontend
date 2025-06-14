@@ -26,15 +26,15 @@ const OrderStatus: React.FC<OrderStatusProps> = ({ status, count }) => {
   };
 
   return (
-    <div className="flex items-start border border-border-primary p-2 rounded-lg">
-      <div className="flex flex-col gap-y-1">
-        <div className="flex items-center gap-x-2">
+    <div className="flex items-start border border-border-primary p-2.5 rounded-lg">
+      <div className="flex flex-col gap-y-2.5">
+        <div className="flex items-center gap-x-2.5">
           <span className={`w-3 h-3 rounded-full ${getStatusColor()}`} />
           <span className="text-base font-normal text-text-primary">
             {getStatusText()}
           </span>
         </div>
-        <span className="text-xl font-semibold text-text-primary ml-5">
+        <span className="text-xl font-semibold text-text-primary ml-6.5">
           {count}
         </span>
       </div>

@@ -31,18 +31,18 @@ const SalesAnalyticsCard: React.FC<SalesAnalyticsCardProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-border-primary p-6 h-full">
-      <div className="flex flex-col gap-x-4 gap-y-2">
+    <div className="bg-white rounded-lg border border-border-primary p-[25px] h-full shadow-xs">
+      <div className="flex flex-col gap-y-1">
         <p className="text-sm text-text-secondary font-medium">
           {title}
         </p>
         
-        <h3 className="text-2xl font-bold text-gray-900">
-          {formatCurrency(currentValue)}
+        <h3 className="text-2xl font-bold text-text-primary font-roboto">
+         ${currentValue.toLocaleString()} 
         </h3>
 
         <div className={`text-sm font-medium ${
-          isPositive ? 'text-[#0ACC58]' : 'text-danger-primary'
+          isPositive ? 'text-[#0ACC58]' : 'text-button-primary'
         }`}>
           {isPositive ? '+' : '-'}{Math.abs(percentageChange).toFixed(1)}% from {period}
         </div>

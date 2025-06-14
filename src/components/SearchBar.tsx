@@ -20,9 +20,9 @@ const SearchBar: React.FC<Props> = ({ userType }) => {
     <div className="w-full border-t border-b border-border-primary px-18 py-5">
       <div className="container h-full flex items-center">
         <div className="w-full relative flex items-center gap-x-5">
-          <div className="flex-1 relative flex items-center border border-text-secondary rounded-md">
+          <div className="flex-1 relative flex items-center border border-text-secondary rounded-lg">
             <Select>
-              <SelectTrigger className="w-[145px] min-h-13 space-x-2.5 [&>svg]:w-6 [&>svg]:h-6 text-text-secondary border-0 rounded-none rounded-l-md text-base focus:ring-0 focus:ring-offset-0 [&[data-state=open]>svg]:rotate-180">
+              <SelectTrigger className="w-[145px] min-h-13 space-x-2.5 [&>svg]:w-6 [&>svg]:h-6 text-text-secondary border-0 rounded-none rounded-l-lg text-base focus:ring-0 focus:ring-offset-0 [&[data-state=open]>svg]:rotate-180">
                 <SelectValue placeholder="Categories" className="text-base text-text-secondary" />
               </SelectTrigger>
               <SelectContent className="z-[100] text-base text-text-secondary bg-white">
@@ -39,7 +39,7 @@ const SearchBar: React.FC<Props> = ({ userType }) => {
               <Input
                 type="text"
                 placeholder="Search by product, brand, or keyword"
-                className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none rounded-r-md text-base"
+                className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none rounded-r-lg text-base"
               />
             </div>
           </div>

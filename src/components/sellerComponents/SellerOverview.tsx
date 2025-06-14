@@ -8,15 +8,15 @@ import Link from "next/link";
 const SellerOverview = () => {
   return (
     <div>
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold">Welcome back, John Doe!</h1>
+      <div>
+        <h1 className="text-3xl font-semibold mb-2">Welcome back, John Doe!</h1>
         <p className="text-lg text-text-primary">
           You've made{" "}
-          <span className="text-text-primary font-bold">$2,450</span> today.
+          <span className="text-text-primary text-lg font-bold">$2,450</span> today.
         </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-y-4 gap-x-6 my-6">
+      <div className="grid grid-cols-3 gap-x-5 mt-5">
         <SalesAnalyticsCard
           title="Sales Today"
           currentValue={2450}
@@ -37,9 +37,9 @@ const SellerOverview = () => {
         />
       </div>
 
-      <div className=" bg-background-primary my-10 p-4 rounded-lg border border-border-primary shadow-sm">
-        <h2 className="text-lg font-bold">Order Status</h2>
-        <div className="grid grid-cols-4 gap-4 my-3">
+      <div className=" bg-background-primary my-10 px-3 py-5 rounded-lg border border-border-primary">
+        <h2 className="text-lg font-semibold mb-2.5">Order Status</h2>
+        <div className="grid grid-cols-4 gap-x-5">
           <OrderStatus status="pending" count={10} />
           <OrderStatus status="shipped" count={10} />
           <OrderStatus status="delivered" count={10} />
@@ -64,7 +64,7 @@ const SellerOverview = () => {
           </div>
         </div>
         <Link href="/products">
-          <button className="rounded-sm hover:cursor-pointer border min-w-31 min-h-10 flex justify-center font-medium items-center border-warning-border text-warning-primary px-4 py-2 bg-white">
+          <button className="rounded-lg hover:cursor-pointer border min-w-31 min-h-10 flex justify-center font-medium items-center border-warning-border text-warning-primary px-4 py-2 bg-white">
             View Products
           </button>
         </Link>
