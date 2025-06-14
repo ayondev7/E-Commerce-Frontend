@@ -58,21 +58,27 @@ const Navbar = () => {
           </div>
 
           <Select>
-            <SelectTrigger className="w-[180px] border-0 focus:ring-0 focus:ring-offset-0">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-gray-200">
+            <SelectTrigger className="w-36.5 px-0 py-0 justify-start rounded-none border-0 focus:ring-0 focus:ring-offset-0 [&>svg]:ml-1.5 [&>svg]:w-5 [&>svg]:h-5 [&[data-state=open]>svg]:rotate-180">
+              <div className="flex items-center gap-1.5">
+                <div className="w-8 h-8 rounded-full">
                   <img
                     src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
                     alt="Profile"
-                    className="w-full h-full rounded-full"
+                    className="w-full h-full rounded-full object-cover"
                   />
-                </div> 
-               <p>John Doe</p>
+                </div>
+                <p className="text-base text-text-primary font-medium">
+                  John Doe
+                </p>
               </div>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="profile">Profile</SelectItem>
-              <SelectItem value="logout">Logout</SelectItem>
+              <SelectItem value="profile" className="text-base">
+                Profile
+              </SelectItem>
+              <SelectItem value="logout" className="text-base">
+                Logout
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
