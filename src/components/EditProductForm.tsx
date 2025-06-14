@@ -36,46 +36,50 @@ const EditProductForm = () => {
   };
 
   const existingGeneralInformation = {
-  title: "Awesome Phone",
-  description: "This phone is great for everything.",
-  category: "electronics",
-};
+    title: "Awesome Phone",
+    description: "This phone is great for everything.",
+    category: "electronics",
+  };
 
   return (
     <div>
-      <div className="flex items-center gap-x-2">
-        <button
-          onClick={() => router.push("/seller/products")}
-          className="rounded-sm transition-colors cursor-pointer"
-        >
-          <ArrowLeft className="w-5 h-5" />
-        </button>
-        <h1 className="text-3xl font-semibold">Edit Product Details</h1>
-      </div>
-
-      <h2 className="text-lg text-text-secondary ml-7 mt-3 mb-6">
-        Edit the details of your product
-      </h2>
-
-      <div className="space-y-8">
-        <GeneralInformationForm initialData={existingGeneralInformation} />
-        <SpecificationsForm initialData={existingSpecs} />
-        <PricingInventoryForm initialData={existingPricing} />
-
-        <div className="space-y-6 bg-background-primary p-6 rounded-sm border border-border-primary">
-          <AdditionalInformationForm initialData={existingAdditionalInformation} />
+      <div className="pl-5 pr-14 pb-50">
+        <div className="flex items-center gap-x-2">
+          <button
+            onClick={() => router.push("/seller/products")}
+            className="rounded-sm transition-colors cursor-pointer"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <h1 className="text-3xl font-semibold">Edit Product Details</h1>
         </div>
 
-        <div className="flex justify-between bg-white border-t border-border-primary p-4">
-          <button className="flex items-center gap-x-1.5 px-4 py-2 hover:bg-background-hover rounded-sm text-danger-primary border border-[#f5cdd5] text-base cursor-pointer">
-            <Trash2 className="w-5 h-5" />
-            <span className="font-medium">Discard</span>
-          </button>
-          <div>
-            <button className="px-5 py-[10px] bg-button-primary text-white rounded-sm">
-              Send for Review
-            </button>
+        <h2 className="text-lg text-text-secondary ml-7 mt-3 mb-6">
+          Edit the details of your product
+        </h2>
+
+        <div className="space-y-8">
+          <GeneralInformationForm initialData={existingGeneralInformation} />
+          <SpecificationsForm initialData={existingSpecs} />
+          <PricingInventoryForm initialData={existingPricing} />
+
+          <div className="space-y-6 bg-background-primary p-6 rounded-sm border border-border-primary">
+            <AdditionalInformationForm
+              initialData={existingAdditionalInformation}
+            />
           </div>
+        </div>
+      </div>
+
+      <div className="flex justify-between pl-5 pr-14 h-29 items-center bg-white border-t border-border-primary p-4">
+        <button className="flex items-center gap-x-1.5 px-4 py-2 hover:bg-background-hover rounded-sm text-danger-primary border border-[#f5cdd5] text-base cursor-pointer">
+          <Trash2 className="w-5 h-5" />
+          <span className="font-medium">Discard</span>
+        </button>
+        <div>
+          <button className="px-5 py-[10px] bg-button-primary text-white rounded-sm">
+            Send for Review
+          </button>
         </div>
       </div>
     </div>
