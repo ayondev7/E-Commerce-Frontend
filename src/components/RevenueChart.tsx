@@ -1,8 +1,8 @@
 'use client';
 import React from "react";
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -22,14 +22,15 @@ const data = [
 
 const RevenueChart = () => {
   const isIncreasing = data[data.length - 1].revenue > data[0].revenue;
-  const lineColor = isIncreasing ? "#0ACC58" : "#da4445";
+  const areaColor = isIncreasing ? "#0ACC58" : "#da4445";
+  const areaFillColor = isIncreasing ? "rgba(10, 204, 88, 0.3)" : "rgba(218, 68, 69, 0.3)";
 
   return (
     <div className="bg-background-primary p-6 rounded-lg border border-border-primary shadow-sm">
       <h1 className="text-xl font-bold mb-6">Revenue Trend (30 days)</h1>
       <div className="h-[400px]">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart
+          <AreaChart
             data={data}
             margin={{
               top: 5,
@@ -37,18 +38,18 @@ const RevenueChart = () => {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-            <XAxis 
-              dataKey="date" 
+            <XAxis
+              dataKey="date"
               stroke="#6B7280"
               tick={{ fill: '#6B7280' }}
             />
-            <YAxis 
+            <YAxis
               stroke="#6B7280"
               tick={{ fill: '#6B7280' }}
               tickFormatter={(value) => `$${value}`}
             />
-            <Tooltip 
-              contentStyle={{ 
+            <Tooltip
+              contentStyle={{
                 backgroundColor: '#fff',
                 border: '1px solid #E5E7EB',
                 borderRadius: '6px',
@@ -56,19 +57,20 @@ const RevenueChart = () => {
               }}
               formatter={(value) => [`$${value}`, 'Revenue']}
             />
-            <Line
+            <Area
               type="monotone"
               dataKey="revenue"
-              stroke={lineColor}
+              stroke={areaColor}
               strokeWidth={2}
-              dot={{ fill: lineColor, strokeWidth: 2 }}
-              activeDot={{ r: 6, fill: lineColor }}
+              fill={areaFillColor}
+              dot={{ fill: areaColor, strokeWidth: 2 }}
+              activeDot={{ r: 6, fill: areaColor }}
             />
-          </LineChart>
+          </AreaChart>
         </ResponsiveContainer>
       </div>
     </div>
   );
 };
 
-export default RevenueChart; 
+export default RevenueChart;

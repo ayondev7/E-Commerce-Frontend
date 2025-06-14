@@ -19,30 +19,39 @@ const Navbar = () => {
         >
           Logo
         </Link>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-x-5">
           <Select>
-            <SelectTrigger className="w-[100px] border-0 focus:ring-0 focus:ring-offset-0">
-              <div className="flex items-center gap-2">
-                <Globe className="h-4 w-4 text-text-secondary" />
+            <SelectTrigger className="space-x-2.5 w-30 border-0 px-4 py-2 focus:ring-0 text-text-secondary text-base focus:ring-offset-0 [&>svg]:w-6 [&>svg]:h-6 rounded-none rounded-l-md [&[data-state=open]>svg]:rotate-180">
+              <div className="flex items-center gap-x-2.5">
+                <Globe className="h-6 w-6 text-text-secondary" />
                 <SelectValue placeholder="EN" />
               </div>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="en">English</SelectItem>
-              <SelectItem value="es">Spanish</SelectItem>
-              <SelectItem value="fr">French</SelectItem>
-              <SelectItem value="de">German</SelectItem>
+              <SelectItem value="en" className="text-text-primary text-base">
+                EN
+              </SelectItem>
+              <SelectItem value="es" className="text-text-primary text-base">
+                ES
+              </SelectItem>
+              <SelectItem value="fr" className="text-text-primary text-base">
+                FR
+              </SelectItem>
+              <SelectItem value="de" className="text-text-primary text-base">
+                DE
+              </SelectItem>
             </SelectContent>
           </Select>
 
-          <button className="p-2 hover:bg-background-secondary rounded-full transition-colors">
-            <HelpCircle className="h-5 w-5 text-text-secondary" />
+          <button className="flex gap-x-2.5 px-4 py-2">
+            <HelpCircle className="h-6 w-6 text-text-secondary" />
+            <span className="text-base text-text-secondary">Help</span>
           </button>
 
           <div className="relative">
-            <button className="p-2 hover:bg-background-secondary rounded-full transition-colors">
-              <Bell className="h-5 w-5 text-text-secondary" />
-              <span className="absolute -top-1 -right-1 h-4 w-4 bg-danger-primary rounded-full text-[10px] text-white flex items-center justify-center">
+            <button className="w-10 h-10 p-[1px] border border-border-primary rounded-sm flex justify-center items-center">
+              <Bell className="h-6 w-6 text-text-primary" />
+              <span className="absolute -top-1 -right-1 h-4 w-4 bg-button-primary font-medium rounded-full text-[10px] text-white flex items-center justify-center">
                 3
               </span>
             </button>
@@ -57,11 +66,8 @@ const Navbar = () => {
                     alt="Profile"
                     className="w-full h-full rounded-full"
                   />
-                </div>
-                <div className="flex flex-col items-start">
-                  <span className="text-sm font-medium">John Doe</span>
-                  <span className="text-xs text-text-secondary">Seller</span>
-                </div>
+                </div> 
+               <p>John Doe</p>
               </div>
             </SelectTrigger>
             <SelectContent>
