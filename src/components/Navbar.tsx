@@ -1,5 +1,7 @@
+"use client";
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Globe, HelpCircle, Bell } from "lucide-react";
 import {
   Select,
@@ -10,6 +12,23 @@ import {
 } from "@/components/ui/select";
 
 const Navbar = () => {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      sessionStorage.clear();
+    }
+    router.push("/auth");
+  };
+
+  const handleUserMenuChange = (value) => {
+    if (value === 'logout') {
+      handleLogout();
+    } else if (value === 'profile') {
+      router.push('/profile'); 
+    }
+  };
+
   return (
     <nav className="w-full bg-white py-6 px-18">
       <div className="container w-full h-full flex items-center justify-between">
@@ -57,7 +76,7 @@ const Navbar = () => {
             </button>
           </div>
 
-          <Select>
+          <Select onValueChange={handleUserMenuChange}>
             <SelectTrigger className="w-36.5 px-0 py-0 justify-start rounded-none border-0 focus:ring-0 focus:ring-offset-0 [&>svg]:ml-1.5 [&>svg]:w-5 [&>svg]:h-5 [&[data-state=open]>svg]:rotate-180">
               <div className="flex items-center gap-1.5">
                 <div className="w-8 h-8 rounded-full">
@@ -72,7 +91,7 @@ const Navbar = () => {
                 </p>
               </div>
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white border-border-primary">
               <SelectItem value="profile" className="text-base">
                 Profile
               </SelectItem>

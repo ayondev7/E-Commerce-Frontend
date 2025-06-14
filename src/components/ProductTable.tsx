@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Edit, Trash2 } from 'lucide-react';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Edit, Trash2 } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -10,28 +10,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import DeleteProductModal from './DeleteProductModal';
-
-interface Product {
-  id: string;
-  image: string;
-  name: string;
-  sku: string;
-  price: number;
-  stock: number;
-  status: 'active' | 'low_stock' | 'out_of_stock';
-}
+import DeleteProductModal from "./DeleteProductModal";
+import { SimplifiedProduct } from "@/types/productTypes";
 
 interface ProductTableProps {
-  products: Product[];
+  products: SimplifiedProduct[];
 }
 
 const ProductTable = ({ products }: ProductTableProps) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedProduct, setSelectedProduct] =
+    useState<SimplifiedProduct | null>(null);
   const router = useRouter();
 
-  const handleDeleteClick = (product: Product) => {
+  const handleDeleteClick = (product: SimplifiedProduct) => {
     setSelectedProduct(product);
     setDeleteModalOpen(true);
   };
@@ -42,19 +34,19 @@ const ProductTable = ({ products }: ProductTableProps) => {
   };
 
   const handleEditClick = (productId: string) => {
-    router.push(`/seller/edit-product/1`);
+    router.push(`/seller/edit-product/${productId}`);
   };
 
   const getStatusStyles = (status: string) => {
     switch (status) {
-      case 'active':
-        return 'bg-success-secondary text-success-primary';
-      case 'low_stock':
-        return 'bg-warning-secondary text-warning-primary';
-      case 'out_of_stock':
-        return 'bg-danger-secondary text-danger-primary';
+      case "active":
+        return "bg-success-secondary text-success-primary";
+      case "low stock":
+        return "bg-warning-secondary text-warning-primary";
+      case "out of stock":
+        return "bg-danger-secondary text-danger-primary";
       default:
-        return '';
+        return "";
     }
   };
 
@@ -64,40 +56,82 @@ const ProductTable = ({ products }: ProductTableProps) => {
         <Table>
           <TableHeader>
             <TableRow className="border-b border-border-primary">
-              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Image</TableHead>
-              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Name</TableHead>
-              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">SKU</TableHead>
-              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Price</TableHead>
-              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Stock</TableHead>
-              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Status</TableHead>
-              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">Actions</TableHead>
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
+                Image
+              </TableHead>
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
+                Name
+              </TableHead>
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
+                SKU
+              </TableHead>
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
+                Price
+              </TableHead>
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
+                Stock
+              </TableHead>
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
+                Status
+              </TableHead>
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
+                Actions
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {products.map((product) => (
-              <TableRow key={product.id} className="border-b last:border-b-0 border-border-primary">
+              <TableRow
+                key={product._id}
+                className="border-b last:border-b-0 border-border-primary"
+              >
                 <TableCell className="px-4 py-4">
-                  <img src={product.image} alt={product.name} className="w-11 h-11 object-cover rounded-sm" />
+                  <img
+                    src={
+                      product?.image && product?.image !== "null"
+                        ? `data:image/jpeg;base64,${product?.image}`
+                        : "https://example.com/default-image.jpg"
+                    }
+                    alt={product?.title}
+                    className="w-11 h-11 object-cover rounded-sm"
+                  />
                 </TableCell>
-                <TableCell className="text-text-primary px-4 py-4 text-base">{product.name}</TableCell>
-                <TableCell className="text-text-primary px-4 py-4 text-base">{product.sku}</TableCell>
-                <TableCell className="text-text-primary px-4 py-4 text-base">${product.price.toFixed(2)}</TableCell>
-                <TableCell className="text-text-primary px-4 py-4 text-base">{product.stock}</TableCell>
+                <TableCell className="text-text-primary px-4 py-4 text-base">
+                  {product?.title}
+                </TableCell>
+                <TableCell className="text-text-primary px-4 py-4 text-base">
+                  {product?.sku}
+                </TableCell>
+                <TableCell className="text-text-primary px-4 py-4 text-base">
+                  ${product?.price.toFixed(2)}
+                </TableCell>
+                <TableCell className="text-text-primary px-4 py-4 text-base">
+                  {product?.stock}
+                </TableCell>
                 <TableCell className="px-4 py-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusStyles(product.status)}`}>
-                    {product.status.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusStyles(
+                      product.status
+                    )}`}
+                  >
+                    {product.status
+                      .split("_")
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}
                   </span>
                 </TableCell>
                 <TableCell className="px-4 py-4">
                   <div className="flex gap-2.5">
-                    <button 
-                      onClick={() => handleEditClick(product.id)}
+                    <button
+                      onClick={() => handleEditClick(product?._id)}
                       className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
                     >
                       <Edit className="w-5 h-5" />
                       <span className="font-medium">Edit</span>
                     </button>
-                    <button 
+                    <button
                       onClick={() => handleDeleteClick(product)}
                       className="flex border border-danger-border justify-center items-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-button-primary text-base cursor-pointer"
                     >
