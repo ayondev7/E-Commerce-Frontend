@@ -65,6 +65,7 @@ const AdditionalInformationForm = ({ initialData }: AdditionalInformationFormPro
             onChange={(e) => setTags(e.target.value)}
             className="w-full px-5 py-2.5 min-h-13 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
           />
+          <p className="mt-2.5 text-text-secondary text-base">Tags help buyers find your product when searching</p>
         </div>
 
         <div>

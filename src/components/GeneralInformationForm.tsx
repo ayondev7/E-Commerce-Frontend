@@ -154,16 +154,16 @@ const GeneralInformationForm = ({
           </label>
           <Select onValueChange={setCategory} value={category}>
             <SelectTrigger
-              className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:outline-none focus:ring-0 text-base ${
+              className={`w-full min-h-13 px-5 py-2.5 [&>svg]:w-6 [&>svg]:h-6 rounded-md border-border-primary focus:outline-none focus:ring-0 text-base ${
                 category ? "text-text-primary" : "text-text-secondary"
               }`}
             >
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="electronics">Electronics</SelectItem>
-              <SelectItem value="clothing">Clothing</SelectItem>
-              <SelectItem value="books">Books</SelectItem>
+            <SelectContent className="bg-white border-border-primary text-base">
+              <SelectItem value="electronics" className="text-base">Electronics</SelectItem>
+              <SelectItem value="clothing" className="text-base">Clothing</SelectItem>
+              <SelectItem value="books" className="text-base">Books</SelectItem>
             </SelectContent>
           </Select>
         </div>

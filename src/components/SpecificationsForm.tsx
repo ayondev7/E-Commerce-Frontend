@@ -41,7 +41,7 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
   const [features, setFeatures] = useState<string[]>([
     "Water Resistant",
     "Bluetooth",
-    "Wi-Fi",
+    "Wi‑Fi",
     "GPS",
     "Touch Screen",
   ]);
@@ -111,7 +111,16 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
 
   return (
     <div className="space-y-6.5 bg-background-primary p-6 rounded-lg border border-border-primary">
-      <h2 className="text-2xl font-medium">Specifications</h2>
+      <div className="flex justify-between items-start">
+        <h2 className="text-2xl font-medium">Specifications</h2>
+        <button
+          onClick={() => setShowConditionInput(true)}
+          className="flex items-center gap-x-1.5 text-base text-custom-blue hover:cursor-pointer transition-colors"
+        >
+          <Plus className="w-6 h-6" />
+          Add another specification
+        </button>
+      </div>
 
       <div className="space-y-5">
         <div>
@@ -119,14 +128,18 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
             Brand <span className="text-danger-primary">*</span>
           </label>
           <Select value={selectedBrand} onValueChange={setSelectedBrand}>
-            <SelectTrigger className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base ${selectedBrand ? "text-text-primary" : "text-text-secondary"}`}>
+            <SelectTrigger
+              className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base [&>svg]:w-6 [&>svg]:h-6 ${
+                selectedBrand ? "text-text-primary" : "text-text-secondary"
+              }`}
+            >
               <SelectValue placeholder="Select brand" />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="samsung">Samsung</SelectItem>
-              <SelectItem value="sony">Sony</SelectItem>
-              <SelectItem value="lg">LG</SelectItem>
+            <SelectContent className="bg-white border-border-primary text-base">
+              <SelectItem value="apple" className="text-base">Apple</SelectItem>
+              <SelectItem value="samsung" className="text-base">Samsung</SelectItem>
+              <SelectItem value="sony" className="text-base">Sony</SelectItem>
+              <SelectItem value="lg" className="text-base">LG</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -137,13 +150,17 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
               Model <span className="text-danger-primary">*</span>
             </label>
             <Select value={selectedModel} onValueChange={setSelectedModel}>
-              <SelectTrigger className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base ${selectedModel ? "text-text-primary" : "text-text-secondary"}`}>
+              <SelectTrigger
+                className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base [&>svg]:w-6 [&>svg]:h-6 ${
+                  selectedModel ? "text-text-primary" : "text-text-secondary"
+                }`}
+              >
                 <SelectValue placeholder="Select model" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="iphone14">iPhone 14</SelectItem>
-                <SelectItem value="iphone13">iPhone 13</SelectItem>
-                <SelectItem value="iphone12">iPhone 12</SelectItem>
+              <SelectContent className="bg-white border-border-primary text-base">
+                <SelectItem value="iphone14" className="text-base">iPhone 14</SelectItem>
+                <SelectItem value="iphone13" className="text-base">iPhone 13</SelectItem>
+                <SelectItem value="iphone12" className="text-base">iPhone 12</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -153,14 +170,18 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
               Storage <span className="text-danger-primary">*</span>
             </label>
             <Select value={selectedStorage} onValueChange={setSelectedStorage}>
-              <SelectTrigger className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base ${selectedStorage ? "text-text-primary" : "text-text-secondary"}`}>
+              <SelectTrigger
+                className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base [&>svg]:w-6 [&>svg]:h-6 ${
+                  selectedStorage ? "text-text-primary" : "text-text-secondary"
+                }`}
+              >
                 <SelectValue placeholder="Select storage" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="64">64GB</SelectItem>
-                <SelectItem value="128">128GB</SelectItem>
-                <SelectItem value="256">256GB</SelectItem>
-                <SelectItem value="512">512GB</SelectItem>
+              <SelectContent className="bg-white border-border-primary text-base">
+                <SelectItem value="64" className="text-base">64GB</SelectItem>
+                <SelectItem value="128" className="text-base">128GB</SelectItem>
+                <SelectItem value="256" className="text-base">256GB</SelectItem>
+                <SelectItem value="512" className="text-base">512GB</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -172,14 +193,18 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
               RAM <span className="text-danger-primary">*</span>
             </label>
             <Select value={selectedRAM} onValueChange={setSelectedRAM}>
-              <SelectTrigger className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base ${selectedRAM ? "text-text-primary" : "text-text-secondary"}`}>
+              <SelectTrigger
+                className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base [&>svg]:w-6 [&>svg]:h-6 ${
+                  selectedRAM ? "text-text-primary" : "text-text-secondary"
+                }`}
+              >
                 <SelectValue placeholder="Select RAM" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="4">4GB</SelectItem>
-                <SelectItem value="6">6GB</SelectItem>
-                <SelectItem value="8">8GB</SelectItem>
-                <SelectItem value="12">12GB</SelectItem>
+              <SelectContent className="bg-white border-border-primary text-base">
+                <SelectItem value="4" className="text-base">4GB</SelectItem>
+                <SelectItem value="6" className="text-base">6GB</SelectItem>
+                <SelectItem value="8" className="text-base">8GB</SelectItem>
+                <SelectItem value="12" className="text-base">12GB</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -189,14 +214,18 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
               Color <span className="text-danger-primary">*</span>
             </label>
             <Select value={selectedColor} onValueChange={setSelectedColor}>
-              <SelectTrigger className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base ${selectedColor ? "text-text-primary" : "text-text-secondary"}`}>
+              <SelectTrigger
+                className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base [&>svg]:w-6 [&>svg]:h-6 ${
+                  selectedColor ? "text-text-primary" : "text-text-secondary"
+                }`}
+              >
                 <SelectValue placeholder="Select color" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="black">Black</SelectItem>
-                <SelectItem value="white">White</SelectItem>
-                <SelectItem value="silver">Silver</SelectItem>
-                <SelectItem value="gold">Gold</SelectItem>
+              <SelectContent className="bg-white border-border-primary text-base">
+                <SelectItem value="black" className="text-base">Black</SelectItem>
+                <SelectItem value="white" className="text-base">White</SelectItem>
+                <SelectItem value="silver" className="text-base">Silver</SelectItem>
+                <SelectItem value="gold" className="text-base">Gold</SelectItem>
               </SelectContent>
             </Select>
           </div>

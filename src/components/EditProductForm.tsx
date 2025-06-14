@@ -45,7 +45,7 @@ const EditProductForm = () => {
     <div>
       <div className="flex items-center gap-x-2">
         <button
-          onClick={() => router.push("/products")}
+          onClick={() => router.push("/seller/products")}
           className="rounded-sm transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-5 h-5" />

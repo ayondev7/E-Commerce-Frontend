@@ -25,7 +25,7 @@ const SearchBar: React.FC<Props> = ({ userType }) => {
               <SelectTrigger className="w-[145px] min-h-13 space-x-2.5 [&>svg]:w-6 [&>svg]:h-6 text-text-secondary border-0 rounded-none rounded-l-lg text-base focus:ring-0 focus:ring-offset-0 [&[data-state=open]>svg]:rotate-180">
                 <SelectValue placeholder="Categories" className="text-base text-text-secondary" />
               </SelectTrigger>
-              <SelectContent className="z-[100] text-base text-text-secondary bg-white">
+              <SelectContent className="z-[100] text-base text-text-secondary bg-white border-text-secondary">
                 <SelectItem value="electronics" className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer">Electronics</SelectItem>
                 <SelectItem value="clothing" className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer">Clothing</SelectItem>
                 <SelectItem value="books" className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer">Books</SelectItem>
