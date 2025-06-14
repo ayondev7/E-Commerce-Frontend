@@ -32,7 +32,7 @@ const AddProductForm = () => {
         <SpecificationsForm />
         <PricingInventoryForm />
 
-        <div className="flex items-center bg-white p-6 gap-x-2.5 border border-border-primary rounded-sm">
+        <div className="flex items-center bg-white p-6 gap-x-2.5 border border-border-primary rounded-lg">
           <Checkbox
             id="negotiation"
             className="rounded-[3px] border-2 border-text-primary data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-3 [&_svg]:!h-3 [&_svg]:!stroke-5"
@@ -42,7 +42,7 @@ const AddProductForm = () => {
           </label>
         </div>
 
-        <div className="space-y-6 bg-background-primary p-6 rounded-sm border border-border-primary">
+        <div className="space-y-6 bg-background-primary p-6 rounded-lg border border-border-primary">
           <AdditionalInformationForm />
         </div>
 

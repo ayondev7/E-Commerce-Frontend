@@ -35,7 +35,7 @@ export const CancelOrderModal = ({
         className="fixed inset-0 bg-[#7D8184] opacity-50"
         onClick={onClose}
       />
-      <div className="relative bg-background-primary rounded-sm p-4.5 max-w-[410px] border border-border-primary">
+      <div className="relative bg-background-primary rounded-lg p-4.5 max-w-[410px] border border-border-primary">
         <div className="text-center mb-6">
           <div className="flex justify-center mb-2.5">
             <div className="p-3 bg-danger-secondary rounded-full">
@@ -59,12 +59,12 @@ export const CancelOrderModal = ({
               <span className="text-button-primary">*</span>
             </label>
             <textarea
-              className="w-full text-sm p-4 border border-border-primary rounded-sm min-h-21"
+              className="w-full text-sm p-4 border border-border-primary rounded-md min-h-21"
               placeholder="Enter reason for cancellation"
             />
           </div>
 
-          <div className="border border-border-primary rounded-sm p-3">
+          <div className="border border-border-primary rounded-lg p-3">
             <h3 className="text-sm text-left font-medium text-text-primary mb-2">
               Order Summary
             </h3>
@@ -92,13 +92,13 @@ export const CancelOrderModal = ({
         <div className="flex gap-x-4 justify-center text-base font-medium">
           <button
             onClick={onClose}
-            className="px-4 py-2 min-w-44.5 min-h-13 flex justify-center items-center rounded-sm border border-border-primary text-text-primary hover:bg-background-hover transition-colors cursor-pointer"
+            className="px-4 py-2 min-w-44.5 min-h-13 flex justify-center items-center rounded-lg border border-border-primary text-text-primary hover:bg-background-hover transition-colors cursor-pointer"
           >
             Keep Order
           </button>
           <button
             onClick={onConfirm}
-            className="px-4 py-2 min-w-44.5 min-h-13 flex justify-center items-center rounded-sm bg-danger-primary text-white hover:bg-danger-primary/90 transition-colors cursor-pointer"
+            className="px-4 py-2 min-w-44.5 min-h-13 flex justify-center items-center rounded-lg bg-danger-primary text-white hover:bg-danger-primary/90 transition-colors cursor-pointer"
           >
             Cancel Order
           </button>

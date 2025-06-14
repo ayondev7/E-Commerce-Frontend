@@ -27,7 +27,7 @@ const OrderDetails = () => {
       <div className="flex items-center justify-between mr-5">
         <div className="flex items-center gap-x-2">
           <button
-            onClick={() => router.push("/orders")}
+            onClick={() => router.push("/seller/orders")}
             className="rounded-sm transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-5 h-5" />

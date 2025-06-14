@@ -29,7 +29,7 @@ const ShoppingCart: React.FC = () => {
 
       <div className="grid grid-cols-2 gap-x-10">
         <div className="space-y-5">
-          <div className="flex min-h-16 justify-between w-full items-center px-5 bg-white border-1 border-border-primary rounded-sm">
+          <div className="flex min-h-16 justify-between w-full items-center px-5 bg-white border-1 border-border-primary rounded-lg">
             <div className="flex items-center gap-x-2.5 text-text-secondary text-base">
               <Checkbox
                 checked={selectAll}

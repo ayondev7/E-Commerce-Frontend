@@ -74,7 +74,7 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
   };
 
   const handleViewClick = (orderId: string) => {
-    router.push(`/view-order/${orderId}`);
+    router.push(`/seller/view-order/${orderId}`);
   };
 
   return (

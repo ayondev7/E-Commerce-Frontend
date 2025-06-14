@@ -11,7 +11,7 @@ type Props = {
 
 const CustomerOverviewCard: React.FC<Props> = ({ title, value, icon: Icon, iconBgColor, iconColor }) => {
   return (
-    <div className="bg-white rounded-sm border border-border-primary p-5">
+    <div className="bg-white rounded-md border border-border-primary p-5">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-text-secondary text-base mb-2.5">{title}</p>

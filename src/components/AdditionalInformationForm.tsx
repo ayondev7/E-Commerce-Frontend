@@ -63,7 +63,7 @@ const AdditionalInformationForm = ({ initialData }: AdditionalInformationFormPro
             placeholder="e.g. smartphone, android, 5G (separate with commas)"
             value={tags}
             onChange={(e) => setTags(e.target.value)}
-            className="w-full px-5 py-2.5 text-base border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
+            className="w-full px-5 py-2.5 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
 
@@ -76,7 +76,7 @@ const AdditionalInformationForm = ({ initialData }: AdditionalInformationFormPro
             placeholder="Custom titles for search engines"
             value={seoTitle}
             onChange={(e) => setSeoTitle(e.target.value)}
-            className="w-full px-5 py-2.5 text-base border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
+            className="w-full px-5 py-2.5 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
 
@@ -89,7 +89,7 @@ const AdditionalInformationForm = ({ initialData }: AdditionalInformationFormPro
             rows={3}
             value={seoDescription}
             onChange={(e) => setSeoDescription(e.target.value)}
-            className="w-full min-h-[160px] px-5 py-2.5 text-base border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary resize-none"
+            className="w-full min-h-[160px] px-5 py-2.5 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary resize-none"
           />
         </div>
       </div>

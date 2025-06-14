@@ -21,21 +21,21 @@ const getActivityIcon = (type: ActivityItem['type']) => {
     case 'order_delivered':
       return <CheckCircle {...iconProps} className="w-5 h-5 text-green-600" />;
     case 'wishlist_added':
-      return <Heart {...iconProps} className="w-5 h-5 text-pink-600" />;
+      return <Heart {...iconProps} className="w-5 h-5 text-pink-500" />;
     case 'order_shipped':
-      return <Truck {...iconProps} className="w-5 h-5 text-blue-600" />;
+      return <Truck {...iconProps} className="w-5 h-5 text-blue-500" />;
     case 'review_posted':
-      return <Star {...iconProps} className="w-5 h-5 text-yellow-600" />;
+      return <Star {...iconProps} className="w-5 h-5 text-yellow-500" />;
     case 'coupon_applied':
-      return <Gift {...iconProps} className="w-5 h-5 text-purple-600" />;
+      return <Gift {...iconProps} className="w-5 h-5 text-purple-400" />;
     default:
-      return <CheckCircle {...iconProps} className="w-5 h-5 text-gray-600" />;
+      return <CheckCircle {...iconProps} className="w-5 h-5 text-text-secondary" />;
   }
 };
 
 const ActivityCard: React.FC<ActivityCardProps> = ({ activities, className = "" }) => {
   return (
-    <div className={`bg-white rounded-lg border border-border-primary p-6 ${className}`}>
+    <div className={`bg-white rounded-md border border-border-primary p-6 ${className}`}>
       <h2 className="text-xl font-semibold text-text-primary mb-4">Recent Activity</h2>
       
       <div className="space-y-6">

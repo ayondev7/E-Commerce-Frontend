@@ -26,7 +26,7 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
   }, [initialData]);
 
   return (
-    <div className="space-y-6.5 bg-background-primary p-6 rounded-sm border border-border-primary">
+    <div className="space-y-6.5 bg-background-primary p-6 rounded-lg border border-border-primary">
       <h2 className="text-2xl font-medium">Pricing & Inventory</h2>
 
       <div className="space-y-5">
@@ -42,7 +42,7 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
               placeholder="0.00"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              className="w-full px-5 py-2.5 text-base border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
+              className="w-full px-5 py-2.5 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
 
@@ -57,7 +57,7 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
               placeholder="0.00"
               value={salePrice}
               onChange={(e) => setSalePrice(e.target.value)}
-              className="w-full px-5 py-2.5 text-base border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
+              className="w-full px-5 py-2.5 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
         </div>
@@ -73,7 +73,7 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
               placeholder="0"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
-              className="w-full px-5 py-2.5 text-base border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
+              className="w-full px-5 py-2.5 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
 
@@ -86,7 +86,7 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
               placeholder="Enter SKU"
               value={sku}
               onChange={(e) => setSku(e.target.value)}
-              className="w-full px-5 py-2.5 text-base border border-border-primary rounded-sm focus:outline-none focus:ring-1 focus:ring-primary"
+              className="w-full px-5 py-2.5 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
         </div>

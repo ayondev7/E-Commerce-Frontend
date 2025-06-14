@@ -3,7 +3,7 @@ import { Download } from "lucide-react";
 
 export default function PaymentTransactions() {
   return (
-    <div className="w-full p-6.5 bg-white rounded-sm border border-border-primary">
+    <div className="w-full p-6.5 bg-white rounded-lg border border-border-primary">
       <div className="mb-6.5">
         <h2 className="text-2xl font-medium text-text-primary mb-2">
           Payment Transactions

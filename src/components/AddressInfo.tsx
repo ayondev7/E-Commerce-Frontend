@@ -3,7 +3,7 @@ import { MapPin, Edit, Trash2, Plus, Check } from "lucide-react";
 
 export default function AddressInfo() {
   return (
-    <div className="w-full p-6.5 bg-white border border-border-primary rounded-sm">
+    <div className="w-full p-6.5 bg-white border border-border-primary rounded-lg">
       <div className="flex justify-between items-center mb-6.5">
         <div>
           <h1 className="text-2xl font-medium text-text-primary mb-1">

@@ -34,7 +34,7 @@ const NotificationPreferences = () => {
   };
 
   return (
-    <div className="bg-white rounded-sm border border-border-primary p-6.5 w-full">
+    <div className="bg-white rounded-lg border border-border-primary p-6.5 w-full">
       <h2 className="text-2xl font-medium text-text-primary mb-1">
         Notification Preferences
       </h2>

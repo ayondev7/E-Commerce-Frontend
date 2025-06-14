@@ -14,7 +14,7 @@ const CartOrderSummary: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-sm border border-border-primary p-5">
+    <div className="bg-white rounded-lg border border-border-primary p-5">
       <h2 className="text-2xl font-semibold text-text-primary mb-5">
         Order Summary
       </h2>
@@ -43,7 +43,7 @@ const CartOrderSummary: React.FC = () => {
               placeholder="Enter a promo code"
               value={promoCode}
               onChange={(e) => setPromoCode(e.target.value)}
-              className="w-full min-h-13 pl-11 pr-4 border border-border-primary rounded-sm text-text-primary placeholder-text-secondary focus:outline-none"
+              className="w-full min-h-13 pl-11 pr-4 border border-border-primary rounded-md text-text-primary placeholder-text-secondary focus:outline-none"
             />
           </div>
           <button

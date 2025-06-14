@@ -19,7 +19,7 @@ const DeleteProductModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="fixed inset-0 bg-[#7D8184] opacity-50" onClick={onClose} />
-      <div className="relative bg-background-primary rounded-sm px-5 py-7 min-h-[350px] w-[430px] border border-border-primary">
+      <div className="relative bg-background-primary rounded-lg px-5 py-7 min-h-[350px] w-[430px] border border-border-primary">
         <div className="text-center mb-6">
           <div className="flex justify-center mb-4">
             <div className="p-3 bg-danger-secondary rounded-full">

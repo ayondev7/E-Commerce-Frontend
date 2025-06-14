@@ -18,7 +18,7 @@ const Wishlist = () => {
         </button>
       </div>
       <div className="space-y-5">
-        <div className="bg-white border border-border-primary rounded-sm px-5 min-h-16 flex w-full items-center">
+        <div className="bg-white border border-border-primary rounded-lg px-5 min-h-16 flex w-full items-center">
           <button className="flex gap-x-2.5 items-center text-text-secondary">
             <Plus className="w-6 h-6" />
             Add All To Cart

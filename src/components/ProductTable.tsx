@@ -42,7 +42,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
   };
 
   const handleEditClick = (productId: string) => {
-    router.push(`/edit-product/1`);
+    router.push(`/seller/edit-product/1`);
   };
 
   const getStatusStyles = (status: string) => {

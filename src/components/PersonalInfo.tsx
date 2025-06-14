@@ -17,7 +17,7 @@ const PersonalInfo = () => {
 
   return (
     <>
-      <div className="bg-white rounded-sm border border-border-primary p-6 w-full">
+      <div className="bg-white rounded-lg border border-border-primary p-6 w-full">
         <h2 className="text-2xl font-medium text-text-primary mb-1">
           Personal Information
         </h2>
@@ -34,7 +34,7 @@ const PersonalInfo = () => {
               type="text"
               value={formData.firstName}
               onChange={(e) => handleInputChange("firstName", e.target.value)}
-              className="w-full px-2.5 py-2.5 min-h-13 border border-border-primary rounded-sm focus:outline-none placeholder-text-secondary text-xl font-normal"
+              className="w-full px-2.5 py-2.5 min-h-13 border border-border-primary rounded-md focus:outline-none placeholder-text-secondary text-xl font-normal"
               placeholder="Enter first name"
             />
           </div>
@@ -46,7 +46,7 @@ const PersonalInfo = () => {
               type="text"
               value={formData.lastName}
               onChange={(e) => handleInputChange("lastName", e.target.value)}
-              className="w-full px-2.5 py-2.5 min-h-13 border border-border-primary rounded-sm focus:outline-none placeholder-text-secondary text-xl font-normal"
+              className="w-full px-2.5 py-2.5 min-h-13 border border-border-primary rounded-md focus:outline-none placeholder-text-secondary text-xl font-normal"
               placeholder="Enter last name"
             />
           </div>
@@ -61,7 +61,7 @@ const PersonalInfo = () => {
               type="email"
               value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
-              className="w-full px-2.5 py-2.5 min-h-13 border border-border-primary rounded-sm focus:outline-none placeholder-text-secondary text-xl font-normal"
+              className="w-full px-2.5 py-2.5 min-h-13 border border-border-primary rounded-md focus:outline-none placeholder-text-secondary text-xl font-normal"
               placeholder="Enter email"
             />
           </div>
@@ -73,7 +73,7 @@ const PersonalInfo = () => {
               type="tel"
               value={formData.phone}
               onChange={(e) => handleInputChange("phone", e.target.value)}
-              className="w-full px-2.5 py-2.5 min-h-13 border border-border-primary rounded-sm focus:outline-none placeholder-text-secondary text-xl font-normal"
+              className="w-full px-2.5 py-2.5 min-h-13 border border-border-primary rounded-md focus:outline-none placeholder-text-secondary text-xl font-normal"
               placeholder="Enter phone number"
             />
           </div>
@@ -88,7 +88,7 @@ const PersonalInfo = () => {
             onChange={(e) => handleInputChange("bio", e.target.value)}
             placeholder="Tell us about yourself"
             rows={4}
-            className="w-full p-4 min-h-40 border border-border-primary rounded-sm focus:outline-none resize-none placeholder-text-secondary text-base font-normal"
+            className="w-full p-4 min-h-40 border border-border-primary rounded-md focus:outline-none resize-none placeholder-text-secondary text-base font-normal"
           />
         </div>
 
