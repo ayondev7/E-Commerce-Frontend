@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React,{useEffect} from "react";
+import { useFormContext } from "react-hook-form";
 
 interface PricingInventoryFormProps {
   initialData?: {
@@ -11,19 +12,26 @@ interface PricingInventoryFormProps {
 }
 
 const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
-  const [price, setPrice] = useState("");
-  const [salePrice, setSalePrice] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [sku, setSku] = useState("");
+  const {
+    register,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useFormContext();
+
+  const watchedPrice = watch("price", "");
+  const watchedSalePrice = watch("salePrice", "");
+  const watchedQuantity = watch("quantity", "");
+  const watchedSku = watch("sku", "");
 
   useEffect(() => {
     if (initialData) {
-      if (initialData.price !== undefined) setPrice(initialData.price.toString());
-      if (initialData.salePrice !== undefined) setSalePrice(initialData.salePrice.toString());
-      if (initialData.quantity !== undefined) setQuantity(initialData.quantity.toString());
-      if (initialData.sku !== undefined) setSku(initialData.sku);
+      if (initialData.price !== undefined) setValue("price", initialData.price.toString());
+      if (initialData.salePrice !== undefined) setValue("salePrice", initialData.salePrice.toString());
+      if (initialData.quantity !== undefined) setValue("quantity", initialData.quantity.toString());
+      if (initialData.sku !== undefined) setValue("sku", initialData.sku);
     }
-  }, [initialData]);
+  }, [initialData, setValue]);
 
   return (
     <div className="space-y-6.5 bg-background-primary p-6 rounded-lg border border-border-primary">
@@ -40,10 +48,17 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
               step="0.01"
               min="0"
               placeholder="0.00"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              {...register("price", { 
+                required: "Price is required",
+                min: { value: 0, message: "Price must be positive" }
+              })}
               className="w-full px-5 py-2.5 min-h-13 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             />
+            {errors.price && (
+              <p className="text-danger-primary text-sm mt-1">
+                {errors.price.message as string}
+              </p>
+            )}
           </div>
 
           <div>
@@ -55,10 +70,18 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
               step="0.01"
               min="0"
               placeholder="0.00"
-              value={salePrice}
-              onChange={(e) => setSalePrice(e.target.value)}
+              {...register("salePrice", {
+                validate: (value) => 
+                  !value || parseFloat(value) <= parseFloat(watchedPrice) || 
+                  "Sale price must be less than regular price"
+              })}
               className="w-full px-5 py-2.5 min-h-13 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             />
+            {errors.salePrice && (
+              <p className="text-danger-primary text-sm mt-1">
+                {errors.salePrice.message as string}
+              </p>
+            )}
           </div>
         </div>
 
@@ -71,10 +94,17 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
               type="number"
               min="0"
               placeholder="0"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
+              {...register("quantity", { 
+                required: "Quantity is required",
+                min: { value: 0, message: "Quantity must be positive" }
+              })}
               className="w-full px-5 py-2.5 min-h-13 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             />
+            {errors.quantity && (
+              <p className="text-danger-primary text-sm mt-1">
+                {errors.quantity.message as string}
+              </p>
+            )}
           </div>
 
           <div>
@@ -84,8 +114,7 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
             <input
               type="text"
               placeholder="Enter SKU"
-              value={sku}
-              onChange={(e) => setSku(e.target.value)}
+              {...register("sku")}
               className="w-full px-5 py-2.5 min-h-13 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>

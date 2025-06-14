@@ -1,6 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState ,useEffect } from "react";
 import { X } from "lucide-react";
+import { useFormContext } from "react-hook-form";
 
 interface AdditionalInformationFormProps {
   initialData?: {
@@ -11,28 +12,51 @@ interface AdditionalInformationFormProps {
 }
 
 const AdditionalInformationForm = ({ initialData }: AdditionalInformationFormProps) => {
-  const [tags, setTags] = useState("");
-  const [seoTitle, setSeoTitle] = useState("");
-  const [seoDescription, setSeoDescription] = useState("");
+  const { register, setValue, watch, formState: { errors } } = useFormContext();
+  
+  const watchedTags = watch("tags", "");
+  const watchedSeoTitle = watch("seoTitle", "");
+  const watchedSeoDescription = watch("seoDescription", "");
+
   const [existingTags, setExistingTags] = useState<string[]>([]);
+  const [newTagInput, setNewTagInput] = useState("");
 
   useEffect(() => {
     if (initialData) {
       if (initialData.tags !== undefined) {
-        setTags("");
         const splitTags = initialData.tags
           .split(",")
           .map(t => t.trim())
           .filter(t => t.length > 0);
         setExistingTags(splitTags);
+        setValue("tags", initialData.tags);
       }
-      if (initialData.seoTitle !== undefined) setSeoTitle(initialData.seoTitle);
-      if (initialData.seoDescription !== undefined) setSeoDescription(initialData.seoDescription);
+      if (initialData.seoTitle !== undefined) {
+        setValue("seoTitle", initialData.seoTitle);
+      }
+      if (initialData.seoDescription !== undefined) {
+        setValue("seoDescription", initialData.seoDescription);
+      }
     }
-  }, [initialData]);
+  }, [initialData, setValue]);
 
-  const removeExistingTag = (tagToRemove: string) => {
-    setExistingTags(existingTags.filter(t => t !== tagToRemove));
+  const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      const tag = newTagInput.trim();
+      if (tag && !existingTags.includes(tag)) {
+        const updatedTags = [...existingTags, tag];
+        setExistingTags(updatedTags);
+        setValue("tags", updatedTags.join(","));
+        setNewTagInput("");
+      }
+    }
+  };
+
+  const removeTag = (tagToRemove: string) => {
+    const updatedTags = existingTags.filter(t => t !== tagToRemove);
+    setExistingTags(updatedTags);
+    setValue("tags", updatedTags.join(","));
   };
 
   return (
@@ -53,17 +77,22 @@ const AdditionalInformationForm = ({ initialData }: AdditionalInformationFormPro
                 <X
                   size={16}
                   className="ml-1 cursor-pointer"
-                  onClick={() => removeExistingTag(tag)}
+                  onClick={() => removeTag(tag)}
                 />
               </span>
             ))}
           </div>
           <input
             type="text"
-            placeholder="e.g. smartphone, android, 5G (separate with commas)"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
+            placeholder="e.g. smartphone, android, 5G (separate with commas or press Enter)"
+            value={newTagInput}
+            onChange={(e) => setNewTagInput(e.target.value)}
+            onKeyDown={addTag}
             className="w-full px-5 py-2.5 min-h-13 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+          />
+          <input
+            type="hidden"
+            {...register("tags")}
           />
           <p className="mt-2.5 text-text-secondary text-base">Tags help buyers find your product when searching</p>
         </div>
@@ -75,8 +104,7 @@ const AdditionalInformationForm = ({ initialData }: AdditionalInformationFormPro
           <input
             type="text"
             placeholder="Custom titles for search engines"
-            value={seoTitle}
-            onChange={(e) => setSeoTitle(e.target.value)}
+            {...register("seoTitle")}
             className="w-full px-5 py-2.5 min-h-13 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
@@ -88,8 +116,7 @@ const AdditionalInformationForm = ({ initialData }: AdditionalInformationFormPro
           <textarea
             placeholder="Custom description for search engines"
             rows={3}
-            value={seoDescription}
-            onChange={(e) => setSeoDescription(e.target.value)}
+            {...register("seoDescription")}
             className="w-full min-h-[160px] px-5 py-2.5 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary resize-none"
           />
         </div>

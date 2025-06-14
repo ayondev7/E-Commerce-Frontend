@@ -1,6 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useEffect } from "react";
 import { Upload } from "lucide-react";
+import { useFormContext } from "react-hook-form";
 import {
   Select,
   SelectContent,
@@ -14,16 +16,24 @@ interface GeneralInformationFormProps {
     title?: string;
     description?: string;
     category?: string;
+    productImages?: File[];
   };
 }
 
 const GeneralInformationForm = ({
   initialData,
 }: GeneralInformationFormProps) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState<string | undefined>(undefined);
-  const [images, setImages] = useState<File[]>([]);
+  const {
+    register,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
+
+  const watchedTitle = watch("title");
+  const watchedDescription = watch("description");
+  const watchedCategory = watch("category");
+  const watchedImages = watch("productImages") || [];
 
   const handleImageDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -32,9 +42,9 @@ const GeneralInformationForm = ({
       (file) =>
         file.type.startsWith("image/") &&
         file.size <= 5 * 1024 * 1024 &&
-        images.length + files.length <= 4
+        watchedImages.length + files.length <= 4
     );
-    setImages((prev) => [...prev, ...validFiles]);
+    setValue("productImages", [...watchedImages, ...validFiles]);
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,24 +54,25 @@ const GeneralInformationForm = ({
         (file) =>
           file.type.startsWith("image/") &&
           file.size <= 5 * 1024 * 1024 &&
-          images.length + files.length <= 4
+          watchedImages.length + files.length <= 4
       );
-      setImages((prev) => [...prev, ...validFiles]);
+      setValue("productImages", [...watchedImages, ...validFiles]);
     }
   };
 
   const removeImage = (index: number) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
+    const newImages = watchedImages.filter((_, i) => i !== index);
+    setValue("productImages", newImages);
   };
 
   useEffect(() => {
     if (initialData) {
-      if (initialData.title !== undefined) setTitle(initialData.title);
-      if (initialData.description !== undefined)
-        setDescription(initialData.description);
-      if (initialData.category !== undefined) setCategory(initialData.category);
+      if (initialData.title) setValue("title", initialData.title);
+      if (initialData.description) setValue("description", initialData.description);
+      if (initialData.category) setValue("category", initialData.category);
+      if (initialData.productImages) setValue("productImages", initialData.productImages);
     }
-  }, [initialData]);
+  }, [initialData, setValue]);
 
   return (
     <div className="space-y-6.5 bg-background-primary p-6 rounded-lg border border-border-primary">
@@ -72,14 +83,19 @@ const GeneralInformationForm = ({
             Product Title <span className="text-danger-primary">*</span>
           </label>
           <input
+            {...register("title", { required: "Product title is required" })}
             type="text"
             id="title"
             className="w-full min-h-13 px-5 py-2.5 border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary text-base"
             placeholder="Enter product title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
           />
+          {errors.title && (
+            <p className="text-danger-primary text-sm mt-1">
+              {errors.title.message as string}
+            </p>
+          )}
         </div>
+        
         <div>
           <label
             htmlFor="description"
@@ -88,14 +104,19 @@ const GeneralInformationForm = ({
             Description <span className="text-danger-primary">*</span>
           </label>
           <textarea
+            {...register("description", { required: "Description is required" })}
             id="description"
             rows={4}
             className="w-full px-5 py-2.5 border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary resize-none text-base"
             placeholder="Enter product description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
           />
+          {errors.description && (
+            <p className="text-danger-primary text-sm mt-1">
+              {errors.description.message as string}
+            </p>
+          )}
         </div>
+        
         <div>
           <label className="block font-medium text-xl mb-2.5">
             Product Images <span className="text-danger-primary">*</span>
@@ -128,9 +149,9 @@ const GeneralInformationForm = ({
               Select Files
             </button>
           </div>
-          {images.length > 0 && (
+          {watchedImages.length > 0 && (
             <div className="mt-4 grid grid-cols-4 gap-4">
-              {images.map((image, index) => (
+              {watchedImages.map((image, index) => (
                 <div key={index} className="relative group">
                   <img
                     src={URL.createObjectURL(image)}
@@ -138,6 +159,7 @@ const GeneralInformationForm = ({
                     className="w-full h-24 object-cover rounded-md"
                   />
                   <button
+                    type="button"
                     onClick={() => removeImage(index)}
                     className="absolute top-1 right-1 bg-danger-primary text-white p-1 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity"
                   >
@@ -148,14 +170,18 @@ const GeneralInformationForm = ({
             </div>
           )}
         </div>
+        
         <div>
           <label className="block font-medium text-xl mb-2.5">
             Category <span className="text-danger-primary">*</span>
           </label>
-          <Select onValueChange={setCategory} value={category}>
+          <Select
+            onValueChange={(value) => setValue("category", value)}
+            value={watchedCategory}
+          >
             <SelectTrigger
               className={`w-full min-h-13 px-5 py-2.5 [&>svg]:w-6 [&>svg]:h-6 rounded-md border-border-primary focus:outline-none focus:ring-0 text-base ${
-                category ? "text-text-primary" : "text-text-secondary"
+                watchedCategory ? "text-text-primary" : "text-text-secondary"
               }`}
             >
               <SelectValue placeholder="Select category" />
@@ -166,6 +192,11 @@ const GeneralInformationForm = ({
               <SelectItem value="books" className="text-base">Books</SelectItem>
             </SelectContent>
           </Select>
+          {errors.category && (
+            <p className="text-danger-primary text-sm mt-1">
+              {errors.category.message as string}
+            </p>
+          )}
         </div>
       </div>
     </div>

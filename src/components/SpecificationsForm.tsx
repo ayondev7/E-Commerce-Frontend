@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
 import { Plus } from "lucide-react";
 import {
   Select,
@@ -23,6 +24,13 @@ type SpecificationsFormProps = {
 };
 
 const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
+  const {
+    register,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useFormContext();
+
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
   const [selectedStorage, setSelectedStorage] = useState("");
@@ -60,23 +68,34 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
       setSelectedColor(initialData.color || "");
       setSelectedConditions(initialData.conditions || []);
       setSelectedFeatures(initialData.features || []);
+      
+      // Set form values if using form context
+      if (initialData.brand) setValue("brand", initialData.brand);
+      if (initialData.model) setValue("model", initialData.model);
+      if (initialData.storage) setValue("storage", initialData.storage);
+      if (initialData.ram) setValue("ram", initialData.ram);
+      if (initialData.color) setValue("color", initialData.color);
+      if (initialData.conditions) setValue("conditions", initialData.conditions);
+      if (initialData.features) setValue("features", initialData.features);
     }
-  }, [initialData]);
+  }, [initialData, setValue]);
 
   const toggleCondition = (condition: string) => {
-    setSelectedConditions((prev) =>
-      prev.includes(condition)
-        ? prev.filter((c) => c !== condition)
-        : [...prev, condition]
-    );
+    const newConditions = selectedConditions.includes(condition)
+      ? selectedConditions.filter((c) => c !== condition)
+      : [...selectedConditions, condition];
+    
+    setSelectedConditions(newConditions);
+    setValue("conditions", newConditions);
   };
 
   const toggleFeature = (feature: string) => {
-    setSelectedFeatures((prev) =>
-      prev.includes(feature)
-        ? prev.filter((f) => f !== feature)
-        : [...prev, feature]
-    );
+    const newFeatures = selectedFeatures.includes(feature)
+      ? selectedFeatures.filter((f) => f !== feature)
+      : [...selectedFeatures, feature];
+    
+    setSelectedFeatures(newFeatures);
+    setValue("features", newFeatures);
   };
 
   const addCondition = () => {
@@ -84,6 +103,7 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
       const newCond = newCondition.trim();
       setConditions([...conditions, newCond]);
       setSelectedConditions([...selectedConditions, newCond]);
+      setValue("conditions", [...selectedConditions, newCond]);
       setNewCondition("");
       setShowConditionInput(false);
     }
@@ -94,6 +114,7 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
       const newFeat = newFeature.trim();
       setFeatures([...features, newFeat]);
       setSelectedFeatures([...selectedFeatures, newFeat]);
+      setValue("features", [...selectedFeatures, newFeat]);
       setNewFeature("");
       setShowFeatureInput(false);
     }
@@ -107,6 +128,27 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
   const cancelFeature = () => {
     setNewFeature("");
     setShowFeatureInput(false);
+  };
+
+  const handleSelectChange = (field: string, value: string) => {
+    setValue(field, value);
+    switch (field) {
+      case "brand":
+        setSelectedBrand(value);
+        break;
+      case "model":
+        setSelectedModel(value);
+        break;
+      case "storage":
+        setSelectedStorage(value);
+        break;
+      case "ram":
+        setSelectedRAM(value);
+        break;
+      case "color":
+        setSelectedColor(value);
+        break;
+    }
   };
 
   return (
@@ -127,7 +169,10 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
           <label className="block font-medium text-xl mb-2.5">
             Brand <span className="text-danger-primary">*</span>
           </label>
-          <Select value={selectedBrand} onValueChange={setSelectedBrand}>
+          <Select 
+            value={selectedBrand} 
+            onValueChange={(value) => handleSelectChange("brand", value)}
+          >
             <SelectTrigger
               className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base [&>svg]:w-6 [&>svg]:h-6 ${
                 selectedBrand ? "text-text-primary" : "text-text-secondary"
@@ -149,7 +194,10 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
             <label className="block font-medium text-xl mb-2.5">
               Model <span className="text-danger-primary">*</span>
             </label>
-            <Select value={selectedModel} onValueChange={setSelectedModel}>
+            <Select 
+              value={selectedModel} 
+              onValueChange={(value) => handleSelectChange("model", value)}
+            >
               <SelectTrigger
                 className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base [&>svg]:w-6 [&>svg]:h-6 ${
                   selectedModel ? "text-text-primary" : "text-text-secondary"
@@ -169,7 +217,10 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
             <label className="block font-medium text-xl mb-2.5">
               Storage <span className="text-danger-primary">*</span>
             </label>
-            <Select value={selectedStorage} onValueChange={setSelectedStorage}>
+            <Select 
+              value={selectedStorage} 
+              onValueChange={(value) => handleSelectChange("storage", value)}
+            >
               <SelectTrigger
                 className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base [&>svg]:w-6 [&>svg]:h-6 ${
                   selectedStorage ? "text-text-primary" : "text-text-secondary"
@@ -192,7 +243,10 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
             <label className="block font-medium text-xl mb-2.5">
               RAM <span className="text-danger-primary">*</span>
             </label>
-            <Select value={selectedRAM} onValueChange={setSelectedRAM}>
+            <Select 
+              value={selectedRAM} 
+              onValueChange={(value) => handleSelectChange("ram", value)}
+            >
               <SelectTrigger
                 className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base [&>svg]:w-6 [&>svg]:h-6 ${
                   selectedRAM ? "text-text-primary" : "text-text-secondary"
@@ -213,7 +267,10 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
             <label className="block font-medium text-xl mb-2.5">
               Color <span className="text-danger-primary">*</span>
             </label>
-            <Select value={selectedColor} onValueChange={setSelectedColor}>
+            <Select 
+              value={selectedColor} 
+              onValueChange={(value) => handleSelectChange("color", value)}
+            >
               <SelectTrigger
                 className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base [&>svg]:w-6 [&>svg]:h-6 ${
                   selectedColor ? "text-text-primary" : "text-text-secondary"
