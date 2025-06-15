@@ -26,6 +26,7 @@ export const useCreateProduct = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: PRODUCT_QUERY_KEY });
+      queryClient.refetchQueries({ queryKey: PRODUCT_QUERY_KEY });
     },
   });
 };

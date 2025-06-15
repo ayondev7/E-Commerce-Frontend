@@ -1,8 +1,14 @@
+"use client";
 import { Plus } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import CartContent from "./CartContent";
+import { useGetWishlist } from "@/hooks/wishlistHooks"; 
 
 const Wishlist = () => {
+  const { data, isLoading, isError } = useGetWishlist();
+
+ console.log("wishlist data", data);
+
   return (
     <div>
       <div className="flex justify-between items-end mb-10">
@@ -17,6 +23,7 @@ const Wishlist = () => {
           Create New List
         </button>
       </div>
+
       <div className="space-y-5">
         <div className="bg-white border border-border-primary rounded-lg px-5 min-h-16 flex w-full items-center">
           <button className="flex gap-x-2.5 items-center text-text-secondary">
@@ -24,8 +31,13 @@ const Wishlist = () => {
             Add All To Cart
           </button>
         </div>
-        <CartContent type="wishlist" />
-        <CartContent type="wishlist" />
+
+        {isLoading && <p className="text-text-secondary">Loading wishlist...</p>}
+        {isError && <p className="text-red-500">Failed to load wishlist</p>}
+
+        {data?.sellers.map((seller) => (
+          <CartContent key={seller.sellerId} seller={seller.sellerName} products={seller?.products} type="wishlist" />
+        ))}
       </div>
     </div>
   );
