@@ -46,5 +46,7 @@ export interface SimplifiedProduct {
   sku: string;
   price: number;
   stock: number;
+  model: string;
+  colour: string;
   status: 'active' | 'low-stock' | 'out-of-stock';
 }

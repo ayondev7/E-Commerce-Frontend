@@ -2,9 +2,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const LoginPage = () => {
   const router = useRouter();
+  const [userType, setUserType] = useState("seller");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -14,16 +16,24 @@ const LoginPage = () => {
     setError("");
 
     try {
+      const route = userType === "seller" ? "sellers" : "customers";
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sellers/login`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${route}/login`,
         { email, password }
       );
 
-      const { accessToken } = res.data;
-      sessionStorage.setItem("accessToken", accessToken);
-      router.push("/seller/overview");
+      const { token, accessToken } = res.data;
+      const authToken = accessToken || token;
+
+      sessionStorage.setItem("accessToken", authToken);
+
+      if (userType === "seller") {
+        router.push("/seller/overview");
+      } else {
+        router.push("/customer/overview");
+      }
     } catch (err) {
-      if (err.response && err.response.data && err.response.data.error) {
+      if (err.response?.data?.error) {
         setError(err.response.data.error);
       } else {
         setError("Something went wrong. Please try again.");
@@ -37,13 +47,26 @@ const LoginPage = () => {
         onSubmit={handleLogin}
         className="bg-white p-6 rounded shadow-md w-full max-w-sm"
       >
-        <h1 className="text-2xl font-bold mb-4 text-center">Seller Login</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
 
         {error && (
           <div className="bg-red-100 text-red-600 p-2 mb-4 rounded">
             {error}
           </div>
         )}
+
+        <div className="mb-4">
+          <label className="block mb-1">User Type</label>
+          <Select value={userType} onValueChange={(value) => setUserType(value)}>
+            <SelectTrigger className="w-full border p-2 rounded">
+              <SelectValue placeholder="Select user type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="seller">Seller</SelectItem>
+              <SelectItem value="customer">Customer</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
 
         <div className="mb-4">
           <label className="block mb-1">Email</label>

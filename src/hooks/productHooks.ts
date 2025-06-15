@@ -29,3 +29,20 @@ export const useCreateProduct = () => {
     },
   });
 };
+
+export const useSearchProducts = (category?: string, keyword?: string) => {
+  return useQuery<{ products: SimplifiedProduct[] }, Error>({
+    queryKey: ['searchProducts', category, keyword],
+    queryFn: async () => {
+      const params = new URLSearchParams();
+      if (category) params.append('category', category);
+      if (keyword) params.append('keyword', keyword);
+
+      const response = await apiClient.get(`/api/products/search?${params.toString()}`);
+      return response.data;
+    },
+    enabled: Boolean(category || keyword),
+    staleTime: 1000 * 60 * 5,
+  });
+};
+

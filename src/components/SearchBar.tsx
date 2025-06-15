@@ -1,6 +1,6 @@
 "use client";
-import React from "react";
-import { Search, Heart, ShoppingCart } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { Search, Heart, ShoppingCart, Loader2, PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,25 +10,108 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useSearchProducts } from "@/hooks/productHooks";
+import { useAddToWishlist } from "@/hooks/wishlistHooks";
+import { toast } from "react-hot-toast";
 
 type Props = {
   userType: "seller" | "customer";
 };
 
 const SearchBar: React.FC<Props> = ({ userType }) => {
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const [category, setCategory] = useState<string | undefined>(undefined);
+  const [keyword, setKeyword] = useState("");
+  const [searchTriggered, setSearchTriggered] = useState(false);
+
+  const { data, isLoading, refetch } = useSearchProducts(
+    userType === "seller" ? category : undefined,
+    userType === "seller" && searchTriggered ? keyword : undefined
+  );
+  console.log("data", data);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setSearchTriggered(false);
+      }
+    };
+
+    if (searchTriggered) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [searchTriggered]);
+
+  const { mutate: addToWishlist, isPending: wishlistLoading } =
+    useAddToWishlist();
+
+  const handleSearchClick = () => {
+    if (userType === "seller" && keyword.trim()) {
+      setSearchTriggered(true);
+      refetch();
+    }
+  };
+
+  const handleInputFocus = () => {
+    if ((data?.products?.length ?? 0) > 0) {
+      setSearchTriggered(true);
+      refetch();
+    }
+  };
+
+  const handleAddToWishlist = (productId: string) => {
+    addToWishlist(productId, {
+      onSuccess: () => {
+        toast.success("Added to wishlist", { position: "top-center" });
+      },
+      onError: (err: any) => {
+        const msg =
+          err?.response?.data?.error ||
+          err?.response?.data?.message ||
+          "Could not add to wishlist";
+        toast.error(msg, { position: "top-center" });
+      },
+    });
+  };
+
   return (
     <div className="w-full border-t border-b border-border-primary px-18 py-5">
-      <div className="container h-full flex items-center">
+      <div className="container h-full flex flex-col">
         <div className="w-full relative flex items-center gap-x-5">
           <div className="flex-1 relative flex items-center border border-text-secondary rounded-lg">
-            <Select>
+            <Select onValueChange={setCategory}>
               <SelectTrigger className="w-[145px] min-h-13 space-x-2.5 [&>svg]:w-6 [&>svg]:h-6 text-text-secondary border-0 rounded-none rounded-l-lg text-base focus:ring-0 focus:ring-offset-0 [&[data-state=open]>svg]:rotate-180">
-                <SelectValue placeholder="Categories" className="text-base text-text-secondary" />
+                <SelectValue
+                  placeholder="Categories"
+                  className="text-base text-text-secondary"
+                />
               </SelectTrigger>
               <SelectContent className="z-[100] text-base text-text-secondary bg-white border-text-secondary">
-                <SelectItem value="electronics" className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer">Electronics</SelectItem>
-                <SelectItem value="clothing" className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer">Clothing</SelectItem>
-                <SelectItem value="books" className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer">Books</SelectItem>
+                <SelectItem
+                  value="electronics"
+                  className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer"
+                >
+                  Electronics
+                </SelectItem>
+                <SelectItem
+                  value="clothing"
+                  className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer"
+                >
+                  Clothing
+                </SelectItem>
+                <SelectItem
+                  value="books"
+                  className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer"
+                >
+                  Books
+                </SelectItem>
               </SelectContent>
             </Select>
 
@@ -40,12 +123,27 @@ const SearchBar: React.FC<Props> = ({ userType }) => {
                 type="text"
                 placeholder="Search by product, brand, or keyword"
                 className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none rounded-r-lg text-base"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                onFocus={handleInputFocus}
+                onKeyDown={(e) => e.key === "Enter" && handleSearchClick()}
               />
             </div>
           </div>
 
-          <button className="h-12 min-w-29 px-4 py-2 font-medium bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors text-base">
-            Search
+          <button
+            className="h-12 min-w-29 px-4 py-2 font-medium bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors text-base flex items-center justify-center gap-2"
+            onClick={handleSearchClick}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="h-5 w-5 animate-spin" />
+                Searching...
+              </>
+            ) : (
+              "Search"
+            )}
           </button>
 
           {userType === "customer" && (
@@ -65,6 +163,67 @@ const SearchBar: React.FC<Props> = ({ userType }) => {
             </div>
           )}
         </div>
+
+        {searchTriggered && data?.products && data.products.length > 0 && (
+          <div
+            ref={dropdownRef}
+            className="mt-6 space-y-6 max-h-[500px] overflow-y-scroll border border-border-secondary rounded-lg p-5 z-20 top-40 bg-white w-full max-w-[1200px] absolute"
+          >
+            {data.products.map((item) => (
+              <div key={item._id} className="flex items-center gap-4">
+                <div className="w-24 h-24 bg-gray-200 rounded-md overflow-hidden flex-shrink-0">
+                  {item.image ? (
+                    <img
+                      src={`data:image/jpeg;base64,${item?.image}`}
+                      alt={item?.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-300" />
+                  )}
+                </div>
+
+                <div className="flex-1">
+                  <div className="w-full flex gap-x-2.5 justify-between items-center">
+                    <h3 className="text-xl font-medium text-text-primary">
+                      {item.title}
+                    </h3>
+                  </div>
+                  <p className="text-text-secondary text-base mb-2.5">
+                    {item?.model || item?.colour || ""}
+                  </p>
+                  <div className="flex justify-between gap-x-2.5 w-full items-center">
+                    <p className="text-xl font-medium text-text-primary">
+                      ${item.price.toFixed(2)}
+                    </p>
+                    <div className="flex gap-x-2.5">
+                      <button
+                        onClick={() => handleAddToWishlist(item._id)}
+                        disabled={wishlistLoading}
+                        className="flex items-center min-h-12 justify-center gap-x-2.5 px-4 py-2 text-white font-medium text-base rounded-sm bg-button-primary hover:cursor-pointer"
+                      >
+                        <PlusIcon className="w-6 h-6" />
+                        <span className="text-sm font-medium">
+                          {wishlistLoading ? "Adding..." : "Add to Wishlist"}
+                        </span>
+                      </button>
+                      <button className="flex items-center min-h-12 justify-center gap-x-2.5 px-4 py-2 text-white font-medium text-base rounded-sm bg-button-primary hover:cursor-pointer">
+                        <ShoppingCart className="w-6 h-6" />
+                        <span className="text-sm font-medium">Add to Cart</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {searchTriggered && data?.products && data.products.length === 0 && (
+          <p className="text-text-secondary text-center py-4 mt-6">
+            No products found
+          </p>
+        )}
       </div>
     </div>
   );
