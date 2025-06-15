@@ -1,23 +1,41 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import apiClient from '@/lib/apiClient';
-import { SimplifiedProduct } from '@/types/productTypes';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import apiClient from "@/lib/apiClient";
+import { WishlistDocument, WishlistGroup } from "@/types/wishlistTypes";
 
 export const WISHLIST_QUERY_KEY = ['wishlist'];
-
-export interface WishlistGroup {
-  sellerId: string;
-  sellerName: string;
-  products: SimplifiedProduct[];
-}
+export const GET_ALL_LISTS_QUERY_KEY = ["list"];
 
 export const useGetWishlist = () => {
-  return useQuery<{ sellers: WishlistGroup[] }>({
+  return useQuery<{ lists: WishlistGroup[] }>({
     queryKey: WISHLIST_QUERY_KEY,
     queryFn: async () => {
-      const res = await apiClient.get('/api/wishlists/get-all');
+      const res = await apiClient.get("/api/wishlists/get-all");
       return res.data;
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
+  });
+};
+
+export const useCreateWishlist = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (title: string) => {
+      const res = await apiClient.post("/api/wishlists/create-list", { title });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: GET_ALL_LISTS_QUERY_KEY });
+       queryClient.refetchQueries({
+        queryKey: GET_ALL_LISTS_QUERY_KEY,
+        exact: true,
+      });
+      queryClient.invalidateQueries({ queryKey: WISHLIST_QUERY_KEY });
+      queryClient.refetchQueries({
+        queryKey: WISHLIST_QUERY_KEY,
+        exact: true,
+      });
+    },
   });
 };
 
@@ -25,13 +43,42 @@ export const useAddToWishlist = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (productId: string) => {
-      const res = await apiClient.post('/api/wishlists/add', { productId });
+    mutationFn: async ({
+      wishlistId,
+      productId,
+    }: {
+      wishlistId: string;
+      productId: string;
+    }) => {
+      const res = await apiClient.post("/api/wishlists/add-to-list", {
+        wishlistId,
+        productId,
+      });
       return res.data;
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: GET_ALL_LISTS_QUERY_KEY });
+       queryClient.refetchQueries({
+        queryKey: GET_ALL_LISTS_QUERY_KEY,
+        exact: true,
+      });
       queryClient.invalidateQueries({ queryKey: WISHLIST_QUERY_KEY });
+      queryClient.refetchQueries({
+        queryKey: WISHLIST_QUERY_KEY,
+        exact: true,
+      });
     },
+  });
+};
+
+export const useGetAllLists = () => {
+  return useQuery<{ wishlists: WishlistDocument[] }>({
+    queryKey: GET_ALL_LISTS_QUERY_KEY,
+    queryFn: async () => {
+      const res = await apiClient.get("/api/wishlists/get-all-lists");
+      return res.data;
+    },
+    staleTime: 0,
   });
 };
 
@@ -44,8 +91,16 @@ export const useRemoveFromWishlist = () => {
       return res.data;
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: GET_ALL_LISTS_QUERY_KEY });
+       queryClient.refetchQueries({
+        queryKey: GET_ALL_LISTS_QUERY_KEY,
+        exact: true,
+      });
       queryClient.invalidateQueries({ queryKey: WISHLIST_QUERY_KEY });
+      queryClient.refetchQueries({
+        queryKey: WISHLIST_QUERY_KEY,
+        exact: true,
+      });
     },
   });
 };
-

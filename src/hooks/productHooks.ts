@@ -10,7 +10,7 @@ export const useProducts = () => {
       const response = await apiClient.get('api/products/get-all');
       return response.data;
     },
-    staleTime: 1000 * 60 * 5, 
+    staleTime: 0, 
   });
 };
 
@@ -43,7 +43,7 @@ export const useSearchProducts = (category?: string, keyword?: string) => {
       return response.data;
     },
     enabled: Boolean(category || keyword),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
   });
 };
 

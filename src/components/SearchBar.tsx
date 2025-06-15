@@ -1,8 +1,5 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { Search, Heart, ShoppingCart, Loader2, PlusIcon } from "lucide-react";
-import Link from "next/link";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -13,22 +10,72 @@ import {
 import { useSearchProducts } from "@/hooks/productHooks";
 import { useAddToWishlist } from "@/hooks/wishlistHooks";
 import { toast } from "react-hot-toast";
+import WishListModal from "@/components/WishListModal";
+import { Search, Heart, ShoppingCart, Loader2, PlusIcon } from "lucide-react";
+import Link from "next/link";
+import { Input } from "@/components/ui/input";
 
-type Props = {
-  userType: "seller" | "customer";
-};
-
-const SearchBar: React.FC<Props> = ({ userType }) => {
+const SearchBar: React.FC<{ userType: "seller" | "customer" }> = ({
+  userType,
+}) => {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [category, setCategory] = useState<string | undefined>(undefined);
   const [keyword, setKeyword] = useState("");
   const [searchTriggered, setSearchTriggered] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(
+    null
+  );
+  const [showModal, setShowModal] = useState(false);
 
   const { data, isLoading, refetch } = useSearchProducts(
     userType === "seller" ? category : undefined,
     userType === "seller" && searchTriggered ? keyword : undefined
   );
-  console.log("data", data);
+
+  const { mutate: addToWishlist, isPending: wishlistLoading } =
+    useAddToWishlist();
+
+  const handleSearchClick = () => {
+    if (userType === "seller" && keyword.trim()) {
+      setSearchTriggered(true);
+      refetch();
+    }
+  };
+
+  const handleInputFocus = () => {
+    if ((data?.products?.length ?? 0) > 0) {
+      setSearchTriggered(true);
+      refetch();
+    }
+  };
+
+  const handleAddWishlistClick = (productId: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setSelectedProductId(productId);
+    setShowModal(true);
+  };
+
+  const handleModalSelect = (wishlistId: string) => {
+    if (!selectedProductId) return;
+    addToWishlist(
+      { wishlistId, productId: selectedProductId },
+      {
+        onSuccess: () => {
+          toast.success("Added to wishlist", { position: "top-center" });
+          setShowModal(false);
+          setSelectedProductId(null);
+        },
+        onError: (err: any) => {
+          const msg =
+            err?.response?.data?.error ||
+            err?.response?.data?.message ||
+            "Could not add to wishlist";
+          toast.error(msg, { position: "top-center" });
+        },
+      }
+    );
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -48,38 +95,6 @@ const SearchBar: React.FC<Props> = ({ userType }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [searchTriggered]);
-
-  const { mutate: addToWishlist, isPending: wishlistLoading } =
-    useAddToWishlist();
-
-  const handleSearchClick = () => {
-    if (userType === "seller" && keyword.trim()) {
-      setSearchTriggered(true);
-      refetch();
-    }
-  };
-
-  const handleInputFocus = () => {
-    if ((data?.products?.length ?? 0) > 0) {
-      setSearchTriggered(true);
-      refetch();
-    }
-  };
-
-  const handleAddToWishlist = (productId: string) => {
-    addToWishlist(productId, {
-      onSuccess: () => {
-        toast.success("Added to wishlist", { position: "top-center" });
-      },
-      onError: (err: any) => {
-        const msg =
-          err?.response?.data?.error ||
-          err?.response?.data?.message ||
-          "Could not add to wishlist";
-        toast.error(msg, { position: "top-center" });
-      },
-    });
-  };
 
   return (
     <div className="w-full border-t border-b border-border-primary px-18 py-5">
@@ -167,7 +182,7 @@ const SearchBar: React.FC<Props> = ({ userType }) => {
         {searchTriggered && data?.products && data.products.length > 0 && (
           <div
             ref={dropdownRef}
-            className="mt-6 space-y-6 max-h-[500px] overflow-y-scroll border border-border-secondary rounded-lg p-5 z-20 top-40 bg-white w-full max-w-[1200px] absolute"
+            className="mt-6 space-y-6 max-h-[500px] overflow-y-scroll border border-border-secondary rounded-lg p-5 z-20 top-40 bg-white w-full max-w-[1000px] absolute"
           >
             {data.products.map((item) => (
               <div key={item._id} className="flex items-center gap-4">
@@ -196,9 +211,9 @@ const SearchBar: React.FC<Props> = ({ userType }) => {
                     <p className="text-xl font-medium text-text-primary">
                       ${item.price.toFixed(2)}
                     </p>
-                    <div className="flex gap-x-2.5">
+                    <div>
                       <button
-                        onClick={() => handleAddToWishlist(item._id)}
+                        onClick={(e) => handleAddWishlistClick(item._id, e)}
                         disabled={wishlistLoading}
                         className="flex items-center min-h-12 justify-center gap-x-2.5 px-4 py-2 text-white font-medium text-base rounded-sm bg-button-primary hover:cursor-pointer"
                       >
@@ -206,10 +221,6 @@ const SearchBar: React.FC<Props> = ({ userType }) => {
                         <span className="text-sm font-medium">
                           {wishlistLoading ? "Adding..." : "Add to Wishlist"}
                         </span>
-                      </button>
-                      <button className="flex items-center min-h-12 justify-center gap-x-2.5 px-4 py-2 text-white font-medium text-base rounded-sm bg-button-primary hover:cursor-pointer">
-                        <ShoppingCart className="w-6 h-6" />
-                        <span className="text-sm font-medium">Add to Cart</span>
                       </button>
                     </div>
                   </div>
@@ -225,6 +236,12 @@ const SearchBar: React.FC<Props> = ({ userType }) => {
           </p>
         )}
       </div>
+
+      <WishListModal
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        onSelect={handleModalSelect}
+      />
     </div>
   );
 };
