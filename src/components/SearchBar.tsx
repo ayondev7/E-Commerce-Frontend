@@ -14,10 +14,11 @@ import WishListModal from "@/components/WishListModal";
 import { Search, Heart, ShoppingCart, Loader2, PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
+import { useUserStore } from "@/store/userStore";
 
-const SearchBar: React.FC<{ userType: "seller" | "customer" }> = ({
-  userType,
+const SearchBar: React.FC<{ }> = ({
 }) => {
+  const { userType } = useUserStore();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [category, setCategory] = useState<string | undefined>(undefined);
   const [keyword, setKeyword] = useState("");
@@ -163,13 +164,13 @@ const SearchBar: React.FC<{ userType: "seller" | "customer" }> = ({
 
           {userType === "customer" && (
             <div className="flex gap-x-2.5">
-              <Link className="text-decoration: none" href="/wishlist">
+              <Link  className="text-decoration: none" href="/customer/wishlist">
                 <div className="flex items-center px-4 py-2 justify-center gap-x-2.5 text-base text-text-secondary hover:cursor-pointer">
                   <Heart className="w-6 h-6" />
                   <span>Wishlist</span>
                 </div>
               </Link>
-              <Link className="text-decoration: none" href="/cart">
+              <Link className="text-decoration: none" href="/shopping-cart">
                 <div className="flex items-center px-4 py-2 gap-x-2.5 justify-center text-base text-text-secondary hover:cursor-pointer">
                   <ShoppingCart className="w-6 h-6" />
                   <span>Cart</span>

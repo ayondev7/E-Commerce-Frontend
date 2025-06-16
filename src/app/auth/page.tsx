@@ -1,42 +1,60 @@
-"use client";
-import React, { useState } from "react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+'use client';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { useUserStore } from '@/store/userStore'; 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const LoginPage = () => {
   const router = useRouter();
-  const [userType, setUserType] = useState("seller");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const setUser = useUserStore((state) => state.setUser);
 
-  const handleLogin = async (e) => {
+  const [userType, setUserType] = useState<'seller' | 'customer'>('seller');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError('');
 
     try {
-      const route = userType === "seller" ? "sellers" : "customers";
+      const route = userType === 'seller' ? 'sellers' : 'customers';
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${route}/login`,
         { email, password }
       );
 
-      const { token, accessToken } = res.data;
+      const { token, accessToken, seller, customer } = res.data;
       const authToken = accessToken || token;
+      sessionStorage.setItem('accessToken', authToken);
 
-      sessionStorage.setItem("accessToken", authToken);
+      const userData = userType === 'seller' ? seller : customer;
+      const name =
+        userType === 'seller'
+          ? userData?.name || 'Seller'
+          : `${userData?.firstName || ''} ${userData?.lastName || ''}`.trim();
+      const image = userData?.sellerImage || userData?.customerImage || null;
 
-      if (userType === "seller") {
-        router.push("/seller/overview");
-      } else {
-        router.push("/customer/overview");
-      }
-    } catch (err) {
+      // ✅ Store user in Zustand
+      setUser({
+        userType,
+        name,
+        image,
+      });
+
+      router.push(`/${userType}/overview`);
+    } catch (err: any) {
       if (err.response?.data?.error) {
         setError(err.response.data.error);
       } else {
-        setError("Something went wrong. Please try again.");
+        setError('Something went wrong. Please try again.');
       }
     }
   };
@@ -57,7 +75,7 @@ const LoginPage = () => {
 
         <div className="mb-4">
           <label className="block mb-1">User Type</label>
-          <Select value={userType} onValueChange={(value) => setUserType(value)}>
+          <Select value={userType} onValueChange={(value) => setUserType(value as 'seller' | 'customer')}>
             <SelectTrigger className="w-full border p-2 rounded">
               <SelectValue placeholder="Select user type" />
             </SelectTrigger>
@@ -79,7 +97,7 @@ const LoginPage = () => {
           />
         </div>
 
-        <div className="mb-4">
+        <div className="mb-6">
           <label className="block mb-1">Password</label>
           <input
             type="password"

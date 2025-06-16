@@ -1,31 +1,35 @@
-"use client";
-import React from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Globe, HelpCircle, Bell } from "lucide-react";
+'use client';
+import React from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Globe, HelpCircle, Bell } from 'lucide-react';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
+import { useUserStore } from '@/store/userStore'; 
 
 const Navbar = () => {
   const router = useRouter();
+  const { name, image } = useUserStore();
+  const { resetUser } = useUserStore.getState();
 
   const handleLogout = () => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       sessionStorage.clear();
+      resetUser();
     }
-    router.push("/auth");
+    router.push('/auth');
   };
 
-  const handleUserMenuChange = (value) => {
+  const handleUserMenuChange = (value: string) => {
     if (value === 'logout') {
       handleLogout();
     } else if (value === 'profile') {
-      router.push('/profile'); 
+      router.push('/profile');
     }
   };
 
@@ -77,17 +81,21 @@ const Navbar = () => {
           </div>
 
           <Select onValueChange={handleUserMenuChange}>
-            <SelectTrigger className="w-36.5 px-0 py-0 justify-start rounded-none border-0 focus:ring-0 focus:ring-offset-0 [&>svg]:ml-1.5 [&>svg]:w-5 [&>svg]:h-5 [&[data-state=open]>svg]:rotate-180">
+            <SelectTrigger className="min-w-36.5 px-0 py-0 justify-start rounded-none border-0 focus:ring-0 focus:ring-offset-0 [&>svg]:ml-1.5 [&>svg]:w-5 [&>svg]:h-5 [&[data-state=open]>svg]:rotate-180">
               <div className="flex items-center gap-1.5">
                 <div className="w-8 h-8 rounded-full">
                   <img
-                    src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+                    src={
+                      image
+                        ? `data:image/jpeg;base64,${image}`
+                        : 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
+                    }
                     alt="Profile"
                     className="w-full h-full rounded-full object-cover"
                   />
                 </div>
                 <p className="text-base text-text-primary font-medium">
-                  John Doe
+                  {name || 'John Doe'}
                 </p>
               </div>
             </SelectTrigger>

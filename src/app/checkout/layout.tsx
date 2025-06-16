@@ -7,7 +7,7 @@ const CheckoutLayout = ({ children }: { children: React.ReactNode }) => {
     <div className="bg-background-primary flex flex-col overflow-hidden">
       <div>
         <Navbar />
-        <SearchBar userType="seller" />
+        <SearchBar/>
       </div>
       <main className="bg-background-secondary px-18 py-6">
         {children}

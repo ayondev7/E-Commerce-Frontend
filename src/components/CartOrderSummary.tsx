@@ -102,7 +102,7 @@ const CartOrderSummary: React.FC<CartOrderSummaryProps> = ({
         <button
           onClick={handleProceedToCheckout}
           disabled={selectedProducts.length === 0}
-          className="px-5 py-2.5 rounded-sm text-white text-base font-medium bg-button-primary hover:cursor-pointer disabled:opacity-50"
+          className="px-5 py-2.5 rounded-sm text-white text-base font-medium bg-button-primary hover:cursor-pointer"
         >
           Proceed to Checkout
         </button>
