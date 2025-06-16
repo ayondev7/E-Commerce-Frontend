@@ -1,4 +1,5 @@
 import React from "react";
+import { useFormContext } from "react-hook-form";
 import { Banknote, LockKeyhole } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -16,6 +17,18 @@ export default function PaymentMethod({
   acceptTerms,
   setAcceptTerms,
 }: PaymentMethodProps) {
+  const { setValue, watch } = useFormContext();
+  
+  const handlePaymentChange = (value: string) => {
+    setSelectedPayment(value);
+    setValue("cashOnDelivery", value === "cod");
+  };
+
+  const handleTermsChange = (checked: boolean) => {
+    setAcceptTerms(checked);
+    setValue("acceptTerms", checked);
+  };
+
   return (
     <div className="bg-white border border-border-primary p-6.5 rounded-sm">
       <h2 className="text-2xl font-medium text-text-primary mb-6.5">
@@ -42,7 +55,7 @@ export default function PaymentMethod({
           <div className="flex items-center gap-x-2.5">
             <Checkbox
               checked={acceptTerms}
-              onCheckedChange={(checked) => setAcceptTerms(!!checked)}
+              onCheckedChange={(checked) => handleTermsChange(!!checked)}
               className="border-text-primary w-[15px] h-[15px] border-2 rounded-[3px] shadow-none"
             />
             <p className="text-base text-text-primary">
@@ -55,10 +68,10 @@ export default function PaymentMethod({
           </p>
         </div>
 
-        <RadioGroup value={selectedPayment} onValueChange={setSelectedPayment}>
+        <RadioGroup value={selectedPayment} onValueChange={handlePaymentChange}>
           <div
             className="border border-border-primary p-5 rounded-sm cursor-pointer"
-            onClick={() => setSelectedPayment("cod")}
+            onClick={() => handlePaymentChange("cod")}
           >
             <div className="flex items-center justify-between">
               <div className="flex gap-x-2.5 items-center">

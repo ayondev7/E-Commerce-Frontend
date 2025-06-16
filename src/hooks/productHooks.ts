@@ -1,7 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import apiClient from '@/lib/apiClient';
-export const PRODUCT_QUERY_KEY = ['products'];
 import { SimplifiedProduct } from '@/types/productTypes';
+
+export const PRODUCTS_BY_ID_QUERY_KEY = ['productsById'];
+export const PRODUCT_QUERY_KEY = ['products'];
 
 export const useProducts = () => {
   return useQuery<{ products: SimplifiedProduct[] }>({
@@ -11,6 +13,35 @@ export const useProducts = () => {
       return response.data;
     },
     staleTime: 0, 
+  });
+};
+
+
+interface SelectedProduct {
+  productId: string;
+  quantity: number;
+}
+
+interface ResponseData {
+  products: SimplifiedProduct[];
+}
+
+export const useProductsById = (
+  selectedProducts: SelectedProduct[] | undefined
+) => {
+  return useQuery<ResponseData, Error>({
+    queryKey: [...PRODUCTS_BY_ID_QUERY_KEY, selectedProducts],
+    queryFn: async () => {
+      const response = await apiClient.post('/api/products/get-all-by-id', {
+        products: selectedProducts?.map(({ productId, quantity }) => ({
+          id: productId,
+          quantity,
+        })),
+      });
+      return response.data;
+    },
+    enabled: !!selectedProducts && selectedProducts.length > 0,
+    staleTime: 0,
   });
 };
 

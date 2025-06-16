@@ -1,15 +1,35 @@
-import React from "react";
+"use client";
+import React, { useMemo } from "react";
+import { useFormContext } from "react-hook-form";
 import { Tag, X } from "lucide-react";
+import { useCartStore } from "@/store/cartStore";
+import { useProductsById } from "@/hooks/productHooks";
 
 interface OrderSummaryProps {
   promoCode: string;
   setPromoCode: (value: string) => void;
+  onPlaceOrder: () => void;
 }
 
 export default function OrderSummary({
   promoCode,
   setPromoCode,
+  onPlaceOrder,
 }: OrderSummaryProps) {
+  const { setValue } = useFormContext();
+  const checkoutPayload = useCartStore((state) => state.checkoutPayload);
+
+  const selectedProducts = useMemo(() => {
+    return checkoutPayload?.products ?? [];
+  }, [checkoutPayload]);
+
+  const { data, isLoading, error } = useProductsById(selectedProducts);
+
+  const handlePromoCodeChange = (value: string) => {
+    setPromoCode(value);
+    setValue("promoCode", value || undefined);
+  };
+
   return (
     <div>
       <div className="bg-white mb-10 border border-border-primary rounded-sm p-6.5">
@@ -23,7 +43,7 @@ export default function OrderSummary({
               type="text"
               placeholder="Enter a promo code"
               value={promoCode}
-              onChange={(e) => setPromoCode(e.target.value)}
+              onChange={(e) => handlePromoCodeChange(e.target.value)}
               className="w-full h-full pl-11.5 text-base text-text-primary placeholder:text-text-secondary pr-2.5 border border-border-primary rounded-sm outline-none"
             />
           </div>
@@ -38,25 +58,33 @@ export default function OrderSummary({
           Order Summary
         </h3>
         <div>
-          {[1, 2, 3, 4].map((item, index) => (
+          {data?.products.map((product, index) => (
             <div
-              key={index}
+              key={product._id || index}
               className="flex items-center border-b border-border-primary pb-5 mt-5 gap-x-2.5"
             >
-              <div className="w-24 h-24 bg-gray-300 rounded-sm"></div>
+              <div className="w-24 h-24 bg-gray-300 rounded-sm">
+                {product.image && (
+                  <img
+                    src={`data:image/png;base64,${product?.image}`}
+                    alt={product.title}
+                    className="w-full h-full object-cover rounded-sm"
+                  />
+                )}
+              </div>
               <div className="flex-1">
                 <h4 className="font-medium text-xl text-text-primary mb-1">
-                  Wireless Noise-Cancelling Headphones
+                  {product.title || "Unknown Product"}
                 </h4>
                 <p className="text-base text-text-secondary mb-1.5">
-                  Black | Premium Edition
+                  {product?.colour} | {product?.model}
                 </p>
                 <div className="flex justify-between items-end">
                   <p className="font-medium text-xl text-text-primary">
-                    $249.99
+                    ${product.price?.toFixed(2) || "0.00"}
                   </p>
                   <p className="text-base font-medium text-text-secondary">
-                    Quantity: 1
+                    Quantity: {product?.quantity}
                   </p>
                 </div>
               </div>
@@ -70,7 +98,7 @@ export default function OrderSummary({
               Subtotal
             </span>
             <span className="text-text-primary font-normal text-base">
-              $809.96
+              ${checkoutPayload?.subtotal?.toFixed(2) || "0.00"}
             </span>
           </div>
           <div className="flex justify-between">
@@ -78,31 +106,36 @@ export default function OrderSummary({
               Shipping
             </span>
             <span className="text-text-primary font-normal text-base">
-              $64.80
+              ${checkoutPayload?.shipping?.toFixed(2) || "0.00"}
             </span>
           </div>
           <div className="flex justify-between">
             <span className="text-text-primary font-normal text-base">Tax</span>
             <span className="text-text-primary font-normal text-base">
-              $12.99
+              ${checkoutPayload?.tax?.toFixed(2) || "0.00"}
             </span>
           </div>
         </div>
 
         <div className="flex justify-between mt-5 mb-10 text-xl font-medium text-text-primary">
           <span>Total</span>
-          <span>$887.75</span>
+          <span>${checkoutPayload?.total?.toFixed(2) || "0.00"}</span>
         </div>
 
         <div className="flex justify-between text-base font-medium">
           <button
+            type="button"
             className="flex items-center min-w-42 min-h-13 justify-center rounded-sm border font-medium border-danger-border text-button-primary gap-x-1.5 px-5 py-2.5 cursor-pointer"
           >
             <X className="w-6 h-6" />
             Cancel Order
           </button>
 
-          <button className="flex items-center min-w-42 min-h-13 justify-center rounded-sm border font-medium text-white bg-button-primary gap-x-1.5 px-5 py-2.5 cursor-pointer">
+          <button
+            type="button"
+            onClick={onPlaceOrder}
+            className="flex items-center min-w-42 min-h-13 justify-center rounded-sm border font-medium text-white bg-button-primary gap-x-1.5 px-5 py-2.5 cursor-pointer"
+          >
             Place Order
           </button>
         </div>

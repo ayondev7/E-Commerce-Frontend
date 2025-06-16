@@ -2,6 +2,7 @@
 import React, { useMemo } from "react";
 import { Tag } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
+import { useRouter } from "next/navigation";
 
 type CartOrderSummaryProps = {
   promoCode: string;
@@ -15,7 +16,9 @@ const CartOrderSummary: React.FC<CartOrderSummaryProps> = ({
   handleApplyPromo,
 }) => {
   const selectedIds = useCartStore((state) => state.getSelectedArray());
+  const setCheckoutPayload = useCartStore((state) => state.setCheckoutPayload);
   const products = useCartStore((state) => state.getAll());
+  const router = useRouter();
 
   const selectedIdsSet = useMemo(() => new Set(selectedIds), [selectedIds]);
 
@@ -44,7 +47,8 @@ const CartOrderSummary: React.FC<CartOrderSummaryProps> = ({
       tax,
       total,
     };
-    console.log("Checkout Payload:", payload);
+    setCheckoutPayload(payload);
+    router.push("/checkout");
   };
 
   return (
