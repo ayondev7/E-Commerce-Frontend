@@ -1,56 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import OrdersTable from "../OrdersTable";
 import OrderProductSearchBar from "../OrderProductSearchBar";
 import Tab from "../Tab";
+import { useGetAllSellerOrders } from "@/hooks/orderHooks";
+import { useOrderFilterStore } from "@/store/orderProductFilterStore";
 
 const Orders = () => {
+  const { data, isLoading, isError } = useGetAllSellerOrders();
+  const { search, resetFilters } = useOrderFilterStore();
   const [tabValue, setTabValue] = useState<string>("all");
-
-  const sampleOrders = [
-    {
-      id: "ORD-1001",
-      date: "2025-05-15",
-      buyer: "Alice Johnson",
-      amount: 249.99,
-      status: "pending" as const,
-    },
-    {
-      id: "ORD-1002",
-      date: "2025-05-14",
-      buyer: "Michael Smith",
-      amount: 129.50,
-      status: "shipped" as const,
-    },
-    {
-      id: "ORD-1003",
-      date: "2025-05-13",
-      buyer: "Samantha Lee",
-      amount: 89.00,
-      status: "cancelled" as const,
-    },
-    {
-      id: "ORD-1004",
-      date: "2025-05-10",
-      buyer: "Daniel Kim",
-      amount: 340.75,
-      status: "delivered" as const,
-    },
-    {
-      id: "ORD-1005",
-      date: "2025-05-09",
-      buyer: "Emily Davis",
-      amount: 559.20,
-      status: "shipped" as const,
-    },
-    {
-      id: "ORD-1006",
-      date: "2025-05-08",
-      buyer: "Chris Brown",
-      amount: 219.99,
-      status: "delivered" as const,
-    },
-  ];
 
   const tabOptions = [
     { value: "all", label: "All" },
@@ -59,10 +18,25 @@ const Orders = () => {
     { value: "cancelled", label: "Cancelled" },
   ];
 
-  const filteredOrders =
-    tabValue === "all"
-      ? sampleOrders
-      : sampleOrders.filter((order) => order.status === tabValue);
+  // Reset filters when component mounts
+  useEffect(() => {
+    resetFilters();
+  }, [resetFilters]);
+
+  const orders = data?.data || [];
+
+  const filteredOrders = orders.filter((order: any) => {
+    // Filter by tab status
+    const matchesTab = tabValue === "all" || order.status === tabValue;
+    
+    // Filter by search input
+    const matchesSearch = search
+      ? order.orderId?.toLowerCase().includes(search.toLowerCase()) ||
+        order.customerName?.toLowerCase().includes(search.toLowerCase())
+      : true;
+
+    return matchesTab && matchesSearch;
+  });
 
   return (
     <div className="space-y-6">
@@ -82,7 +56,15 @@ const Orders = () => {
         />
       </div>
 
-      <OrdersTable userType="seller" orders={filteredOrders} />
+      {isLoading ? (
+        <div>Loading orders...</div>
+      ) : isError ? (
+        <div>Error loading orders</div>
+      ) : filteredOrders?.length ? (
+        <OrdersTable userType="seller" orders={filteredOrders} />
+      ) : (
+        <div>No orders found</div>
+      )}
     </div>
   );
 };

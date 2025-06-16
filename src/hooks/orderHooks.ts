@@ -3,12 +3,24 @@ import apiClient from "@/lib/apiClient";
 import { Order, OrderResponse, CreateOrderRequest } from "@/types/ordertypes";
 
 export const ORDERS_QUERY_KEY = ['orders'];
+export const SELLER_ORDERS_QUERY_KEY = ['seller-orders'];
 
 export const useGetAllOrders = () => {
   return useQuery<{ orders: Order[] }>({
     queryKey: ORDERS_QUERY_KEY,
     queryFn: async () => {
       const res = await apiClient.get("/api/orders/get-all");
+      return res.data;
+    },
+    staleTime: 0,
+  });
+};
+
+export const useGetAllSellerOrders = () => {
+  return useQuery<{ orders: Order[] }>({
+    queryKey: SELLER_ORDERS_QUERY_KEY,
+    queryFn: async () => {
+      const res = await apiClient.get("/api/orders/get-seller-orders");
       return res.data;
     },
     staleTime: 0,

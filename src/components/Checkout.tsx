@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useCartStore } from "@/store/cartStore";
 import { useAddOrder } from "@/hooks/orderHooks";
 import { CheckoutFormData } from "@/types/ordertypes";
+import { useRouter } from "next/navigation";
 
 export default function Checkout() {
   const [selectedPayment, setSelectedPayment] = useState<string>("");
@@ -16,6 +17,7 @@ export default function Checkout() {
   const checkoutPayload = useCartStore((state) => state.checkoutPayload);
   const addOrderMutation = useAddOrder();
   const { resetEverything } = useCartStore();
+  const router = useRouter();
 
   const methods = useForm<CheckoutFormData>({
     defaultValues: {
@@ -43,28 +45,16 @@ export default function Checkout() {
       promoCode,
       paymentMethod: selectedPayment,
     };
-
-    console.log("Full Submission Payload:", payloadToSubmit);
-
     const loadingToast = toast.loading("Creating your order...");
-
     addOrderMutation.mutate(payloadToSubmit, {
       onSuccess: (response) => {
         toast.dismiss(loadingToast);
-        toast.success(
-          `Order created successfully!`
-        );
-
-        // Clear cart and localStorage only after successful order creation
         resetEverything();
-
-        // Optional: You can also manually clear localStorage if needed
         localStorage.removeItem("cart-storage");
-
-        console.log("Order Response:", response);
-
-        // Optional: Redirect to order confirmation page
-        // router.push(`/order-confirmation/${response.data.orders[0]._id}`);
+        toast.success(`Order created successfully!`);
+        setTimeout(() => {
+          router.push("/customer/my-orders"); 
+        }, 2000);
       },
       onError: (error: any) => {
         toast.dismiss(loadingToast);

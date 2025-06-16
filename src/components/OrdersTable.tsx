@@ -19,15 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ViewOrderModal } from "./ViewOrderModal";
-
-interface Order {
-  id: string;
-  date: string;
-  buyer: string;
-  amount: number;
-  status: "pending" | "shipped" | "delivered" | "cancelled";
-  product?: string;
-}
+import { Order } from "@/types/ordertypes";
 
 interface OrdersTableProps {
   orders: Order[];
@@ -69,7 +61,7 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
   };
 
   const handleShipOrder = () => {
-    console.log("Shipping order:", selectedOrder?.id);
+    console.log("Shipping order:", selectedOrder?._id);
     setIsViewModalOpen(false);
   };
 
@@ -106,35 +98,39 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
         </TableHeader>
         <TableBody>
           {orders.map((order) => (
-            <TableRow key={order.id} className="border-b last:border-b-0 border-border-primary">
+            <TableRow
+              key={order._id}
+              className="border-b last:border-b-0 border-border-primary"
+            >
               <TableCell className="text-text-primary px-4 py-4 text-base">
-                {order.id}
+               {order?.orderId}
               </TableCell>
               <TableCell className="text-text-primary px-4 py-4 text-base">
-                {formatDate(order.date)}
+                {formatDate(order?.createdAt)}
               </TableCell>
               {userType === "seller" && (
                 <TableCell className="text-text-primary px-4 py-4 text-base">
-                  {order.buyer}
+                  {order?.customerName}
                 </TableCell>
               )}
               <TableCell className="text-text-primary px-4 py-4 text-base">
-                ${order.amount.toFixed(2)}
+                ${order?.price.toFixed(2)}
               </TableCell>
               <TableCell className="px-4 py-4">
                 <span
                   className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusStyles(
-                    order.status
+                    order?.status
                   )}`}
                 >
-                  {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                  {order?.status.charAt(0).toUpperCase() +
+                    order?.status.slice(1)}
                 </span>
               </TableCell>
               <TableCell className="px-4 py-4 relative">
                 {userType === "seller" ? (
                   <div className="flex gap-2.5">
                     <button
-                      onClick={() => handleViewClick(order.id)}
+                      onClick={() => handleViewClick(order._id)}
                       className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
                     >
                       <Eye className="w-6 h-6" />
@@ -187,7 +183,6 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
                         <MoreHorizontal className="w-6 h-6 text-text-primary" />
                       </button>
                     </div>
-
                   </div>
                 )}
               </TableCell>
@@ -204,11 +199,11 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
           onShip={handleShipOrder}
           order={{
             id: selectedOrder.id,
-            date: formatDate(selectedOrder.date),
+            date: formatDate(selectedOrder.createdAt),
             status: selectedOrder.status,
             product: selectedOrder.product || "Wireless Earbuds X200",
-            amount: `$${selectedOrder.amount.toFixed(2)}`,
-            customer: selectedOrder.buyer,
+            amount: `$${selectedOrder.price.toFixed(2)}`,
+            customer: selectedOrder.customer,
           }}
         />
       )}

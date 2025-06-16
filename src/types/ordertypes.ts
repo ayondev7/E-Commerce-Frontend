@@ -11,6 +11,9 @@ export interface Order {
   createdAt: string;
   updatedAt: string;
   paymentMethod: string;
+  customerName?: string;
+  status: string;
+  orderId: string;
 }
 
 // Address interface matching your MongoDB Address schema
@@ -62,7 +65,7 @@ export interface CheckoutPayload {
 export interface CreateOrderRequest {
   acceptTerms: boolean;
   billingAddressSame: boolean;
-  paymentMethod: "cod" | "gateway";
+  paymentMethod: string;
   promoCode?: string;
   fullName: string;
   phoneNumber: string;
