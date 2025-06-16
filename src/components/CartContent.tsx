@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Store, Minus, Plus, Trash2, ShoppingCart } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useWishlistStore } from "@/store/wishlistStore";
+import { useCartStore } from "@/store/cartStore"; 
 import { useAddToCart } from "@/hooks/cartHooks";
 import toast from "react-hot-toast";
 import { WishlistGroup } from "@/types/wishlistTypes";
@@ -12,53 +13,77 @@ type CartContentProps = {
   list: WishlistGroup;
 };
 
-const CartContent: React.FC<CartContentProps> = ({
-  type,
-  list
-}) => {
+const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
   const [addingId, setAddingId] = useState<string | null>(null);
-  const [items, setItems] = useState(
-    (list?.products ?? []).map((product) => ({
-      ...product,
-      quantity: 1,
-    }))
-  );
 
   const { toggleSelection, selectMultiple, isSelected } = useWishlistStore();
+  const {
+    setProductQuantity,
+    increment,
+    decrement,
+    remove,
+    getQuantity,
+    toggleSelection: toggleCartSelection,
+    selectMultiple: selectCartMultiple,
+    isSelected: isCartSelected,
+    getAll,
+  } = useCartStore();
+
   const { mutate: addToCart } = useAddToCart();
 
-  const allSelected = items.every((item) => isSelected(item._id));
+  const items = type === "cart"
+    ? list.products.map((product) => ({
+        ...product,
+        quantity: getQuantity(product._id),
+      }))
+    : (list?.products ?? []).map((product) => ({
+        ...product,
+        quantity: 1,
+      }));
+
+  const allSelected =
+    type === "wishlist"
+      ? items.every((item) => isSelected(item._id))
+      : items.every((item) => isCartSelected(item._id));
 
   const toggleSeller = () => {
     const ids = items.map((item) => item._id);
     if (allSelected) {
-      ids.forEach((id) => toggleSelection(id));
+      ids.forEach((id) =>
+        type === "wishlist" ? toggleSelection(id) : toggleCartSelection(id)
+      );
     } else {
-      selectMultiple(ids);
+      type === "wishlist"
+        ? selectMultiple(ids)
+        : selectCartMultiple(ids);
     }
   };
 
   const updateQuantity = (id: string, change: number) => {
-    setItems((prevItems) =>
-      prevItems.map((item) =>
-        item._id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
-          : item
-      )
-    );
+    if (type === "cart") {
+      const current = getQuantity(id);
+      const updated = Math.max(1, current + change);
+      setProductQuantity(id, updated);
+    }
   };
 
   const removeItem = (id: string) => {
-    setItems((prevItems) => prevItems.filter((item) => item._id !== id));
+    if (type === "cart") {
+      remove(id);
+    }
+    // wishlist still uses local state
   };
 
   const handleAddSingle = (wishlistId: string, productId: string) => {
     setAddingId(productId);
-    addToCart({ wishlistId, productId }, {
-      onSuccess: () => toast.success("Added to cart"),
-      onError: () => toast.error("Failed to add to cart"),
-      onSettled: () => setAddingId(null),
-    });
+    addToCart(
+      { wishlistId, productId },
+      {
+        onSuccess: () => toast.success("Added to cart"),
+        onError: () => toast.error("Failed to add to cart"),
+        onSettled: () => setAddingId(null),
+      }
+    );
   };
 
   return (
@@ -79,8 +104,16 @@ const CartContent: React.FC<CartContentProps> = ({
             items.map((item) => (
               <div key={item._id} className="flex items-center gap-4">
                 <Checkbox
-                  checked={isSelected(item._id)}
-                  onCheckedChange={() => toggleSelection(item._id)}
+                  checked={
+                    type === "wishlist"
+                      ? isSelected(item._id)
+                      : isCartSelected(item._id)
+                  }
+                  onCheckedChange={() =>
+                    type === "wishlist"
+                      ? toggleSelection(item._id)
+                      : toggleCartSelection(item._id)
+                  }
                   className="w-4.5 h-4.5 border-border-secondary hover:cursor-pointer border-2 rounded-[3px] shadow-none data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-3 [&_svg]:!h-3 [&_svg]:!stroke-5"
                 />
 

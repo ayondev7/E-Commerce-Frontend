@@ -9,6 +9,7 @@ export interface WishlistGroup {
   createdAt: string;
   updatedAt: string;
   products?: SimplifiedProduct[];
+  productsCount?: number;
 }
 
 export interface WishlistDocument {

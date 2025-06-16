@@ -1,29 +1,46 @@
 "use client";
-import React, { useState } from "react";
-import { Tag, Trash2 } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Trash2 } from "lucide-react";
 import CartContent from "./CartContent";
 import CartOrderSummary from "./CartOrderSummary";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useGetCart } from "@/hooks/cartHooks";
+import { WishlistGroup } from "@/types/wishlistTypes";
+import { useCartStore } from "@/store/cartStore";
 
 const ShoppingCart: React.FC = () => {
   const [promoCode, setPromoCode] = useState<string>("");
-  const [subtotal] = useState<number>(0.0);
-  const [shipping] = useState<number>(0.0);
-  const [tax] = useState<number>(0.0);
   const [selectAll, setSelectAll] = useState<boolean>(false);
+  const { data, isLoading, isError } = useGetCart();
+  const hydrateCart = useCartStore((state) => state.hydrateCart);
+  const cartItems = useCartStore((state) => state.getAll());
 
-  const total = subtotal + shipping + tax;
+  useEffect(() => {
+    if (data?.lists) {
+      const items = data.lists.flatMap((list: WishlistGroup) =>
+        list?.products.map((product) => ({
+          productId: product._id,
+          quantity: product?.quantity ?? 1,
+          price: product.price ?? 0,
+        }))
+      );
+      hydrateCart(items);
+    }
+  }, [data, hydrateCart]);
 
   const handleApplyPromo = () => {
     console.log("Applying promo code:", promoCode);
   };
+
+  if (isLoading) return <p className="text-text-secondary">Loading cart...</p>;
+  if (isError || !data) return <p className="text-red-500">Failed to load shopping cart</p>;
 
   return (
     <div>
       <div className="mb-10 space-y-1">
         <h1 className="text-3xl font-semibold">Shopping Cart</h1>
         <h3 className="text-text-secondary text-base">
-          You have 4 items in your cart.
+          You have {data.productsCount || 0} items in your cart.
         </h3>
       </div>
 
@@ -33,28 +50,33 @@ const ShoppingCart: React.FC = () => {
             <div className="flex items-center gap-x-2.5 text-text-secondary text-base">
               <Checkbox
                 checked={selectAll}
-                onCheckedChange={(checked) => setSelectAll(!!checked)}
-                className="w-4.5 h-4.5 border-border-secondary border-2 rounded-[3px] shadow-none data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-3 [&_svg]:!h-3 [&_svg]:!stroke-5 hover:cursor-pointer"
+                onCheckedChange={(checked) => {
+                  setSelectAll(!!checked);
+                  const allIds = data.lists.flatMap((list: WishlistGroup) =>
+                    list.products.map((p) => p._id)
+                  );
+                  checked
+                    ? useCartStore.getState().selectMultiple(allIds)
+                    : useCartStore.getState().deselectAll();
+                }}
               />
-              Select All (4 Items)
+              Select All ({data.productsCount || 0})
             </div>
             <button className="flex items-center gap-x-2.5 text-button-primary text-base">
               <Trash2 className="w-6 h-6" />
               Delete
             </button>
           </div>
-          <CartContent type="cart" />
-          <CartContent type="cart" />
+
+          {data.lists.map((list: WishlistGroup) => (
+            <CartContent key={list._id} list={list} type="cart" />
+          ))}
         </div>
 
         <div>
           <CartOrderSummary
             promoCode={promoCode}
             setPromoCode={setPromoCode}
-            subtotal={subtotal}
-            shipping={shipping}
-            tax={tax}
-            total={total}
             handleApplyPromo={handleApplyPromo}
           />
         </div>

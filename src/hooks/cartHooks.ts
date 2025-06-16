@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import apiClient from '@/lib/apiClient';
 import { SimplifiedProduct } from '@/types/productTypes';
+import { WishlistGroup } from '@/types/wishlistTypes';
 
 export const CART_QUERY_KEY = ['cart'];
 export const WISHLIST_QUERY_KEY = ['wishlist'];
@@ -18,7 +19,7 @@ export interface CartEntry {
 }
 
 export const useGetCart = () => {
-  return useQuery<{ items: CartItem[] }>({
+  return useQuery<{ lists: WishlistGroup[]}>({
     queryKey: CART_QUERY_KEY,
     queryFn: async () => {
       const res = await apiClient.get('/api/carts/get-all');
