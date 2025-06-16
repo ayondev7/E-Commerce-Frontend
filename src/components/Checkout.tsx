@@ -7,62 +7,75 @@ import PaymentMethod from "./PaymentMethod";
 import OrderSummary from "./OrderSummary";
 import toast from "react-hot-toast";
 import { useCartStore } from "@/store/cartStore";
-import { CheckoutPayload } from "@/types/checkoutTypes";
-
-interface CheckoutFormData {
-  // Address selection
-  addressId?: string;
-  
-  // Personal info (always required)
-  fullName: string;
-  phoneNumber: string;
-  email: string;
-  
-  // Address fields (required only if no address selected)
-  addressLine1?: string;
-  addressLine2?: string;
-  city?: string;
-  zipCode?: string;
-  country?: string;
-  state?: string;
-  
-  // Other fields
-  billingAddressSame: boolean;
-  cashOnDelivery: boolean;
-  acceptTerms: boolean;
-  promoCode?: string;
-
-  checkoutPayload?: CheckoutPayload;
-}
+import { useAddOrder } from "@/hooks/orderHooks";
+import { CheckoutFormData } from "@/types/ordertypes";
 
 export default function Checkout() {
-  const [selectedPayment, setSelectedPayment] = useState<"gateway" | "cod">("gateway");
-  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [selectedPayment, setSelectedPayment] = useState<string>("");
   const [promoCode, setPromoCode] = useState("");
-   const checkoutPayload = useCartStore((state) => state.checkoutPayload);
+  const checkoutPayload = useCartStore((state) => state.checkoutPayload);
+  const addOrderMutation = useAddOrder();
+  const { resetEverything } = useCartStore();
 
   const methods = useForm<CheckoutFormData>({
     defaultValues: {
       billingAddressSame: true,
       cashOnDelivery: false,
-      acceptTerms: false,
-    }
+    },
   });
 
   const onSubmit = (data: CheckoutFormData) => {
-    if (!data.acceptTerms) {
-      toast.error("You must accept the terms and conditions to proceed");
+    if (!selectedPayment) {
+      toast.error("Please select a payment method");
+      return;
+    }
+
+    if (!checkoutPayload) {
+      toast.error(
+        "Cart is empty! Please go back to cart and add items to checkout."
+      );
       return;
     }
 
     const payloadToSubmit = {
       ...data,
-      checkoutPayload, 
+      checkoutPayload,
       promoCode,
       paymentMethod: selectedPayment,
     };
 
     console.log("Full Submission Payload:", payloadToSubmit);
+
+    const loadingToast = toast.loading("Creating your order...");
+
+    addOrderMutation.mutate(payloadToSubmit, {
+      onSuccess: (response) => {
+        toast.dismiss(loadingToast);
+        toast.success(
+          `Order created successfully!`
+        );
+
+        // Clear cart and localStorage only after successful order creation
+        resetEverything();
+
+        // Optional: You can also manually clear localStorage if needed
+        localStorage.removeItem("cart-storage");
+
+        console.log("Order Response:", response);
+
+        // Optional: Redirect to order confirmation page
+        // router.push(`/order-confirmation/${response.data.orders[0]._id}`);
+      },
+      onError: (error: any) => {
+        toast.dismiss(loadingToast);
+        const errorMessage =
+          error?.response?.data?.message ||
+          error?.message ||
+          "Failed to create order";
+        toast.error(errorMessage);
+        console.error("Order Error:", error);
+      },
+    });
   };
 
   return (
@@ -70,8 +83,12 @@ export default function Checkout() {
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <div className="pb-6 space-y-10">
           <div>
-            <h1 className="text-3xl font-semibold text-text-primary mb-1">Checkout</h1>
-            <p className="text-base text-text-secondary">Please review and complete your purchase</p>
+            <h1 className="text-3xl font-semibold text-text-primary mb-1">
+              Checkout
+            </h1>
+            <p className="text-base text-text-secondary">
+              Please review and complete your purchase
+            </p>
           </div>
 
           <div>
@@ -80,14 +97,12 @@ export default function Checkout() {
 
           <ShippingInfoForm />
 
-         <div className="my-10">
+          <div className="my-10">
             <PaymentMethod
-            selectedPayment={selectedPayment}
-            setSelectedPayment={setSelectedPayment}
-            acceptTerms={acceptTerms}
-            setAcceptTerms={setAcceptTerms}
-          />
-         </div>
+              selectedPayment={selectedPayment}
+              setSelectedPayment={setSelectedPayment}
+            />
+          </div>
 
           <OrderSummary
             promoCode={promoCode}

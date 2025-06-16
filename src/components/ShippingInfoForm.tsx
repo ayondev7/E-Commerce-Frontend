@@ -15,7 +15,6 @@ export default function ShippingInfoForm() {
   const handleAddressSelect = (addressId: string) => {
     setSelectedAddress(addressId);
     setValue("addressId", addressId);
-    // Clear individual address fields when an address is selected
     setValue("addressLine1", "");
     setValue("addressLine2", "");
     setValue("city", "");
@@ -45,7 +44,7 @@ export default function ShippingInfoForm() {
         {isLoading ? (
           <p className="text-base text-text-secondary">Loading addresses...</p>
         ) : Array.isArray(data) && data.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2.5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2.5 gap-y-6.5">
             {data.map((address) => (
               <div
                 key={address._id}

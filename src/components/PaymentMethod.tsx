@@ -2,31 +2,26 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { Banknote, LockKeyhole } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 interface PaymentMethodProps {
   selectedPayment: string;
   setSelectedPayment: (value: string) => void;
-  acceptTerms: boolean;
-  setAcceptTerms: (value: boolean) => void;
 }
 
 export default function PaymentMethod({
   selectedPayment,
   setSelectedPayment,
-  acceptTerms,
-  setAcceptTerms,
 }: PaymentMethodProps) {
-  const { setValue, watch } = useFormContext();
-  
-  const handlePaymentChange = (value: string) => {
-    setSelectedPayment(value);
-    setValue("cashOnDelivery", value === "cod");
+  const { setValue } = useFormContext();
+
+  const handleSelectGateway = () => {
+    setSelectedPayment("gateway");
+    setValue("paymentMethod", "gateway");
   };
 
-  const handleTermsChange = (checked: boolean) => {
-    setAcceptTerms(checked);
-    setValue("acceptTerms", checked);
+  const handleSelectCOD = () => {
+    setSelectedPayment("cod");
+    setValue("paymentMethod", "cod");
   };
 
   return (
@@ -54,8 +49,8 @@ export default function PaymentMethod({
         <div className="my-5">
           <div className="flex items-center gap-x-2.5">
             <Checkbox
-              checked={acceptTerms}
-              onCheckedChange={(checked) => handleTermsChange(!!checked)}
+              checked={selectedPayment === "gateway"}
+              onCheckedChange={() => handleSelectGateway()}
               className="border-text-primary w-[15px] h-[15px] border-2 rounded-[3px] shadow-none"
             />
             <p className="text-base text-text-primary">
@@ -63,37 +58,32 @@ export default function PaymentMethod({
               gateway (SSLCommerz).
             </p>
           </div>
-          <p className="text-button-primary text-base mt-2.5">
-            * This acknowledgment is required before placing your order.
-          </p>
         </div>
 
-        <RadioGroup value={selectedPayment} onValueChange={handlePaymentChange}>
-          <div
-            className="border border-border-primary p-5 rounded-sm cursor-pointer"
-            onClick={() => handlePaymentChange("cod")}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex gap-x-2.5 items-center">
-                <RadioGroupItem
-                  value="cod"
-                  className="border-text-secondary border-2 rounded-full w-5 h-5"
-                />
-
-                <p className="font-medium text-xl text-text-primary">
-                  Cash On Delivery
-                </p>
-              </div>
-
-             <div className="border px-3 py-0.5 border-border-primary rounded-sm ">
-                 <Banknote  className="text-green-600 w-6 h-6" />
-             </div>
+        <div
+          className="border border-border-primary p-5 rounded-sm cursor-pointer"
+          onClick={handleSelectCOD}
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex gap-x-2.5 items-center">
+              <Checkbox
+                checked={selectedPayment === "cod"}
+                onCheckedChange={() => handleSelectCOD()}
+                className="border-text-secondary border-2 rounded-full w-5 h-5"
+              />
+              <p className="font-medium text-xl text-text-primary">
+                Cash On Delivery
+              </p>
             </div>
-            <p className="text-base text-text-secondary mt-2.5">
-              Payment collected upon delivery
-            </p>
+
+            <div className="border px-3 py-0.5 border-border-primary rounded-sm">
+              <Banknote className="text-green-600 w-6 h-6" />
+            </div>
           </div>
-        </RadioGroup>
+          <p className="text-base text-text-secondary mt-2.5">
+            Payment collected upon delivery
+          </p>
+        </div>
       </div>
     </div>
   );
