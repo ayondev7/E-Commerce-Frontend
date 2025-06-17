@@ -1,33 +1,42 @@
+"use client";
 import React from "react";
-import { X, AlertTriangle } from "lucide-react";
-
-interface Order {
-  id: string;
-  date: string;
-  status: string;
-  product: string;
-  amount: string;
-  customer: string;
-}
+import { AlertTriangle } from "lucide-react";
+import { OrderDetailsResponse } from "@/types/ordertypes";
+import { useUpdateOrderStatus } from "@/hooks/orderHooks";
+import toast from "react-hot-toast";
 
 interface CancelOrderModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
-  order: {
-    id: string;
-    product: string;
-    customer: string;
-  };
+  order: OrderDetailsResponse;
+  orderId: string;
 }
 
 export const CancelOrderModal = ({
   isOpen,
   onClose,
-  onConfirm,
   order,
+  orderId,
 }: CancelOrderModalProps) => {
   if (!isOpen) return null;
+
+  const { mutate: updateOrderStatus, isPending: isCancelLoading } =
+    useUpdateOrderStatus();
+
+  const handleCancel = () => {
+    updateOrderStatus(
+      { orderId: order._id, orderStatus: "cancelled" },
+      {
+        onSuccess: () => {
+          toast.success("Order has been cancelled!");
+          onClose();
+        },
+        onError: () => {
+          toast.error("Failed to update order status");
+        },
+      }
+    );
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -76,13 +85,13 @@ export const CancelOrderModal = ({
               </div>
               <div className="flex-1 space-y-1 text-right">
                 <p className="text-sm font-medium text-text-primary">
-                  #{order.id}
+                  #{orderId}
                 </p>
                 <p className="text-sm font-medium text-text-primary">
-                  {order.product}
+                  {order?.product?.title}
                 </p>
                 <p className="text-sm font-medium text-text-primary">
-                  {order.customer}
+                  {order?.shippingInfo?.fullName}
                 </p>
               </div>
             </div>
@@ -97,10 +106,11 @@ export const CancelOrderModal = ({
             Keep Order
           </button>
           <button
-            onClick={onConfirm}
+            onClick={handleCancel}
+            disabled={isCancelLoading}
             className="px-4 py-2 min-w-44.5 min-h-13 flex justify-center items-center rounded-lg bg-danger-primary text-white hover:bg-danger-primary/90 transition-colors cursor-pointer"
           >
-            Cancel Order
+            {isCancelLoading ? "Cancelling..." : "Cancel Order"}
           </button>
         </div>
       </div>

@@ -57,3 +57,27 @@ export const useAddOrder = () => {
     },
   });
 };
+
+type UpdateOrderStatusRequest = {
+  orderId: string;
+  orderStatus: string;
+};
+
+export const useUpdateOrderStatus = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ orderId, orderStatus }: UpdateOrderStatusRequest) => {
+      const res = await apiClient.patch(`/api/orders/update-status/${orderId}`, {
+        orderStatus,
+      });
+      return res.data;
+    },
+    onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: SELLER_ORDERS_QUERY_KEY });
+      queryClient.invalidateQueries({
+        queryKey: ORDER_DETAILS_QUERY_KEY(variables.orderId),
+      });
+    },
+  });
+};

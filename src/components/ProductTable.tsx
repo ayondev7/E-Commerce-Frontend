@@ -88,6 +88,8 @@ const ProductTable = ({ products }: ProductTableProps) => {
               >
                 <TableCell className="px-4 py-4">
                   <Image
+                  width={44}
+                  height={44}
                     src={
                       product?.image && product?.image !== "null"
                         ? `data:image/jpeg;base64,${product?.image}`

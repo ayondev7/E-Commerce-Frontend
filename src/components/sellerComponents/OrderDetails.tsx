@@ -7,18 +7,34 @@ import BuyerInformation from "../BuyerInformation";
 import PaymentInformation from "../PaymentInformation";
 import ProductDetailsCard from "../ProductDetailsCard";
 import { CancelOrderModal } from "../CancelOrderModal";
-import { useGetOrderDetails } from "@/hooks/orderHooks";
+import { useGetOrderDetails, useUpdateOrderStatus } from "@/hooks/orderHooks";
+import toast from "react-hot-toast";
+import { OrderDetailsResponse } from "@/types/ordertypes";
 
 const OrderDetails = () => {
   const router = useRouter();
+  const [statusUpdated, setStatusUpdated] = useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const params = useParams();
   const orderId = params?.orderId as string;
   const _id = params?.id as string;
   const { data, isLoading, error } = useGetOrderDetails(_id);
+  const { mutate: updateOrderStatus, isPending: isShipLoading } =
+    useUpdateOrderStatus();
 
-  const handleCancelOrder = () => {
-    setIsCancelModalOpen(false);
+  const handleShip = () => {
+    updateOrderStatus(
+      { orderId: _id, orderStatus: "shipped" },
+      {
+        onSuccess: () => {
+          toast.success("Order marked as shipped");
+          setStatusUpdated(true);
+        },
+        onError: () => {
+          toast.error("Failed to update order status");
+        },
+      }
+    );
   };
 
   if (isLoading) {
@@ -32,7 +48,7 @@ const OrderDetails = () => {
     );
   }
 
-  if (error || !data) {
+  if (error) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div className="fixed inset-0 bg-[#7D8184] opacity-50" />
@@ -43,7 +59,9 @@ const OrderDetails = () => {
     );
   }
 
-  const order = data;
+  const order = data as OrderDetailsResponse;
+
+  console.log("order:", order);
 
   return (
     <div>
@@ -78,15 +96,30 @@ const OrderDetails = () => {
         <div className="flex gap-x-5 mt-10">
           <button
             onClick={() => setIsCancelModalOpen(true)}
-            className="flex items-center min-w-42 min-h-13 justify-center rounded-sm border font-medium border-red-200 text-button-primary gap-x-1.5 px-4 py-2 cursor-pointer"
+            disabled={statusUpdated || order?.orderStatus !== "pending"}
+            className={`flex items-center min-w-42 min-h-13 justify-center rounded-sm border font-medium border-red-200 text-button-primary gap-x-1.5 px-4 py-2 cursor-pointer ${
+              statusUpdated || order?.orderStatus !== "pending"
+                ? "opacity-50"
+                : ""
+            }`}
           >
             <X className="w-6 h-6" />
             Cancel Order
           </button>
 
-          <button className="flex items-center min-w-42 min-h-13 justify-center rounded-sm border font-medium text-white bg-button-primary gap-x-1.5 px-4 py-2 cursor-pointer">
+          <button
+            onClick={handleShip}
+            disabled={
+              isShipLoading || statusUpdated || order?.orderStatus !== "pending"
+            }
+            className={`flex items-center min-w-42 min-h-13 justify-center rounded-sm border font-medium text-white bg-button-primary gap-x-1.5 px-4 py-2 cursor-pointer ${
+              statusUpdated || order?.orderStatus !== "pending"
+                ? "opacity-50"
+                : ""
+            }`}
+          >
             <Truck className="w-6 h-6" />
-            Ship Order
+            {isShipLoading ? "Shipping..." : "Ship Order"}
           </button>
         </div>
       </div>
@@ -94,8 +127,8 @@ const OrderDetails = () => {
       <CancelOrderModal
         isOpen={isCancelModalOpen}
         onClose={() => setIsCancelModalOpen(false)}
-        onConfirm={handleCancelOrder}
         order={order}
+        orderId={orderId}
       />
     </div>
   );

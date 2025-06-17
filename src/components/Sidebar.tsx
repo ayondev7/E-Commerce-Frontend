@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -13,10 +13,11 @@ import {
   HelpCircle,
   Truck,
 } from "lucide-react";
+import { useUserStore } from "@/store/userStore";
 
 const Sidebar = () => {
   const pathname = usePathname();
-  const userType = pathname.includes("/seller") ? "seller" : "customer";
+  const { userType } = useUserStore();
 
   const sellerNavItems = [
     { name: "Overview", href: "/seller/overview", icon: Home },
@@ -45,11 +46,15 @@ const Sidebar = () => {
             const isActive =
               pathname === item.href ||
               (item.href === "/seller/products" &&
-                ["/seller/products", "/seller/add-product", "/seller/edit-product"].some((p) =>
-                  pathname.startsWith(p)
-                )) ||
+                [
+                  "/seller/products",
+                  "/seller/add-product",
+                  "/seller/edit-product",
+                ].some((p) => pathname.startsWith(p))) ||
               (item.href === "/seller/orders" &&
-                ["/seller/orders", "/seller/view-order"].some((p) => pathname.startsWith(p)));
+                ["/seller/orders", "/seller/view-order"].some((p) =>
+                  pathname.startsWith(p)
+                ));
 
             return (
               <Link

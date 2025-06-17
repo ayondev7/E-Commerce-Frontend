@@ -48,14 +48,14 @@ const BuyerInformation = ({ order }: { order: OrderDetailsResponse }) => {
               : "Cash on Delivery"}
           </div>
 
-          {order?.paymentMethod === "gateway" && (
-            <div className="text-base text-text-secondary my-1">
-              **** **** **** 4242
-            </div>
-          )}
+          <div className="text-base text-text-secondary my-1">
+            {order?.paymentMethod === "gateway"
+              ? "**** **** **** 4242"
+              : "Payment will be made cash on delivery"}
+          </div>
 
           <span
-            className={`px-4 py-1 rounded-full text-sm font-medium
+            className={`px-4 py-1 rounded-full text-sm font-medium 
     ${
       order?.paymentStatus === "paid"
         ? "bg-success-secondary text-success-primary"
@@ -63,7 +63,7 @@ const BuyerInformation = ({ order }: { order: OrderDetailsResponse }) => {
         ? "bg-warning-secondary text-warning-primary"
         : order?.paymentStatus === "failed"
         ? "bg-danger-secondary text-danger-primary"
-        : "bg-gray-200 text-gray-700" 
+        : "bg-gray-200 text-gray-700"
     }
   `}
           >
