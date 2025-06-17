@@ -61,7 +61,7 @@ const GeneralInformationForm = ({
   };
 
   const removeImage = (index: number) => {
-    const newImages = watchedImages.filter((_, i) => i !== index);
+    const newImages = watchedImages.filter((file:File, i:number) => i !== index);
     setValue("productImages", newImages);
   };
 

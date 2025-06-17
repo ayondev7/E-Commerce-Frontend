@@ -9,7 +9,7 @@ interface CartStore {
   checkoutPayload: CheckoutPayload | null;
 
   hydrateCart: (products: CartProduct[]) => void;
-  setProductQuantity: (productId: string, quantity: number) => void;
+  setProductQuantity: (productId: string, quantity: number, price: number) => void;
   increment: (productId: string) => void;
   decrement: (productId: string) => void;
   remove: (productId: string) => void;

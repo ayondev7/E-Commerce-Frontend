@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { WishlistGroup } from '@/types/wishlistTypes'; // Import your WishlistGroup type
+import { WishlistGroup } from '@/types/wishlistTypes'; 
 
 interface WishlistStore {
   selectedProductIds: Set<string>;

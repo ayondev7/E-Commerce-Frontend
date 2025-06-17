@@ -33,14 +33,17 @@ const ShoppingCart: React.FC = () => {
   };
 
   if (isLoading) return <p className="text-text-secondary">Loading cart...</p>;
-  if (isError || !data) return <p className="text-red-500">Failed to load shopping cart</p>;
+  if (isError || !data)
+    return <p className="text-red-500">Failed to load shopping cart</p>;
 
   return (
     <div>
       <div className="mb-10 space-y-1">
         <h1 className="text-3xl font-semibold">Shopping Cart</h1>
         <h3 className="text-text-secondary text-base">
-          You have {data?.productsCount || 0} items in your cart.
+          You have (
+          {data.lists.reduce((acc, list) => acc + list.products.length, 0) || 0}
+          ) items in your cart.
         </h3>
       </div>
 
@@ -60,7 +63,12 @@ const ShoppingCart: React.FC = () => {
                     : useCartStore.getState().deselectAll();
                 }}
               />
-              Select All ({data.productsCount || 0})
+              Select All (
+              {data.lists.reduce(
+                (acc, list) => acc + list.products.length,
+                0
+              ) || 0}
+              )
             </div>
             <button className="flex items-center gap-x-2.5 text-button-primary text-base">
               <Trash2 className="w-6 h-6" />
@@ -69,7 +77,7 @@ const ShoppingCart: React.FC = () => {
           </div>
 
           {data.lists.map((list: WishlistGroup) => (
-            <CartContent key={list._id} list={list} type="cart" />
+            <CartContent key={list.title} list={list} type="cart" />
           ))}
         </div>
 

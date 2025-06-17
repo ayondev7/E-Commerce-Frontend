@@ -2,30 +2,46 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import NotificationPreferences from "./NotificationPreferences";
-import { useGetCustomerProfile, Customer, useUpdateCustomer } from "@/hooks/customerHooks"; 
+import { useGetCustomerProfile, useUpdateCustomer } from "@/hooks/customerHooks";
 import toast from "react-hot-toast";
+
+interface PersonalInfoFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  bio: string;
+}
 
 const PersonalInfo = () => {
   const { data: customerData, isLoading, error } = useGetCustomerProfile();
   const { mutate: updateCustomer, isPending: isUpdating } = useUpdateCustomer();
 
-  const [formData, setFormData] = useState<Partial<Customer>>({
+  const [formData, setFormData] = useState<PersonalInfoFormData>({
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
     bio: "",
   });
-  const [originalData, setOriginalData] = useState<Partial<Customer>>({});
+
+  const [originalData, setOriginalData] = useState<PersonalInfoFormData>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    bio: "",
+  });
+
   const [isEditMode, setIsEditMode] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
     if (customerData) {
-      const initialData = {
-        firstName: customerData.firstName,
-        lastName: customerData.lastName,
-        email: customerData.email,
+      const initialData: PersonalInfoFormData = {
+        firstName: customerData.firstName || "",
+        lastName: customerData.lastName || "",
+        email: customerData.email || "",
         phone: customerData.phone || "",
         bio: customerData.bio || "",
       };
@@ -34,7 +50,7 @@ const PersonalInfo = () => {
     }
   }, [customerData]);
 
-  const handleInputChange = (field: keyof Customer, value: string) => {
+  const handleInputChange = (field: keyof PersonalInfoFormData, value: string) => {
     const updated = { ...formData, [field]: value };
     setFormData(updated);
     setHasChanges(JSON.stringify(updated) !== JSON.stringify(originalData));
@@ -52,7 +68,7 @@ const PersonalInfo = () => {
       onError: (error) => {
         console.error("Error updating profile:", error);
         toast.error("Failed to update profile");
-      }
+      },
     });
   };
 
@@ -81,9 +97,7 @@ const PersonalInfo = () => {
   return (
     <>
       <form onSubmit={handleSubmit} className="bg-white rounded-lg border border-border-primary p-6 w-full">
-        <h2 className="text-2xl font-medium text-text-primary mb-1">
-          Personal Information
-        </h2>
+        <h2 className="text-2xl font-medium text-text-primary mb-1">Personal Information</h2>
         <p className="text-text-secondary text-base mb-6.5">
           Update your personal details.
         </p>
@@ -95,7 +109,7 @@ const PersonalInfo = () => {
             </label>
             <input
               type="text"
-              value={formData.firstName || ""}
+              value={formData.firstName}
               onChange={(e) => handleInputChange("firstName", e.target.value)}
               className="w-full px-2.5 py-2.5 min-h-13 border border-border-primary rounded-md focus:outline-none placeholder-text-secondary text-xl font-normal"
               placeholder="Enter first name"
@@ -109,7 +123,7 @@ const PersonalInfo = () => {
             </label>
             <input
               type="text"
-              value={formData.lastName || ""}
+              value={formData.lastName}
               onChange={(e) => handleInputChange("lastName", e.target.value)}
               className="w-full px-2.5 py-2.5 min-h-13 border border-border-primary rounded-md focus:outline-none placeholder-text-secondary text-xl font-normal"
               placeholder="Enter last name"
@@ -126,7 +140,7 @@ const PersonalInfo = () => {
             </label>
             <input
               type="email"
-              value={formData.email || ""}
+              value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
               className="w-full px-2.5 py-2.5 min-h-13 border border-border-primary rounded-md focus:outline-none placeholder-text-secondary text-xl font-normal"
               placeholder="Enter email"
@@ -140,7 +154,7 @@ const PersonalInfo = () => {
             </label>
             <input
               type="tel"
-              value={formData.phone || ""}
+              value={formData.phone}
               onChange={(e) => handleInputChange("phone", e.target.value)}
               className="w-full px-2.5 py-2.5 min-h-13 border border-border-primary rounded-md focus:outline-none placeholder-text-secondary text-xl font-normal"
               placeholder="Enter phone number"
@@ -154,7 +168,7 @@ const PersonalInfo = () => {
             Bio
           </label>
           <textarea
-            value={formData.bio || ""}
+            value={formData.bio}
             onChange={(e) => handleInputChange("bio", e.target.value)}
             placeholder="Tell us about yourself"
             rows={4}

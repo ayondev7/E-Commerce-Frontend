@@ -13,7 +13,7 @@ export interface Customer {
   email: string;
   phone?: string;
   bio?: string;
-  customerImage?: string; // base64 encoded image
+  customerImage: string;
   createdAt?: string;
   updatedAt?: string;
 }

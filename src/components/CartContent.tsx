@@ -59,11 +59,11 @@ const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
     }
   };
 
-  const updateQuantity = (id: string, change: number) => {
+  const updateQuantity = (id: string, change: number,price: number) => {
     if (type === "cart") {
       const current = getQuantity(id);
       const updated = Math.max(1, current + change);
-      setProductQuantity(id, updated);
+      setProductQuantity(id, updated,price);
     }
   };
 
@@ -71,7 +71,6 @@ const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
     if (type === "cart") {
       remove(id);
     }
-    // wishlist still uses local state
   };
 
   const handleAddSingle = (wishlistId: string, productId: string) => {
@@ -155,7 +154,7 @@ const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
                     {type === "cart" ? (
                       <div className="flex items-center gap-x-2">
                         <button
-                          onClick={() => updateQuantity(item._id, -1)}
+                          onClick={() => updateQuantity(item._id, -1,item.price)}
                           className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-colors"
                         >
                           <Minus className="w-4 h-4 text-text-primary" />
@@ -164,7 +163,7 @@ const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
                           {item.quantity}
                         </span>
                         <button
-                          onClick={() => updateQuantity(item._id, 1)}
+                          onClick={() => updateQuantity(item._id, 1,item.price)}
                           className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-colors"
                         >
                           <Plus className="w-4 h-4 text-text-primary" />

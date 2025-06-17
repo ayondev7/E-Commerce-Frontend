@@ -13,7 +13,9 @@ const MyOrders = () => {
     resetFilters();
   }, [resetFilters]);
 
-  const filteredOrders = data?.data?.filter((order) => {
+  console.log("search:", search, "status:", status);
+
+  const filteredOrders = data?.orders?.filter((order) => {
     const matchesSearch = search
       ? order.orderId?.toLowerCase().includes(search.toLowerCase()) ||
         order.customerName?.toLowerCase().includes(search.toLowerCase())

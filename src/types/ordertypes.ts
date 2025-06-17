@@ -1,4 +1,4 @@
-// Base Order interface matching your MongoDB Order schema
+
 export interface Order {
   _id: string;
   customerId: string;
@@ -16,7 +16,7 @@ export interface Order {
   orderId: string;
 }
 
-// Address interface matching your MongoDB Address schema
+
 export interface Address {
   _id: string;
   customerId: string;
@@ -31,7 +31,7 @@ export interface Address {
   updatedAt: string;
 }
 
-// ShippingInfo interface matching your MongoDB ShippingInfo schema
+
 export interface ShippingInfo {
   _id: string;
   customerId: string;
@@ -45,14 +45,14 @@ export interface ShippingInfo {
   updatedAt: string;
 }
 
-// Product interface for checkout
+
 export interface CheckoutProduct {
   productId: string;
   quantity: number;
   price: number;
 }
 
-// Checkout payload interface
+
 export interface CheckoutPayload {
   products: CheckoutProduct[];
   shipping: number;
@@ -61,7 +61,7 @@ export interface CheckoutPayload {
   total: number;
 }
 
-// Request interface for creating an order (matches your controller expectations)
+
 export interface CreateOrderRequest {
   acceptTerms: boolean;
   billingAddressSame: boolean;
@@ -81,7 +81,7 @@ export interface CreateOrderRequest {
   checkoutPayload: CheckoutPayload;
 }
 
-// Response interface for successful order creation
+
 export interface OrderResponse {
   success: boolean;
   message: string;
@@ -102,14 +102,14 @@ export interface OrderResponse {
   };
 }
 
-// Error response interface
+
 export interface OrderErrorResponse {
   success: false;
   message: string;
   error?: string;
 }
 
-// Extended Order interface with populated fields (for detailed views)
+
 export interface PopulatedOrder extends Order {
   shippingInfo?: ShippingInfo;
   product?: {
@@ -120,7 +120,7 @@ export interface PopulatedOrder extends Order {
   };
 }
 
-// Order status update interfaces
+
 export interface UpdateOrderStatusRequest {
   status: 'pending' | 'shipped' | 'delivered' | 'cancelled';
 }
@@ -130,15 +130,15 @@ export interface UpdatePaymentStatusRequest {
 }
 
 export interface CheckoutFormData {
-  // Address selection
+ 
   addressId?: string;
 
-  // Personal info (always required)
+  
   fullName: string;
   phoneNumber: string;
   email: string;
 
-  // Address fields (required only if no address selected)
+ 
   addressLine1?: string;
   addressLine2?: string;
   city?: string;
@@ -146,13 +146,13 @@ export interface CheckoutFormData {
   country?: string;
   state?: string;
 
-  // Other fields
+  
   billingAddressSame: boolean;
   cashOnDelivery: boolean;
   acceptTerms: boolean;
   promoCode?: string;
 
-  // Payment selection
+  
   paymentMethod: string;
 
   checkoutPayload?: CheckoutPayload;
