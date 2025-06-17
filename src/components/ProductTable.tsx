@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import DeleteProductModal from "./DeleteProductModal";
 import { SimplifiedProduct } from "@/types/productTypes";
+import Image from "next/image";
 
 interface ProductTableProps {
   products: SimplifiedProduct[];
@@ -86,7 +87,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
                 className="border-b last:border-b-0 border-border-primary"
               >
                 <TableCell className="px-4 py-4">
-                  <img
+                  <Image
                     src={
                       product?.image && product?.image !== "null"
                         ? `data:image/jpeg;base64,${product?.image}`

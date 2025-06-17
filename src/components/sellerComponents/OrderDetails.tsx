@@ -1,26 +1,49 @@
 "use client";
 import { ArrowLeft, Printer, Phone, X, Truck } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Timeline from "../Timeline";
 import BuyerInformation from "../BuyerInformation";
 import PaymentInformation from "../PaymentInformation";
 import ProductDetailsCard from "../ProductDetailsCard";
 import { CancelOrderModal } from "../CancelOrderModal";
+import { useGetOrderDetails } from "@/hooks/orderHooks";
 
 const OrderDetails = () => {
   const router = useRouter();
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
-
-  const order = {
-    id: "123456",
-    product: "Wireless Earbuds X200",
-    customer: "Jane Doe"
-  };
+  const params = useParams();
+  const orderId = params?.orderId as string;
+  const _id = params?.id as string;
+  const { data, isLoading, error } = useGetOrderDetails(_id);
 
   const handleCancelOrder = () => {
     setIsCancelModalOpen(false);
   };
+
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-[#7D8184] opacity-50" />
+        <div className="relative bg-background-primary rounded-lg p-5 border border-border-primary">
+          <p className="text-text-primary">Loading order details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-[#7D8184] opacity-50" />
+        <div className="relative bg-background-primary rounded-lg p-5 border border-border-primary">
+          <p className="text-text-primary">Failed to load order details.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const order = data;
 
   return (
     <div>
@@ -46,14 +69,14 @@ const OrderDetails = () => {
         </div>
       </div>
       <div className="mt-10 rounded-lg border border-border-primary bg-white p-5">
-        <ProductDetailsCard />
+        <ProductDetailsCard order={order} orderId={orderId} />
         <div className="flex gap-x-5 mt-5 items-start">
           <Timeline />
-          <BuyerInformation />
-          <PaymentInformation />
+          <BuyerInformation order={order} />
+          <PaymentInformation order={order} />
         </div>
         <div className="flex gap-x-5 mt-10">
-          <button 
+          <button
             onClick={() => setIsCancelModalOpen(true)}
             className="flex items-center min-w-42 min-h-13 justify-center rounded-sm border font-medium border-red-200 text-button-primary gap-x-1.5 px-4 py-2 cursor-pointer"
           >

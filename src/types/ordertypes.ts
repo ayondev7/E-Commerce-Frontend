@@ -157,3 +157,70 @@ export interface CheckoutFormData {
 
   checkoutPayload?: CheckoutPayload;
 }
+
+export interface OrderDetailsResponse {
+  _id: string;
+  quantity: number;
+  price: number;
+  paymentStatus: 'pending' | 'paid' | 'failed';
+  orderStatus: 'pending' | 'shipped' | 'delivered' | 'cancelled';
+  paymentMethod: string;
+  createdAt: string;
+  updatedAt: string;
+
+  product: {
+    _id: string;
+    title: string;
+    price: number;
+    salePrice?: number;
+    category: string;
+    brand: string;
+    quantity: number;
+    model: string;
+    storage: string;
+    colour: string;
+    condition: string;
+    ram: string;
+    sku: string;
+    negotiable: boolean;
+    tags: string[];
+    firstImageBase64: string | null;
+    stockStatus:string;
+  };
+
+  shippingInfo: {
+    _id: string;
+    customerId: string;
+    fullName: string;
+    phoneNumber: string;
+    email: string;
+    addressId: {
+      _id: string;
+      customerId: string;
+      name: string;
+      addressLine: string;
+      city: string;
+      zipCode: string;
+      country: string;
+      state: string;
+      isDefault: boolean;
+      createdAt: string;
+      updatedAt: string;
+    };
+    optionalAddressId?: {
+      _id: string;
+      customerId: string;
+      name: string;
+      addressLine: string;
+      city: string;
+      zipCode: string;
+      country: string;
+      state: string;
+      isDefault: boolean;
+      createdAt: string;
+      updatedAt: string;
+    } | null;
+    createdAt: string;
+    updatedAt: string;
+  };
+}

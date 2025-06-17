@@ -65,8 +65,8 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
     setIsViewModalOpen(false);
   };
 
-  const handleViewClick = (orderId: string) => {
-    router.push(`/seller/view-order/${orderId}`);
+  const handleViewClick = (_id: string, orderId: string) => {
+    router.push(`/seller/view-order/${orderId}/${_id}`);
   };
 
   return (
@@ -103,7 +103,7 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
               className="border-b last:border-b-0 border-border-primary"
             >
               <TableCell className="text-text-primary px-4 py-4 text-base">
-               {order?.orderId}
+                {order?.orderId}
               </TableCell>
               <TableCell className="text-text-primary px-4 py-4 text-base">
                 {formatDate(order?.createdAt)}
@@ -130,7 +130,7 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
                 {userType === "seller" ? (
                   <div className="flex gap-2.5">
                     <button
-                      onClick={() => handleViewClick(order._id)}
+                      onClick={() => handleViewClick(order._id,order.orderId)}
                       className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
                     >
                       <Eye className="w-6 h-6" />
@@ -197,14 +197,8 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
           onClose={() => setIsViewModalOpen(false)}
           onCancel={() => setIsViewModalOpen(false)}
           onShip={handleShipOrder}
-          order={{
-            id: selectedOrder.id,
-            date: formatDate(selectedOrder.createdAt),
-            status: selectedOrder.status,
-            product: selectedOrder.product || "Wireless Earbuds X200",
-            amount: `$${selectedOrder.price.toFixed(2)}`,
-            customer: selectedOrder.customer,
-          }}
+          _id={selectedOrder._id}
+          orderId={selectedOrder.orderId}
         />
       )}
     </div>
