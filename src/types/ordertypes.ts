@@ -224,3 +224,10 @@ export interface OrderDetailsResponse {
     updatedAt: string;
   };
 }
+
+export interface OrderStatusCounts{
+  pending: number;
+  shipped: number;
+  delivered: number;
+  cancelled: number;
+};

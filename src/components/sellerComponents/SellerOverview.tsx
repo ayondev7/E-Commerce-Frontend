@@ -1,11 +1,42 @@
+"use client";
 import React from "react";
 import SalesAnalyticsCard from "../SalesAnalyticsCard";
 import OrderStatus from "../OrderStatus";
 import { AlertCircle } from "lucide-react";
 import RevenueChart from "../RevenueChart";
 import Link from "next/link";
+import { useOrderStatusCounts } from "@/hooks/orderHooks";
 
 const SellerOverview = () => {
+  const { data, isLoading, error } = useOrderStatusCounts();
+
+  const renderOrderStatus = () => {
+    if (isLoading) {
+      return (
+        <div className="col-span-4 text-sm text-muted-foreground">
+          Loading order statuses...
+        </div>
+      );
+    }
+
+    if (error) {
+      return (
+        <div className="col-span-4 text-sm text-red-500">
+          Failed to load order statuses.
+        </div>
+      );
+    }
+
+    return (
+      <>
+        <OrderStatus status="pending" count={data?.pending || 0} />
+        <OrderStatus status="shipped" count={data?.shipped || 0} />
+        <OrderStatus status="delivered" count={data?.delivered || 0} />
+        <OrderStatus status="cancelled" count={data?.cancelled || 0} />
+      </>
+    );
+  };
+
   return (
     <div>
       <div>
@@ -37,13 +68,10 @@ const SellerOverview = () => {
         />
       </div>
 
-      <div className=" bg-background-primary my-10 px-3 py-5 rounded-lg border border-border-primary">
+      <div className="bg-background-primary my-10 px-3 py-5 rounded-lg border border-border-primary">
         <h2 className="text-lg font-semibold mb-2.5">Order Status</h2>
         <div className="grid grid-cols-4 gap-x-5">
-          <OrderStatus status="pending" count={10} />
-          <OrderStatus status="shipped" count={10} />
-          <OrderStatus status="delivered" count={10} />
-          <OrderStatus status="cancelled" count={10} />
+          {renderOrderStatus()}
         </div>
       </div>
 
@@ -63,7 +91,7 @@ const SellerOverview = () => {
             </span>
           </div>
         </div>
-        <Link href="/products">
+        <Link href="/seller/products">
           <button className="rounded-lg hover:cursor-pointer border min-w-31 min-h-10 flex justify-center font-medium items-center border-warning-border text-warning-primary px-4 py-2 bg-white">
             View Products
           </button>

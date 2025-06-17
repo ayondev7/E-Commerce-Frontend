@@ -78,3 +78,18 @@ export const useSearchProducts = (category?: string, keyword?: string) => {
   });
 };
 
+export const useDeleteProduct = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (productId: string) => {
+      const response = await apiClient.delete(`/api/products/delete/${productId}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PRODUCT_QUERY_KEY });
+      queryClient.refetchQueries({ queryKey: PRODUCT_QUERY_KEY });
+    },
+  });
+};
+

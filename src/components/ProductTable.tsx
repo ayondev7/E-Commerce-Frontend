@@ -29,11 +29,6 @@ const ProductTable = ({ products }: ProductTableProps) => {
     setDeleteModalOpen(true);
   };
 
-  const handleDeleteConfirm = () => {
-    setDeleteModalOpen(false);
-    setSelectedProduct(null);
-  };
-
   const handleEditClick = (productId: string) => {
     router.push(`/seller/edit-product/${productId}`);
   };
@@ -153,8 +148,8 @@ const ProductTable = ({ products }: ProductTableProps) => {
         <DeleteProductModal
           isOpen={deleteModalOpen}
           onClose={() => setDeleteModalOpen(false)}
-          onDelete={handleDeleteConfirm}
           productName={selectedProduct.title}
+          productId={selectedProduct._id}
         />
       )}
     </>

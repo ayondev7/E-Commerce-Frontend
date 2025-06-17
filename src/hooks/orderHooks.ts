@@ -1,10 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/lib/apiClient";
-import { Order, OrderResponse, CreateOrderRequest, OrderDetailsResponse } from "@/types/ordertypes";
+import { Order, OrderResponse, CreateOrderRequest, OrderDetailsResponse, OrderStatusCounts } from "@/types/ordertypes";
 
 export const ORDERS_QUERY_KEY = ['orders'];
 export const SELLER_ORDERS_QUERY_KEY = ['seller-orders'];
 export const ORDER_DETAILS_QUERY_KEY = (orderId: string) => ['order-details', orderId];
+export const ORDER_STATUS_COUNTS_QUERY_KEY = ["order-status-counts"];
 
 export const useGetAllOrders = () => {
   return useQuery<{ orders: Order[] }>({
@@ -79,5 +80,16 @@ export const useUpdateOrderStatus = () => {
         queryKey: ORDER_DETAILS_QUERY_KEY(variables.orderId),
       });
     },
+  });
+};
+
+export const useOrderStatusCounts = () => {
+  return useQuery<OrderStatusCounts>({
+    queryKey: ORDER_STATUS_COUNTS_QUERY_KEY,
+    queryFn: async () => {
+      const res = await apiClient.get("/api/orders/get-order-status-counts");
+      return res.data;
+    },
+    staleTime: 0,
   });
 };

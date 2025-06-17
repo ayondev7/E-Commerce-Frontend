@@ -1,19 +1,36 @@
-import React from 'react';
-import { X, Trash, AlertTriangle } from 'lucide-react';
+import React from "react";
+import { X, Trash, AlertTriangle } from "lucide-react";
+import toast from "react-hot-toast";
+import { useDeleteProduct } from "@/hooks/productHooks";
 
 interface DeleteProductModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onDelete: () => void;
   productName: string;
+  productId: string;
 }
 
 const DeleteProductModal = ({
   isOpen,
   onClose,
-  onDelete,
   productName,
+  productId,
 }: DeleteProductModalProps) => {
+
+  const { mutate, isPending } = useDeleteProduct();
+
+  const handleDelete = () => {
+    mutate(productId, {
+      onSuccess: () => {
+        toast.success("Product deleted successfully.");
+        onClose();
+      },
+      onError: () => {
+        toast.error("Failed to delete product. Please try again.");
+      },
+    });
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -30,24 +47,26 @@ const DeleteProductModal = ({
           <p className="text-base text-text-secondary mb-3">
             Are you sure you want to delete this product? This action cannot be undone.
           </p>
-          <p className="text-[20px] font-medium text-text-primary">
-            {productName}
-          </p>
+          <p className="text-[20px] font-medium text-text-primary">{productName}</p>
         </div>
+
         <div className="flex gap-y-2 gap-x-5 justify-center">
           <button
             onClick={onClose}
             className="flex items-center justify-center gap-2 px-4 py-2 rounded-sm border border-border-primary text-text-primary hover:cursor-pointer transition-colors min-w-28.5 min-h-10"
+            disabled={isPending}
           >
             <X className="w-6 h-6" />
             <span className="font-medium">Cancel</span>
           </button>
+
           <button
-            onClick={onDelete}
-            className="flex items-center justify-center gap-2 px-4 py-2 rounded-sm bg-danger-primary text-white hover:cursor-pointer transition-colors min-w-28.5 min-h-10"
+            onClick={handleDelete}
+            disabled={isPending}
+            className="flex items-center justify-center gap-2 px-4 py-2 rounded-sm bg-danger-primary text-white hover:cursor-pointer transition-colors min-w-28.5 min-h-10 disabled:opacity-70 disabled:cursor-not-allowed"
           >
             <Trash className="w-6 h-6" />
-            <span className="font-medium">Delete</span>
+            <span className="font-medium">{isPending ? "Deleting..." : "Delete"}</span>
           </button>
         </div>
       </div>
@@ -55,4 +74,4 @@ const DeleteProductModal = ({
   );
 };
 
-export default DeleteProductModal; 
+export default DeleteProductModal;
