@@ -8,8 +8,8 @@ export interface WishlistGroup {
   customerId: string;
   createdAt: string;
   updatedAt: string;
-  products?: SimplifiedProduct[];
-  productsCount?: number;
+  products: SimplifiedProduct[];
+  productsCount: number;
 }
 
 export interface WishlistDocument {

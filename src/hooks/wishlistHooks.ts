@@ -31,10 +31,10 @@ export const useCreateWishlist = () => {
         exact: true,
       });
       queryClient.invalidateQueries({ queryKey: WISHLIST_QUERY_KEY });
-      queryClient.refetchQueries({
-        queryKey: WISHLIST_QUERY_KEY,
-        exact: true,
-      });
+      // queryClient.refetchQueries({
+      //   queryKey: WISHLIST_QUERY_KEY,
+      //   exact: true,
+      // });
     },
   });
 };
@@ -63,10 +63,10 @@ export const useAddToWishlist = () => {
         exact: true,
       });
       queryClient.invalidateQueries({ queryKey: WISHLIST_QUERY_KEY });
-      queryClient.refetchQueries({
-        queryKey: WISHLIST_QUERY_KEY,
-        exact: true,
-      });
+      // queryClient.refetchQueries({
+      //   queryKey: WISHLIST_QUERY_KEY,
+      //   exact: true,
+      // });
     },
   });
 };

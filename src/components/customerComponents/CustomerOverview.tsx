@@ -1,10 +1,26 @@
 import React from "react";
-import { Package, Heart, Truck, Gift } from "lucide-react";
+import { Package, Heart, Truck, Gift, LucideIcon } from "lucide-react";
 import CustomerOverviewCard from "../CustomerOverviewCard";
 import ActivityCard from "../ActivityCard";
 
+type Activity = {
+  id: string;
+  type: "order_delivered" | "wishlist_added" | "order_shipped" | "review_posted" | "coupon_applied";
+  title: string;
+  description: string;
+  timestamp: string;
+};
+
+type CardData = {
+  title: string;
+  value: string;
+  icon: LucideIcon;
+  iconBgColor: string;
+  iconColor: string;
+};
+
 const CustomerOverview = () => {
-  const cardData = [
+  const cardData: CardData[] = [
     {
       title: "Total Orders",
       value: "24",
@@ -35,7 +51,7 @@ const CustomerOverview = () => {
     },
   ];
 
-  const sampleActivities = [
+  const sampleActivities: Activity[] = [
     {
       id: "1",
       type: "order_delivered",
@@ -98,7 +114,6 @@ const CustomerOverview = () => {
       <div className="mt-10">
         <ActivityCard activities={sampleActivities} />
       </div>
-
     </div>
   );
 };

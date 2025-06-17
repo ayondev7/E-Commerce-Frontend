@@ -16,8 +16,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { useUserStore } from "@/store/userStore";
 
-const SearchBar: React.FC<{ }> = ({
-}) => {
+const SearchBar: React.FC<{}> = ({}) => {
   const { userType } = useUserStore();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [category, setCategory] = useState<string | undefined>(undefined);
@@ -28,23 +27,13 @@ const SearchBar: React.FC<{ }> = ({
   );
   const [showModal, setShowModal] = useState(false);
 
-  const { data, isLoading, refetch } = useSearchProducts(
-    userType === "seller" ? category : undefined,
-    userType === "seller" && searchTriggered ? keyword : undefined
-  );
+  const { data, isLoading, refetch } = useSearchProducts(category, keyword);
 
   const { mutate: addToWishlist, isPending: wishlistLoading } =
     useAddToWishlist();
 
   const handleSearchClick = () => {
-    if (userType === "seller" && keyword.trim()) {
-      setSearchTriggered(true);
-      refetch();
-    }
-  };
-
-  const handleInputFocus = () => {
-    if ((data?.products?.length ?? 0) > 0) {
+    if (keyword.trim()) {
       setSearchTriggered(true);
       refetch();
     }
@@ -141,7 +130,6 @@ const SearchBar: React.FC<{ }> = ({
                 className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none rounded-r-lg text-base"
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
-                onFocus={handleInputFocus}
                 onKeyDown={(e) => e.key === "Enter" && handleSearchClick()}
               />
             </div>
@@ -164,7 +152,7 @@ const SearchBar: React.FC<{ }> = ({
 
           {userType === "customer" && (
             <div className="flex gap-x-2.5">
-              <Link  className="text-decoration: none" href="/customer/wishlist">
+              <Link className="text-decoration: none" href="/customer/wishlist">
                 <div className="flex items-center px-4 py-2 justify-center gap-x-2.5 text-base text-text-secondary hover:cursor-pointer">
                   <Heart className="w-6 h-6" />
                   <span>Wishlist</span>
@@ -213,16 +201,18 @@ const SearchBar: React.FC<{ }> = ({
                       ${item.price.toFixed(2)}
                     </p>
                     <div>
-                      <button
-                        onClick={(e) => handleAddWishlistClick(item._id, e)}
-                        disabled={wishlistLoading}
-                        className="flex items-center min-h-12 justify-center gap-x-2.5 px-4 py-2 text-white font-medium text-base rounded-sm bg-button-primary hover:cursor-pointer"
-                      >
-                        <PlusIcon className="w-6 h-6" />
-                        <span className="text-sm font-medium">
-                          {wishlistLoading ? "Adding..." : "Add to Wishlist"}
-                        </span>
-                      </button>
+                      {userType !== "seller" && (
+                        <button
+                          onClick={(e) => handleAddWishlistClick(item._id, e)}
+                          disabled={wishlistLoading}
+                          className="flex items-center min-h-12 justify-center gap-x-2.5 px-4 py-2 text-white font-medium text-base rounded-sm bg-button-primary hover:cursor-pointer"
+                        >
+                          <PlusIcon className="w-6 h-6" />
+                          <span className="text-sm font-medium">
+                            {wishlistLoading ? "Adding..." : "Add to Wishlist"}
+                          </span>
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>

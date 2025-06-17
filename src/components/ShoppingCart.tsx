@@ -40,7 +40,7 @@ const ShoppingCart: React.FC = () => {
       <div className="mb-10 space-y-1">
         <h1 className="text-3xl font-semibold">Shopping Cart</h1>
         <h3 className="text-text-secondary text-base">
-          You have {data.productsCount || 0} items in your cart.
+          You have {data?.productsCount || 0} items in your cart.
         </h3>
       </div>
 

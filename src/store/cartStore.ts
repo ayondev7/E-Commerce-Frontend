@@ -2,8 +2,6 @@ import { CartProduct, CheckoutPayload } from '@/types/checkoutTypes';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-
-
 interface CartStore {
   products: CartProduct[];
   selectedProductIds: Set<string>;
@@ -11,7 +9,7 @@ interface CartStore {
   checkoutPayload: CheckoutPayload | null;
 
   hydrateCart: (products: CartProduct[]) => void;
-  setProductQuantity: (productId: string, quantity: number, price: number) => void;
+  setProductQuantity: (productId: string, quantity: number) => void;
   increment: (productId: string) => void;
   decrement: (productId: string) => void;
   remove: (productId: string) => void;

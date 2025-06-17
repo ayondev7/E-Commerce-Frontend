@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { WishlistGroup } from "@/types/wishlistTypes";
 
 const Wishlist = () => {
-  const { data, isLoading, isError } = useGetWishlist();
+  const { data, isLoading, isError,refetch } = useGetWishlist();
   const { getSelected, deselectAll, getSelectedByWishlist } = useWishlistStore();
   const { mutate: addToCart } = useAddToCart();
   const { mutate: createList, isPending: creating } = useCreateWishlist();
@@ -35,6 +35,7 @@ const Wishlist = () => {
     addToCart(cartEntries, {
       onSuccess: () => {
         toast.success("Added to cart");
+        refetch();
         setTimeout(() => {
           deselectAll();
         }, 2000);

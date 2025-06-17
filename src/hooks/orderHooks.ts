@@ -30,11 +30,11 @@ export const useGetOrderDetails = (orderId: string) => {
 };
 
 export const useGetAllSellerOrders = () => {
-  return useQuery<{ orders: Order[] }>({
+  return useQuery<Order[]>({
     queryKey: SELLER_ORDERS_QUERY_KEY,
     queryFn: async () => {
       const res = await apiClient.get("/api/orders/get-seller-orders");
-      return res.data;
+      return res.data.data;
     },
     staleTime: 0,
   });

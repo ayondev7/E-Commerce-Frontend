@@ -72,7 +72,7 @@ const WishListModal: React.FC<WishListModalProps> = ({ open, onClose, onSelect }
           >
             Cancel
           </button>
-          {!isLoading && !isError && data?.wishlists.length > 0 && (
+          {!isLoading && !isError && data!.wishlists.length > 0 && (
             <button
               disabled={!selectedList}
               onClick={() => {

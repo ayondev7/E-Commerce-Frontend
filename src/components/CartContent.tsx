@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { Store, Minus, Plus, Trash2, ShoppingCart } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useWishlistStore } from "@/store/wishlistStore";

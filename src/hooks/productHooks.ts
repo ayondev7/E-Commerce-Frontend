@@ -73,7 +73,7 @@ export const useSearchProducts = (category?: string, keyword?: string) => {
       const response = await apiClient.get(`/api/products/search?${params.toString()}`);
       return response.data;
     },
-    enabled: Boolean(category || keyword),
+    enabled:false,
     staleTime: 0,
   });
 };

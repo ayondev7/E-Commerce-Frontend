@@ -5,6 +5,7 @@ import OrderProductSearchBar from "../OrderProductSearchBar";
 import Tab from "../Tab";
 import { useGetAllSellerOrders } from "@/hooks/orderHooks";
 import { useOrderFilterStore } from "@/store/orderProductFilterStore";
+import { Order } from "@/types/ordertypes";
 
 const Orders = () => {
   const { data, isLoading, isError } = useGetAllSellerOrders();
@@ -18,18 +19,16 @@ const Orders = () => {
     { value: "cancelled", label: "Cancelled" },
   ];
 
-  // Reset filters when component mounts
   useEffect(() => {
     resetFilters();
   }, [resetFilters]);
 
-  const orders = data?.data || [];
+  const orders = data || [];
 
-  const filteredOrders = orders.filter((order: any) => {
-    // Filter by tab status
+  const filteredOrders = orders.filter((order: Order) => {
+
     const matchesTab = tabValue === "all" || order.status === tabValue;
     
-    // Filter by search input
     const matchesSearch = search
       ? order.orderId?.toLowerCase().includes(search.toLowerCase()) ||
         order.customerName?.toLowerCase().includes(search.toLowerCase())

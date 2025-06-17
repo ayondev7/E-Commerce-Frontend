@@ -154,7 +154,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
           isOpen={deleteModalOpen}
           onClose={() => setDeleteModalOpen(false)}
           onDelete={handleDeleteConfirm}
-          productName={selectedProduct.name}
+          productName={selectedProduct.title}
         />
       )}
     </>

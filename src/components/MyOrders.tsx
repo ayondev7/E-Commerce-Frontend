@@ -9,12 +9,9 @@ const MyOrders = () => {
   const { data, isLoading, isError } = useGetAllOrders();
   const { search, status, resetFilters } = useOrderFilterStore();
 
-  // Reset filters when component mounts
   useEffect(() => {
     resetFilters();
   }, [resetFilters]);
-
-  console.log("search:", search, "status:", status);
 
   const filteredOrders = data?.data?.filter((order) => {
     const matchesSearch = search
