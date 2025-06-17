@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/lib/apiClient";
 import { WishlistDocument, WishlistGroup } from "@/types/wishlistTypes";
+import { CUSTOMER_STATS_QUERY_KEY } from "./customerHooks";
 
 export const WISHLIST_QUERY_KEY = ['wishlist'];
 export const GET_ALL_LISTS_QUERY_KEY = ["list"];
@@ -31,10 +32,6 @@ export const useCreateWishlist = () => {
         exact: true,
       });
       queryClient.invalidateQueries({ queryKey: WISHLIST_QUERY_KEY });
-      // queryClient.refetchQueries({
-      //   queryKey: WISHLIST_QUERY_KEY,
-      //   exact: true,
-      // });
     },
   });
 };
@@ -58,15 +55,8 @@ export const useAddToWishlist = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: GET_ALL_LISTS_QUERY_KEY });
-       queryClient.refetchQueries({
-        queryKey: GET_ALL_LISTS_QUERY_KEY,
-        exact: true,
-      });
       queryClient.invalidateQueries({ queryKey: WISHLIST_QUERY_KEY });
-      // queryClient.refetchQueries({
-      //   queryKey: WISHLIST_QUERY_KEY,
-      //   exact: true,
-      // });
+      queryClient.invalidateQueries({ queryKey: CUSTOMER_STATS_QUERY_KEY });
     },
   });
 };
@@ -92,15 +82,7 @@ export const useRemoveFromWishlist = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: GET_ALL_LISTS_QUERY_KEY });
-       queryClient.refetchQueries({
-        queryKey: GET_ALL_LISTS_QUERY_KEY,
-        exact: true,
-      });
       queryClient.invalidateQueries({ queryKey: WISHLIST_QUERY_KEY });
-      queryClient.refetchQueries({
-        queryKey: WISHLIST_QUERY_KEY,
-        exact: true,
-      });
     },
   });
 };

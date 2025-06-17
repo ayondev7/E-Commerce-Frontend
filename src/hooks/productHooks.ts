@@ -1,9 +1,33 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import apiClient from '@/lib/apiClient';
-import { SimplifiedProduct } from '@/types/productTypes';
+import { ProductFormData, SimplifiedProduct } from '@/types/productTypes';
+
+interface SelectedProduct {
+  productId: string;
+  quantity: number;
+}
+
+interface ResponseData {
+  products: SimplifiedProduct[];
+}
 
 export const PRODUCTS_BY_ID_QUERY_KEY = ['productsById'];
 export const PRODUCT_QUERY_KEY = ['products'];
+export const SINGLE_PRODUCT_QUERY_KEY = ['singleProduct'];
+
+
+export const useSingleProduct = (productId?: string) => {
+  return useQuery<ProductFormData, Error>({
+    queryKey: [...SINGLE_PRODUCT_QUERY_KEY, productId],
+    queryFn: async () => {
+      if (!productId) throw new Error('Product ID is required');
+      const response = await apiClient.get(`/api/products/get-product/${productId}`);
+      return response.data;
+    },
+    enabled: !!productId,
+    staleTime: 0,
+  });
+};
 
 export const useProducts = () => {
   return useQuery<{ products: SimplifiedProduct[] }>({
@@ -15,16 +39,6 @@ export const useProducts = () => {
     staleTime: 0, 
   });
 };
-
-
-interface SelectedProduct {
-  productId: string;
-  quantity: number;
-}
-
-interface ResponseData {
-  products: SimplifiedProduct[];
-}
 
 export const useProductsById = (
   selectedProducts: SelectedProduct[] | undefined

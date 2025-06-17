@@ -1,7 +1,9 @@
+"use client";
 import React from "react";
 import { Package, Heart, Truck, Gift, LucideIcon } from "lucide-react";
 import CustomerOverviewCard from "../CustomerOverviewCard";
 import ActivityCard from "../ActivityCard";
+import { useCustomerStats } from "@/hooks/customerHooks";
 
 type Activity = {
   id: string;
@@ -20,31 +22,33 @@ type CardData = {
 };
 
 const CustomerOverview = () => {
+  const { data: stats, isLoading } = useCustomerStats();
+
   const cardData: CardData[] = [
     {
       title: "Total Orders",
-      value: "24",
+      value: isLoading ? "..." : String(stats?.totalOrders ?? 0),
       icon: Package,
       iconBgColor: "bg-blue-50",
       iconColor: "text-blue-600",
     },
     {
       title: "Wishlist Items",
-      value: "12",
+      value: isLoading ? "..." : String(stats?.totalWishlistItems ?? 0),
       icon: Heart,
       iconBgColor: "bg-pink-50",
       iconColor: "text-pink-600",
     },
     {
       title: "Pending Deliveries",
-      value: "3",
+      value: isLoading ? "..." : String(stats?.pendingOrders ?? 0),
       icon: Truck,
       iconBgColor: "bg-orange-50",
       iconColor: "text-orange-600",
     },
     {
       title: "Active Coupons",
-      value: "5",
+      value: "5", 
       icon: Gift,
       iconBgColor: "bg-green-50",
       iconColor: "text-green-600",

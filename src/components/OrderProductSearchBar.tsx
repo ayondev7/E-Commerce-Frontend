@@ -9,14 +9,32 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useOrderFilterStore } from "@/store/orderProductFilterStore";
+import { useProductFilterStore } from "@/store/productFilterStore";
 
 type OrderProductSearchBarProps = {
   type: "product" | "order" | "customer";
 };
 
 const OrderProductSearchBar = ({ type }: OrderProductSearchBarProps) => {
-  const { search, status, setSearch, setStatus } = useOrderFilterStore();
-  
+  const {
+    search: orderSearch,
+    status,
+    setSearch: setOrderSearch,
+    setStatus,
+  } = useOrderFilterStore();
+
+  const {
+    search: productSearch,
+    setSearch: setProductSearch,
+    category,
+    setCategory,
+    stockStatus,
+    setStockStatus,
+  } = useProductFilterStore();
+
+  const search = type === "product" ? productSearch : orderSearch;
+  const setSearch = type === "product" ? setProductSearch : setOrderSearch;
+
   return (
     <div className={`flex ${type === "customer" ? "gap-x-5" : "gap-x-4"}`}>
       <div className="flex-1 relative min-h-13 flex bg-background-primary items-center border border-border-primary rounded-md">
@@ -38,7 +56,7 @@ const OrderProductSearchBar = ({ type }: OrderProductSearchBarProps) => {
 
       {type === "product" && (
         <>
-          <Select>
+          <Select value={category} onValueChange={setCategory}>
             <SelectTrigger className="w-51 bg-white min-h-13 py-2.5 px-5 [&>svg]:w-6 [&>svg]:h-6 text-base text-text-primary focus:ring-0 focus:ring-offset-0 [&>svg]:text-text-primary [&[data-state=open]>svg]:rotate-180 rounded-md border-border-primary">
               <SelectValue placeholder="Categories" />
             </SelectTrigger>
@@ -55,7 +73,7 @@ const OrderProductSearchBar = ({ type }: OrderProductSearchBarProps) => {
             </SelectContent>
           </Select>
 
-          <Select>
+          <Select value={stockStatus} onValueChange={setStockStatus}>
             <SelectTrigger className="w-51 bg-white py-2.5 min-h-13 px-5 [&>svg]:w-6 [&>svg]:h-6 text-base text-text-primary focus:ring-0 focus:ring-offset-0 [&>svg]:text-text-primary [&[data-state=open]>svg]:rotate-180 rounded-md border-border-primary">
               <SelectValue placeholder="Stock Status" />
             </SelectTrigger>
@@ -63,10 +81,10 @@ const OrderProductSearchBar = ({ type }: OrderProductSearchBarProps) => {
               <SelectItem value="active" className="pl-7 text-base">
                 Active
               </SelectItem>
-              <SelectItem value="low_stock" className="pl-7 text-base">
+              <SelectItem value="low stock" className="pl-7 text-base">
                 Low Stock
               </SelectItem>
-              <SelectItem value="out_of_stock" className="pl-7 text-base">
+              <SelectItem value="out of stock" className="pl-7 text-base">
                 Out of Stock
               </SelectItem>
             </SelectContent>

@@ -1,35 +1,37 @@
-'use client';
-import React from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { Globe, HelpCircle, Bell } from 'lucide-react';
+"use client";
+import React from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Globe, HelpCircle, Bell } from "lucide-react";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { useUserStore } from '@/store/userStore'; 
+} from "@/components/ui/select";
+import { useUserStore } from "@/store/userStore";
+import Image from "next/image";
 
 const Navbar = () => {
   const router = useRouter();
   const { name, image } = useUserStore();
   const { resetUser } = useUserStore.getState();
+  const { userType } = useUserStore();
 
   const handleLogout = () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       sessionStorage.clear();
       resetUser();
     }
-    router.push('/auth');
+    router.push("/auth");
   };
 
   const handleUserMenuChange = (value: string) => {
-    if (value === 'logout') {
+    if (value === "logout") {
       handleLogout();
-    } else if (value === 'profile') {
-      router.push('/profile');
+    } else if (value === "profile") {
+      router.push("/profile");
     }
   };
 
@@ -37,7 +39,7 @@ const Navbar = () => {
     <nav className="w-full bg-white py-6 px-18">
       <div className="container w-full h-full flex items-center justify-between">
         <Link
-          href="/overview"
+          href={`/${userType}/overview`}
           className="text-[32px] font-bold text-text-tertiary"
         >
           Logo
@@ -84,18 +86,20 @@ const Navbar = () => {
             <SelectTrigger className="min-w-36.5 px-0 py-0 justify-start rounded-none border-0 focus:ring-0 focus:ring-offset-0 [&>svg]:ml-1.5 [&>svg]:w-5 [&>svg]:h-5 [&[data-state=open]>svg]:rotate-180">
               <div className="flex items-center gap-1.5">
                 <div className="w-8 h-8 rounded-full">
-                  <img
+                  <Image
+                    width={32}
+                    height={32}
                     src={
                       image
                         ? `data:image/jpeg;base64,${image}`
-                        : 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
+                        : "https://github.com/shadcn.png"
                     }
                     alt="Profile"
                     className="w-full h-full rounded-full object-cover"
                   />
                 </div>
                 <p className="text-base text-text-primary font-medium">
-                  {name || 'John Doe'}
+                  {name || "John Doe"}
                 </p>
               </div>
             </SelectTrigger>

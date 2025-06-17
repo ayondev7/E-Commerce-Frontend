@@ -1,48 +1,22 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import apiClient from '@/lib/apiClient';
+import { RegisterPayload, LoginResponse, Customer, UpdatePayload, CustomerStats } from '@/types/customerTypes';
 
-// Query keys
 export const CUSTOMER_QUERY_KEY = ['customers'];
 export const CUSTOMER_PROFILE_QUERY_KEY = ['customer-profile'];
+export const CUSTOMER_STATS_QUERY_KEY = ['customer-stats'];
 
-// Types
-export interface Customer {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone?: string;
-  bio?: string;
-  customerImage: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
+export const useCustomerStats = () => {
+  return useQuery<CustomerStats>({
+    queryKey: CUSTOMER_STATS_QUERY_KEY,
+    queryFn: async () => {
+      const response = await apiClient.get('/api/customers/get-overview-stats');
+      return response.data; 
+    },
+    staleTime: 0, 
+  });
+};
 
-interface LoginResponse {
-  accessToken: string;
-  customer: Customer;
-}
-
-interface RegisterPayload {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  phone?: string;
-  bio?: string;
-  customerImage?: File;
-}
-
-interface UpdatePayload {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  phone?: string;
-  bio?: string;
-  customerImage?: File;
-}
-
-// Hooks
 export const useRegisterCustomer = () => {
   return useMutation({
     mutationFn: async (payload: RegisterPayload) => {
