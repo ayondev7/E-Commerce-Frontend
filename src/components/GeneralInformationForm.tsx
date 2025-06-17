@@ -151,7 +151,7 @@ const GeneralInformationForm = ({
           </div>
           {watchedImages.length > 0 && (
             <div className="mt-4 grid grid-cols-4 gap-4">
-              {watchedImages.map((image, index) => (
+              {watchedImages.map((image:File, index:number) => (
                 <div key={index} className="relative group">
                   <img
                     src={URL.createObjectURL(image)}

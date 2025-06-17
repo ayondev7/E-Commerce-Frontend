@@ -8,13 +8,15 @@ import SpecificationsForm from "./SpecificationsForm";
 import PricingInventoryForm from "./PricingInventoryForm";
 import AdditionalInformationForm from "./AdditionalInformationForm";
 import { Checkbox } from "./ui/checkbox";
+import { ProductFormData } from "@/types/productTypes";
+import toast from "react-hot-toast";
 
 const AddProductForm = () => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [negotiable, setNegotiable] = useState(false);
 
-  const methods = useForm({
+  const methods = useForm<ProductFormData>({
     defaultValues: {
       title: "",
       description: "",
@@ -34,62 +36,70 @@ const AddProductForm = () => {
       tags: "",
       seoTitle: "",
       seoDescription: "",
-      specifications: []
-    }
+      specifications: [],
+    },
   });
 
-  const { handleSubmit, reset, formState: { errors } } = methods;
+  const {
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = methods;
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: ProductFormData) => {
     try {
       setIsSubmitting(true);
-      const accessToken = sessionStorage.getItem('accessToken');
+      const accessToken = sessionStorage.getItem("accessToken");
       if (!accessToken) {
-        alert('Please login to continue');
+        alert("Please login to continue");
         return;
       }
 
       const formData = new FormData();
-      formData.append('title', data.title);
-      formData.append('description', data.description);
-      formData.append('category', data.category);
-      formData.append('brand', data.brand);
-      formData.append('model', data.model);
-      formData.append('storage', data.storage);
-      formData.append('colour', data.color);
-      formData.append('ram', data.ram);
-      formData.append('price', data.price);
-      formData.append('quantity', data.quantity);
-      formData.append('negotiable', negotiable.toString());
+      formData.append("title", data.title);
+      formData.append("description", data.description);
+      formData.append("category", data.category);
+      formData.append("brand", data.brand);
+      formData.append("model", data.model);
+      formData.append("storage", data.storage);
+      formData.append("colour", data.color);
+      formData.append("ram", data.ram);
+      formData.append("price", data.price);
+      formData.append("quantity", data.quantity);
+      formData.append("negotiable", negotiable.toString());
 
-      if (data.salePrice) formData.append('salePrice', data.salePrice);
-      if (data.sku) formData.append('sku', data.sku);
-      if (data.seoTitle) formData.append('seoTitle', data.seoTitle);
-      if (data.seoDescription) formData.append('seoDescription', data.seoDescription);
+      if (data.salePrice) formData.append("salePrice", data.salePrice);
+      if (data.sku) formData.append("sku", data.sku);
+      if (data.seoTitle) formData.append("seoTitle", data.seoTitle);
+      if (data.seoDescription)
+        formData.append("seoDescription", data.seoDescription);
 
-      formData.append('conditions', JSON.stringify(data.conditions));
-      formData.append('features', JSON.stringify(data.features));
+      formData.append("conditions", JSON.stringify(data.conditions));
+      formData.append("features", JSON.stringify(data.features));
 
       if (data.tags) {
-        const tagsArray = data.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
-        formData.append('tags', JSON.stringify(tagsArray));
+        const tagsArray = data.tags
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter((tag) => tag);
+        formData.append("tags", JSON.stringify(tagsArray));
       }
 
       if (data.specifications && data.specifications.length > 0) {
-        formData.append('specifications', JSON.stringify(data.specifications));
+        formData.append("specifications", JSON.stringify(data.specifications));
       }
 
       if (data.productImages && data.productImages.length > 0) {
         for (let i = 0; i < data.productImages.length; i++) {
-          formData.append('productImages', data.productImages[i]);
+          formData.append("productImages", data.productImages[i]);
         }
       }
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products/create`,
         {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${accessToken}` },
+          method: "POST",
+          headers: { Authorization: `Bearer ${accessToken}` },
           body: formData,
         }
       );
@@ -97,14 +107,18 @@ const AddProductForm = () => {
       const result = await response.json();
 
       if (response.ok) {
-        alert('Product created successfully!');
-        router.push('/seller/products');
+        toast.success("Product created successfully!");
+        router.push("/seller/products");
       } else {
-        throw new Error(result.error || 'Failed to create product');
+        throw new Error(result.error || "Failed to create product");
       }
-    } catch (error) {
-      console.error('Error creating product:', error);
-      alert(error.message || 'Failed to create product. Please try again.');
+    } catch (error: unknown) {
+      console.error("Error creating product:", error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        alert("Failed to create product. Please try again.");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -114,37 +128,44 @@ const AddProductForm = () => {
     try {
       setIsSubmitting(true);
       const data = methods.getValues();
-      localStorage.setItem('productDraft', JSON.stringify({
-        ...data,
-        negotiable,
-        savedAt: new Date().toISOString()
-      }));
-      alert('Draft saved successfully!');
+      localStorage.setItem(
+        "productDraft",
+        JSON.stringify({
+          ...data,
+          negotiable,
+          savedAt: new Date().toISOString(),
+        })
+      );
+      alert("Draft saved successfully!");
     } catch (error) {
-      console.error('Error saving draft:', error);
-      alert('Failed to save draft.');
+      console.error("Error saving draft:", error);
+      alert("Failed to save draft.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const discardProduct = () => {
-    if (confirm('Are you sure you want to discard this product? All unsaved changes will be lost.')) {
-      localStorage.removeItem('productDraft');
+    if (
+      confirm(
+        "Are you sure you want to discard this product? All unsaved changes will be lost."
+      )
+    ) {
+      localStorage.removeItem("productDraft");
       reset();
-      router.push('/seller/products');
+      router.push("/seller/products");
     }
   };
 
   useEffect(() => {
-    const draft = localStorage.getItem('productDraft');
+    const draft = localStorage.getItem("productDraft");
     if (draft) {
       try {
         const parsedDraft = JSON.parse(draft);
         methods.reset(parsedDraft);
         setNegotiable(parsedDraft.negotiable || false);
       } catch (error) {
-        console.error('Error loading draft:', error);
+        console.error("Error loading draft:", error);
       }
     }
   }, [methods]);
@@ -177,7 +198,11 @@ const AddProductForm = () => {
               <Checkbox
                 id="negotiation"
                 checked={negotiable}
-                onCheckedChange={setNegotiable}
+                onCheckedChange={(checked) => {
+                  if (typeof checked === "boolean") {
+                    setNegotiable(checked);
+                  }
+                }}
                 className="rounded-[3px] border-2 border-text-primary data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-3 [&_svg]:!h-3 [&_svg]:!stroke-5"
               />
               <label htmlFor="negotiation" className="text-xl">
@@ -192,7 +217,7 @@ const AddProductForm = () => {
         </div>
 
         <div className="flex justify-between items-center pl-5 pr-14 bg-white border-t border-border-primary h-29 absolute bottom-0 w-full">
-          <button 
+          <button
             type="button"
             onClick={discardProduct}
             disabled={isSubmitting}
@@ -201,23 +226,23 @@ const AddProductForm = () => {
             <Trash2 className="w-5 h-5" />
             <span className="font-medium">Discard</span>
           </button>
-          
+
           <div className="flex gap-x-1">
-            <button 
+            <button
               type="button"
               onClick={saveDraft}
               disabled={isSubmitting}
-              className="px-5 py-[10px] bg-button-secondary text-text-primary rounded-sm border border-border-primary mr-2 disabled:opacity-50"
+              className="px-5 py-[10px] bg-button-secondary text-text-primary rounded-sm border border-border-primary mr-2 cursor-pointer"
             >
-              {isSubmitting ? 'Saving...' : 'Save Draft'}
+              Save Draft
             </button>
-            
-            <button 
+
+            <button
               type="submit"
               disabled={isSubmitting}
-              className="px-5 py-[10px] bg-button-primary text-white rounded-sm disabled:opacity-50"
+              className="px-5 py-[10px] bg-button-primary text-white rounded-sm cursor-pointer"
             >
-              {isSubmitting ? 'Submitting...' : 'Send for Review'}
+              {isSubmitting ? "Sending..." : "Send for Review"}
             </button>
           </div>
         </div>

@@ -3,6 +3,28 @@ export interface Specification {
   value: string;
 }
 
+export interface ProductFormData {
+  title: string;
+  description: string;
+  category: string;
+  productImages: File[];
+  brand: string;
+  model: string;
+  storage: string;
+  ram: string;
+  color: string;
+  conditions: string[];
+  features: string[];
+  price: string;
+  salePrice?: string;
+  quantity: string;
+  sku?: string;
+  tags?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  specifications: string[];
+}
+
 export interface Product {
   _id: string;
   title: string;
