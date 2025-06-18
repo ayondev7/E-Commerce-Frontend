@@ -1,10 +1,10 @@
 "use client";
-import React, {useState } from "react";
+import React, { useState } from "react";
 import { Store, Minus, Plus, Trash2, ShoppingCart } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useWishlistStore } from "@/store/wishlistStore";
-import { useCartStore } from "@/store/cartStore"; 
-import { useAddToCart } from "@/hooks/cartHooks";
+import { useCartStore } from "@/store/cartStore";
+import { useAddToCart, useRemoveFromCart } from "@/hooks/cartHooks";
 import toast from "react-hot-toast";
 import { WishlistGroup } from "@/types/wishlistTypes";
 import { useRemoveFromWishlist } from "@/hooks/wishlistHooks";
@@ -32,16 +32,18 @@ const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
 
   const { mutate: addToCart } = useAddToCart();
   const { mutate: removeFromWishlist } = useRemoveFromWishlist();
+  const { mutate: removeFromCart } = useRemoveFromCart();
 
-  const items = type === "cart"
-    ? list.products.map((product) => ({
-        ...product,
-        quantity: getQuantity(product._id),
-      }))
-    : (list?.products ?? []).map((product) => ({
-        ...product,
-        quantity: 1,
-      }));
+  const items =
+    type === "cart"
+      ? list.products.map((product) => ({
+          ...product,
+          quantity: getQuantity(product._id),
+        }))
+      : (list?.products ?? []).map((product) => ({
+          ...product,
+          quantity: 1,
+        }));
 
   const allSelected =
     type === "wishlist"
@@ -55,34 +57,40 @@ const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
         type === "wishlist" ? toggleSelection(id) : toggleCartSelection(id)
       );
     } else {
-      type === "wishlist"
-        ? selectMultiple(ids)
-        : selectCartMultiple(ids);
+      type === "wishlist" ? selectMultiple(ids) : selectCartMultiple(ids);
     }
   };
 
-  const updateQuantity = (id: string, change: number,price: number) => {
+  const updateQuantity = (id: string, change: number, price: number) => {
     if (type === "cart") {
       const current = getQuantity(id);
       const updated = Math.max(1, current + change);
-      setProductQuantity(id, updated,price);
+      setProductQuantity(id, updated, price);
     }
   };
 
   const removeItem = (productId: string) => {
-  if (type === "cart") {
-    remove(productId);
-  } else {
-    removeFromWishlist(
-      { wishlistId: list._id, productId },
-      {
-        onSuccess: () => toast.success("Removed item from wishlist"),
-        onError: () => toast.error("Failed to remove from wishlist"),
-      }
-    );
-  }
-};
-
+    if (type === "cart") {
+      removeFromCart(
+        { cartId: list._id, productId },
+        {
+          onSuccess: () => {
+            remove(productId);
+            toast.success("Removed item from cart");
+          },
+          onError: () => toast.error("Failed to remove from cart"),
+        }
+      );
+    } else {
+      removeFromWishlist(
+        { wishlistId: list._id, productId },
+        {
+          onSuccess: () => toast.success("Removed item from wishlist"),
+          onError: () => toast.error("Failed to remove from wishlist"),
+        }
+      );
+    }
+  };
 
   const handleAddSingle = (wishlistId: string, productId: string) => {
     setAddingId(productId);
@@ -165,7 +173,9 @@ const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
                     {type === "cart" ? (
                       <div className="flex items-center gap-x-2">
                         <button
-                          onClick={() => updateQuantity(item._id, -1,item.price)}
+                          onClick={() =>
+                            updateQuantity(item._id, -1, item.price)
+                          }
                           className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-colors"
                         >
                           <Minus className="w-4 h-4 text-text-primary" />
@@ -174,7 +184,9 @@ const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
                           {item.quantity}
                         </span>
                         <button
-                          onClick={() => updateQuantity(item._id, 1,item.price)}
+                          onClick={() =>
+                            updateQuantity(item._id, 1, item.price)
+                          }
                           className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-colors"
                         >
                           <Plus className="w-4 h-4 text-text-primary" />

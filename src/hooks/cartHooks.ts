@@ -45,12 +45,19 @@ export const useAddToCart = () => {
   });
 };
 
+interface RemoveFromCartInput {
+  cartId: string | string[];
+  productId: string | string[];
+}
+
 export const useRemoveFromCart = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (id: string) => {
-      const res = await apiClient.delete(`/api/carts/${id}`);
+    mutationFn: async ({ cartId, productId }: RemoveFromCartInput) => {
+      const res = await apiClient.delete(`/api/carts/delete-cart-item`, {
+        data: { cartId, productId }, 
+      });
       return res.data;
     },
     onSuccess: () => {
@@ -58,6 +65,8 @@ export const useRemoveFromCart = () => {
     },
   });
 };
+
+
 
 export const useUpdateCartQuantity = () => {
   const queryClient = useQueryClient();
