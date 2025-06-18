@@ -5,7 +5,6 @@ export async function POST(req: Request) {
   const body = await req.json();
   const { email, password, userType } = body;
 
-  // Do your auth logic here
   const backendRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/${userType}s/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -22,14 +21,14 @@ export async function POST(req: Request) {
   const res = NextResponse.json({ accessToken, user });
 
   res.cookies.set('authToken', accessToken, {
-    httpOnly: true,
+    httpOnly: false,
     secure: true,
-    maxAge: 60 * 60 * 3, // 3 hours
+    maxAge: 60 * 60 * 3, 
     path: '/',
   });
 
   res.cookies.set('userType', userType, {
-    httpOnly: true,
+    httpOnly: false,
     secure: true,
     maxAge: 60 * 60 * 3,
     path: '/',
