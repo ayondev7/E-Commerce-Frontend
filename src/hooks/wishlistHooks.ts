@@ -76,13 +76,25 @@ export const useRemoveFromWishlist = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (id: string) => {
-      const res = await apiClient.delete(`/api/wishlists/${id}`);
+    mutationFn: async ({
+      wishlistId,
+      productId,
+    }: {
+      wishlistId: string;
+      productId: string | string[];
+    }) => {
+      const res = await apiClient.request({
+        url: `/api/wishlists/delete-wishlist-item/${wishlistId}`,
+        method: "DELETE",
+        data: { productId },
+      });
       return res.data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: GET_ALL_LISTS_QUERY_KEY });
       queryClient.invalidateQueries({ queryKey: WISHLIST_QUERY_KEY });
+      queryClient.invalidateQueries({ queryKey: CUSTOMER_STATS_QUERY_KEY });
     },
   });
 };
+

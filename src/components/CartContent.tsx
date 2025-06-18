@@ -7,6 +7,7 @@ import { useCartStore } from "@/store/cartStore";
 import { useAddToCart } from "@/hooks/cartHooks";
 import toast from "react-hot-toast";
 import { WishlistGroup } from "@/types/wishlistTypes";
+import { useRemoveFromWishlist } from "@/hooks/wishlistHooks";
 
 type CartContentProps = {
   type: "cart" | "wishlist";
@@ -30,6 +31,7 @@ const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
   } = useCartStore();
 
   const { mutate: addToCart } = useAddToCart();
+  const { mutate: removeFromWishlist } = useRemoveFromWishlist();
 
   const items = type === "cart"
     ? list.products.map((product) => ({
@@ -67,11 +69,20 @@ const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
     }
   };
 
-  const removeItem = (id: string) => {
-    if (type === "cart") {
-      remove(id);
-    }
-  };
+  const removeItem = (productId: string) => {
+  if (type === "cart") {
+    remove(productId);
+  } else {
+    removeFromWishlist(
+      { wishlistId: list._id, productId },
+      {
+        onSuccess: () => toast.success("Removed item from wishlist"),
+        onError: () => toast.error("Failed to remove from wishlist"),
+      }
+    );
+  }
+};
+
 
   const handleAddSingle = (wishlistId: string, productId: string) => {
     setAddingId(productId);

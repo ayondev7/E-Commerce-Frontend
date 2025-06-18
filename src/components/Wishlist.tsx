@@ -9,8 +9,9 @@ import toast from "react-hot-toast";
 import { WishlistGroup } from "@/types/wishlistTypes";
 
 const Wishlist = () => {
-  const { data, isLoading, isError,refetch } = useGetWishlist();
-  const { getSelected, deselectAll, getSelectedByWishlist } = useWishlistStore();
+  const { data, isLoading, isError, refetch } = useGetWishlist();
+  const { getSelected, deselectAll, getSelectedByWishlist } =
+    useWishlistStore();
   const { mutate: addToCart } = useAddToCart();
   const { mutate: createList, isPending: creating } = useCreateWishlist();
 
@@ -23,13 +24,11 @@ const Wishlist = () => {
   const handleAddToCart = () => {
     if (!hasSelected) return;
 
-   
     const selectedByWishlist = getSelectedByWishlist(data?.lists || []);
-    
-    
-    const cartEntries = selectedByWishlist.map(group => ({
+
+    const cartEntries = selectedByWishlist.map((group) => ({
       wishlistId: group.wishlistId,
-      productId: group.productIds
+      productId: group.productIds,
     }));
 
     addToCart(cartEntries, {
@@ -58,12 +57,13 @@ const Wishlist = () => {
         setShowModal(false);
         setTitle("");
       },
-      onError: () => {
-        toast.error("Failed to create wishlist");
+      onError: (error: any) => {
+        const message =
+          error?.response?.data?.message || "Failed to create wishlist";
+        toast.error(message);
       },
     });
   };
-
 
   return (
     <div>
@@ -101,11 +101,7 @@ const Wishlist = () => {
         {isError && <p className="text-red-500">Failed to load wishlist</p>}
 
         {data?.lists?.map((list: WishlistGroup) => (
-          <CartContent
-            key={list?._id}
-            list={list}
-            type="wishlist"
-          />
+          <CartContent key={list?._id} list={list} type="wishlist" />
         ))}
       </div>
 
@@ -121,13 +117,18 @@ const Wishlist = () => {
             <h2 className="text-xl font-semibold text-text-primary mb-4">
               Create New Wishlist
             </h2>
+
+            <label className="block text-sm font-medium text-text-secondary mb-1">
+              Wishlist Title
+            </label>
             <input
               type="text"
-              placeholder="Enter list title"
+              placeholder="Enter wishlist title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full border border-border-primary rounded px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+              className="w-full border border-border-primary rounded px-3 py-2 text-base mb-4"
             />
+
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setShowModal(false)}

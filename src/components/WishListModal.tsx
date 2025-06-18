@@ -1,14 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useGetAllLists } from "@/hooks/wishlistHooks";
 import { WishlistDocument } from "@/types/wishlistTypes";
+import { Check, ListChecks } from "lucide-react";
 
 interface WishListModalProps {
   open: boolean;
@@ -16,7 +10,11 @@ interface WishListModalProps {
   onSelect: (wishlistId: string) => void;
 }
 
-const WishListModal: React.FC<WishListModalProps> = ({ open, onClose, onSelect }) => {
+const WishListModal: React.FC<WishListModalProps> = ({
+  open,
+  onClose,
+  onSelect,
+}) => {
   const [selectedList, setSelectedList] = useState<string>("");
   const { data, isLoading, isError } = useGetAllLists();
 
@@ -28,40 +26,51 @@ const WishListModal: React.FC<WishListModalProps> = ({ open, onClose, onSelect }
       onClick={onClose}
     >
       <div
-        className="bg-white w-full max-w-md rounded-lg p-6 shadow-xl"
+        className="bg-white w-full max-w-md rounded-lg p-8 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-xl font-semibold text-text-primary mb-4">Select Wishlist</h2>
+        <h2 className="text-xl font-semibold text-text-primary mb-4">
+          Select a Wishlist to add your product
+        </h2>
 
         <div className="mb-6">
           {isLoading ? (
             <div className="text-text-secondary">Loading...</div>
           ) : isError || !data?.wishlists.length ? (
             <div className="text-center py-4">
-              <p className="text-text-secondary mb-2">You don't have any wishlists available.</p>
-              <p className="text-text-secondary">Create a new list now...</p>
+              <p className="text-text-secondary mb-2">
+                You don't have any wishlists available.
+              </p>
+              <p className="text-text-secondary">
+                Go to wishlist page to Create a one now.
+              </p>
             </div>
           ) : (
-            <>
-              <label className="block text-sm font-medium text-text-secondary mb-1">
-                Wishlist
-              </label>
-              <Select
-                onValueChange={(value) => setSelectedList(value)}
-                value={selectedList}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Choose a wishlist" />
-                </SelectTrigger>
-                <SelectContent className="bg-white border border-border-primary rounded-md">
-                  {data.wishlists.map((list: WishlistDocument) => (
-                    <SelectItem key={list?._id} value={list?._id}>
-                      {list?.title}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </>
+            <div className="space-y-5 p-5 max-h-[400px] overflow-y-auto border border-border-primary rounded-lg">
+              <div className="flex gap-x-2.5">
+                <ListChecks className="w-6 h-6 text-text-secondary" />{" "}
+                <p className="text-base font-medium text-text-secondary">
+                  Your current wishlists
+                </p>
+              </div>
+              {data.wishlists.map((list: WishlistDocument) => {
+                const isSelected = selectedList === list._id;
+                return (
+                  <div
+                    key={list._id}
+                    onClick={() => setSelectedList(list._id)}
+                    className={`px-4 py-2 rounded-sm cursor-pointer border transition-colors flex justify-between ${
+                      isSelected
+                        ? "bg-danger-secondary border-danger-primary"
+                        : "bg-white border-border-primary"
+                    }`}
+                  >
+                    {list.title}
+                    {isSelected && <Check className="w-6 h-6 text-danger-primary" />}
+                  </div>
+                );
+              })}
+            </div>
           )}
         </div>
 
