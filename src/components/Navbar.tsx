@@ -109,9 +109,6 @@ const Navbar = () => {
               </div>
             </SelectTrigger>
             <SelectContent className="bg-white border-border-primary">
-              <SelectItem value="profile" className="text-base">
-                Profile
-              </SelectItem>
               <SelectItem value="logout" className="text-base">
                 Logout
               </SelectItem>

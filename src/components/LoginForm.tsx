@@ -63,9 +63,12 @@ const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
       });
       router.push(`/${data.userType}/overview`);
     } catch (err: any) {
-      toast.error(
-        err.response?.data?.error || "Login failed. Please try again."
-      );
+      if(err.status === 401) toast.error("Email or Password is incorrect! Please try again.");
+      else{
+        toast.error(
+          err.response?.data?.error || "Login failed. Please try again."
+        );
+      };
       setIsLoading(false);
     } 
   };

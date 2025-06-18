@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/table";
 import { ViewOrderModal } from "./ViewOrderModal";
 import { Order } from "@/types/ordertypes";
+import { useUpdateOrderStatus } from "@/hooks/orderHooks";
+import toast from "react-hot-toast";
 
 interface OrdersTableProps {
   orders: Order[];
@@ -30,6 +32,50 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
   const router = useRouter();
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const { mutate: updateOrderStatus, isPending: isCancelLoading } =
+    useUpdateOrderStatus();
+
+  const handleCancelOrder = (orderId: string) => {
+    updateOrderStatus(
+      { orderId: orderId, orderStatus: "cancelled" },
+      {
+        onSuccess: () => {
+          toast.success("Order has been cancelled!");
+        },
+        onError: () => {
+          toast.error("Failed to update order status");
+        },
+      }
+    );
+  };
+
+  const handleReorder = (orderId: string) => {
+    updateOrderStatus(
+      { orderId: orderId, orderStatus: "pending" },
+      {
+        onSuccess: () => {
+          toast.success("Your order has been reordered!");
+        },
+        onError: () => {
+          toast.error("Failed to reorder your order");
+        },
+      }
+    );
+  };
+
+    const handleBuyAgain = (orderId: string) => {
+    updateOrderStatus(
+      { orderId: orderId, orderStatus: "buy again" },
+      {
+        onSuccess: () => {
+          toast.success("Your have placed a new order!");
+        },
+        onError: () => {
+          toast.error("Failed to buy again.");
+        },
+      }
+    );
+  };
 
   const getStatusStyles = (status: string) => {
     switch (status) {
@@ -129,7 +175,7 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
                 {userType === "seller" ? (
                   <div className="flex gap-2.5">
                     <button
-                      onClick={() => handleViewClick(order._id,order.orderId)}
+                      onClick={() => handleViewClick(order._id, order.orderId)}
                       className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
                     >
                       <Eye className="w-6 h-6" />
@@ -150,7 +196,11 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
                     <div className="flex justify-between items-center gap-x-2">
                       <div className="flex gap-2.5">
                         {order.status === "delivered" && (
-                          <button className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 rounded-sm text-text-primary border border-border-primary text-base cursor-pointer">
+                          <button
+                            disabled={isCancelLoading}
+                            onClick={() => handleBuyAgain(order._id)}
+                            className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
+                          >
                             <ShoppingBag className="w-6 h-6" />
                             <span className="font-medium">Buy Again</span>
                           </button>
@@ -164,14 +214,22 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
                         )}
 
                         {order.status === "pending" && (
-                          <button className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 rounded-sm text-text-primary border border-border-primary text-base cursor-pointer">
+                          <button
+                            disabled={isCancelLoading}
+                            onClick={() => handleCancelOrder(order._id)}
+                            className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
+                          >
                             <Ban className="w-6 h-6" />
                             <span className="font-medium">Cancel</span>
                           </button>
                         )}
 
                         {order.status === "cancelled" && (
-                          <button className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 rounded-sm text-text-primary border border-border-primary text-base cursor-pointer">
+                          <button
+                            disabled={isCancelLoading}
+                            onClick={() => handleReorder(order._id)}
+                            className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
+                          >
                             <Repeat className="w-6 h-6" />
                             <span className="font-medium">Reorder</span>
                           </button>

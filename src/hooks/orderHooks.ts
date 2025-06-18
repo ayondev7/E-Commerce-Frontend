@@ -91,6 +91,7 @@ export const useUpdateOrderStatus = () => {
       return res.data;
     },
     onSuccess: (data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ORDERS_QUERY_KEY });
       queryClient.invalidateQueries({ queryKey: SELLER_ORDERS_QUERY_KEY });
       queryClient.invalidateQueries({ queryKey: CUSTOMER_STATS_QUERY_KEY });
       queryClient.invalidateQueries({
