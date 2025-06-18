@@ -20,6 +20,8 @@ export interface ProductFormData {
   quantity: string;
   sku?: string;
   tags?: string;
+  negotiable?: boolean;
+  colour?: string;
   seoTitle?: string;
   seoDescription?: string;
   specifications: string[];

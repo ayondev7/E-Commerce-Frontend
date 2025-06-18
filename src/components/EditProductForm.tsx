@@ -9,13 +9,13 @@ import PricingInventoryForm from "./PricingInventoryForm";
 import AdditionalInformationForm from "./AdditionalInformationForm";
 import { Checkbox } from "./ui/checkbox";
 import { ProductFormData } from "@/types/productTypes";
-import { useSingleProduct } from "@/hooks/productHooks"; 
+import { useSingleProduct } from "@/hooks/productHooks";
 
 const EditProductForm = () => {
   const router = useRouter();
   const params = useParams();
   const productId = params?.productId as string;
-  
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [negotiable, setNegotiable] = useState(false);
 
@@ -59,7 +59,7 @@ const EditProductForm = () => {
       title: data.title || "",
       description: data.description || "",
       category: data.category || "",
-      productImages: [], 
+      productImages: [],
       brand: data.brand || "",
       model: data.model || "",
       storage: data.storage || "",
@@ -71,9 +71,7 @@ const EditProductForm = () => {
       salePrice: data.salePrice?.toString() || "",
       quantity: data.quantity?.toString() || "",
       sku: data.sku || "",
-      tags: Array.isArray(data.tags) 
-        ? data.tags.join(", ") 
-        : data.tags || "",
+      tags: Array.isArray(data.tags) ? data.tags.join(", ") : data.tags || "",
       seoTitle: data.seoTitle || "",
       seoDescription: data.seoDescription || "",
       specifications: data.specifications || [],
@@ -92,7 +90,7 @@ const EditProductForm = () => {
   const onSubmit = async (data: ProductFormData) => {
     try {
       setIsSubmitting(true);
-      
+
       // Prepare the data for patching
       const patchData = {
         ...data,
@@ -103,19 +101,21 @@ const EditProductForm = () => {
         salePrice: data.salePrice ? parseFloat(data.salePrice) : undefined,
         quantity: parseInt(data.quantity),
         // Convert tags string back to array
-        tags: data.tags 
-          ? data.tags.split(",").map(tag => tag.trim()).filter(tag => tag)
+        tags: data.tags
+          ? data.tags
+              .split(",")
+              .map((tag) => tag.trim())
+              .filter((tag) => tag)
           : [],
       };
 
       // For now, just console.log the data
       console.log("Data to patch:", patchData);
-      
+
       // TODO: Replace with actual API call
       // const response = await apiClient.patch(`/api/products/${productId}`, patchData);
-      
+
       alert("Product updated successfully! (Check console for data)");
-      
     } catch (error: unknown) {
       console.error("Error updating product:", error);
       if (error instanceof Error) {
@@ -192,7 +192,7 @@ const EditProductForm = () => {
           </h2>
 
           <div className="space-y-8">
-            <GeneralInformationForm 
+            <GeneralInformationForm
               initialData={{
                 title: productData.title,
                 description: productData.description,
@@ -200,8 +200,8 @@ const EditProductForm = () => {
                 productImages: [], // Handle existing images if needed
               }}
             />
-            
-            <SpecificationsForm 
+
+            <SpecificationsForm
               initialData={{
                 brand: productData.brand,
                 model: productData.model,
@@ -212,12 +212,14 @@ const EditProductForm = () => {
                 features: productData.features,
               }}
             />
-            
-            <PricingInventoryForm 
+
+            <PricingInventoryForm
               initialData={{
-                price: productData.price,
-                salePrice: productData.salePrice,
-                quantity: productData.quantity,
+                price: parseFloat(productData.price),
+                salePrice: productData.salePrice
+                  ? parseFloat(productData.salePrice)
+                  : undefined,
+                quantity: parseInt(productData.quantity),
                 sku: productData.sku,
               }}
             />
@@ -239,10 +241,10 @@ const EditProductForm = () => {
             </div>
 
             <div className="space-y-6 bg-background-primary p-6 rounded-lg border border-border-primary">
-              <AdditionalInformationForm 
+              <AdditionalInformationForm
                 initialData={{
-                  tags: Array.isArray(productData.tags) 
-                    ? productData.tags.join(", ") 
+                  tags: Array.isArray(productData.tags)
+                    ? productData.tags.join(", ")
                     : productData.tags,
                   seoTitle: productData.seoTitle,
                   seoDescription: productData.seoDescription,
