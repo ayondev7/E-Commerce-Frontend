@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { Plus } from "lucide-react";
 import {
@@ -27,6 +27,7 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
   const {
     register,
     setValue,
+    reset,
     watch,
     formState: { errors },
   } = useFormContext();
@@ -59,8 +60,22 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
   const [newCondition, setNewCondition] = useState("");
   const [newFeature, setNewFeature] = useState("");
 
+ const isInitialized = useRef(false);
+
   useEffect(() => {
-    if (initialData) {
+    if (initialData && !isInitialized.current) {
+      // reset all form values at once:
+      reset({
+        brand: initialData.brand || "",
+        model: initialData.model || "",
+        storage: initialData.storage || "",
+        ram: initialData.ram || "",
+        color: initialData.color || "",
+        conditions: initialData.conditions || [],
+        features: initialData.features || [],
+      });
+
+      // initialize your local states once to keep UI in sync with form state:
       setSelectedBrand(initialData.brand || "");
       setSelectedModel(initialData.model || "");
       setSelectedStorage(initialData.storage || "");
@@ -68,17 +83,10 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
       setSelectedColor(initialData.color || "");
       setSelectedConditions(initialData.conditions || []);
       setSelectedFeatures(initialData.features || []);
-      
-      // Set form values if using form context
-      if (initialData.brand) setValue("brand", initialData.brand);
-      if (initialData.model) setValue("model", initialData.model);
-      if (initialData.storage) setValue("storage", initialData.storage);
-      if (initialData.ram) setValue("ram", initialData.ram);
-      if (initialData.color) setValue("color", initialData.color);
-      if (initialData.conditions) setValue("conditions", initialData.conditions);
-      if (initialData.features) setValue("features", initialData.features);
+
+      isInitialized.current = true;
     }
-  }, [initialData, setValue]);
+  }, [initialData, reset]);
 
   const toggleCondition = (condition: string) => {
     const newConditions = selectedConditions.includes(condition)

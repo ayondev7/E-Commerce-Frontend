@@ -61,8 +61,6 @@ const OrderDetails = () => {
 
   const order = data as OrderDetailsResponse;
 
-  console.log("order:", order);
-
   return (
     <div>
       <div className="flex items-center justify-between mr-5">

@@ -51,7 +51,7 @@ const AddProductForm = () => {
       setIsSubmitting(true);
       const accessToken = sessionStorage.getItem("accessToken");
       if (!accessToken) {
-        alert("Please login to continue");
+       toast.error("You are not authorized! Please login to continue");
         return;
       }
 
@@ -116,11 +116,11 @@ const AddProductForm = () => {
       console.error("Error creating product:", error);
       if (error instanceof Error) {
         toast.error(error.message);
+        setIsSubmitting(false);
       } else {
-        alert("Failed to create product. Please try again.");
+        toast.error("Failed to create product. Please try again.");
+        setIsSubmitting(false);
       }
-    } finally {
-      setIsSubmitting(false);
     }
   };
 

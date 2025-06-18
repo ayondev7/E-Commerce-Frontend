@@ -20,9 +20,6 @@ const Navbar = () => {
   const { resetUser } = useUserStore.getState();
   const { data, isLoading } = useUserProfile();
 
-  console.log("data:", data);
-  console.log("userType:", userType);
-
   const handleLogout = async () => {
     if (typeof window !== "undefined") {
       sessionStorage.clear();

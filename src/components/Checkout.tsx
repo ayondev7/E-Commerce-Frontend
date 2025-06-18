@@ -52,10 +52,9 @@ export default function Checkout() {
         resetEverything();
         localStorage.removeItem("cart-storage");
         toast.success(`Order created successfully!`);
-        setIsPlacingOrder(false);
         setTimeout(() => {
           router.push("/customer/my-orders");
-        }, 2000);
+        }, 1000);
       },
       onError: (error: any) => {
         const errorMessage =

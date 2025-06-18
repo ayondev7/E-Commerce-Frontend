@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { useEffect } from "react";
 import { Upload } from "lucide-react";
 import { useFormContext } from "react-hook-form";
@@ -26,9 +26,12 @@ const GeneralInformationForm = ({
   const {
     register,
     watch,
+    reset,
     setValue,
     formState: { errors },
   } = useFormContext();
+
+  const isInitialized = useRef(false);
 
   const watchedTitle = watch("title");
   const watchedDescription = watch("description");
@@ -65,14 +68,17 @@ const GeneralInformationForm = ({
     setValue("productImages", newImages);
   };
 
-  useEffect(() => {
-    if (initialData) {
-      if (initialData.title) setValue("title", initialData.title);
-      if (initialData.description) setValue("description", initialData.description);
-      if (initialData.category) setValue("category", initialData.category);
-      if (initialData.productImages) setValue("productImages", initialData.productImages);
+ useEffect(() => {
+    if (initialData && !isInitialized.current) {
+      reset({
+        title: initialData.title || "",
+        description: initialData.description || "",
+        category: initialData.category || "",
+        productImages: initialData.productImages || [],
+      });
+      isInitialized.current = true;
     }
-  }, [initialData, setValue]);
+  }, [initialData, reset]);
 
   return (
     <div className="space-y-6.5 bg-background-primary p-6 rounded-lg border border-border-primary">

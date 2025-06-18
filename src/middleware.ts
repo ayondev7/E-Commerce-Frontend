@@ -4,12 +4,12 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // 🔁 Redirect root path to /auth
+
   if (pathname === '/') {
     return NextResponse.redirect(new URL('/auth', request.url));
   }
 
-  // ❌ Don't run middleware on static files, API, or auth
+ 
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
@@ -22,14 +22,13 @@ export function middleware(request: NextRequest) {
   const authToken = request.cookies.get('authToken')?.value;
   const userType = request.cookies.get('userType')?.value;
 
-  console.log('userType:', userType);
 
-  // 🔐 Redirect to /auth if not logged in
+  
   if (!authToken) {
     return NextResponse.redirect(new URL('/auth', request.url));
   }
 
-  // 🧾 Define customer-only and seller-only routes
+ 
   const customerOnlyRoutes = [
     '/customer/my-orders',
     '/customer/wishlist',
@@ -47,7 +46,7 @@ export function middleware(request: NextRequest) {
     '/seller/orders',
   ];
 
-  // 🔍 Match path prefix
+  
   const isCustomerOnly = customerOnlyRoutes.some((route) =>
     pathname.startsWith(route)
   );

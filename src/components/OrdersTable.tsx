@@ -61,7 +61,6 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
   };
 
   const handleShipOrder = () => {
-    console.log("Shipping order:", selectedOrder?._id);
     setIsViewModalOpen(false);
   };
 
