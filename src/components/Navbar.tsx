@@ -12,19 +12,27 @@ import {
 } from "@/components/ui/select";
 import { useUserStore } from "@/store/userStore";
 import Image from "next/image";
+import { useUserProfile } from "@/hooks/userHooks";
 
 const Navbar = () => {
   const router = useRouter();
-  const { name, image } = useUserStore();
-  const { resetUser } = useUserStore.getState();
   const { userType } = useUserStore();
+  const { resetUser } = useUserStore.getState();
+  const { data, isLoading } = useUserProfile();
 
-  const handleLogout = () => {
+  console.log("data:", data);
+  console.log("userType:", userType);
+
+  const handleLogout = async () => {
     if (typeof window !== "undefined") {
       sessionStorage.clear();
       resetUser();
+      await fetch("/api/session/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      router.push("/auth");
     }
-    router.push("/auth");
   };
 
   const handleUserMenuChange = (value: string) => {
@@ -90,8 +98,8 @@ const Navbar = () => {
                     width={32}
                     height={32}
                     src={
-                      image
-                        ? `data:image/jpeg;base64,${image}`
+                      data?.data?.image
+                        ? `data:image/jpeg;base64,${data?.data?.image}`
                         : "https://github.com/shadcn.png"
                     }
                     alt="Profile"
@@ -99,7 +107,7 @@ const Navbar = () => {
                   />
                 </div>
                 <p className="text-base text-text-primary font-medium">
-                  {name || "John Doe"}
+                  {data?.data?.name}
                 </p>
               </div>
             </SelectTrigger>

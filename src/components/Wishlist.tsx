@@ -14,6 +14,7 @@ const Wishlist = () => {
     useWishlistStore();
   const { mutate: addToCart } = useAddToCart();
   const { mutate: createList, isPending: creating } = useCreateWishlist();
+  
 
   const selectedIds = getSelected();
   const hasSelected = selectedIds.length > 0;

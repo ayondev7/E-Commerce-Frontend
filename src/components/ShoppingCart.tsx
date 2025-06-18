@@ -8,6 +8,8 @@ import { useGetCart, useRemoveFromCart } from "@/hooks/cartHooks";
 import { WishlistGroup } from "@/types/wishlistTypes";
 import { useCartStore } from "@/store/cartStore";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import useAuthCheck from "@/hooks/useAuthCheck";
 
 const ShoppingCart: React.FC = () => {
   const [promoCode, setPromoCode] = useState<string>("");
@@ -20,6 +22,18 @@ const ShoppingCart: React.FC = () => {
   const removeLocal = useCartStore((state) => state.remove);
   const { mutate: removeFromCart } = useRemoveFromCart();
   const [deleting, setDeleting] = useState(false);
+    const { userType, userId, errorAuth } = useAuthCheck();
+       const router = useRouter();
+     
+       useEffect(() => {
+         if (userId && userType !== "customer") {
+           router.back();
+         }
+         if (errorAuth) {
+           router.back();
+         }
+       }, [userId, userType, errorAuth, router]);
+  
 
   const handleDeleteSelected = async () => {
   setDeleting(true);

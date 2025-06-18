@@ -9,12 +9,14 @@ interface OrderSummaryProps {
   promoCode: string;
   setPromoCode: (value: string) => void;
   onPlaceOrder: () => void;
+  isPlacingOrder: boolean;
 }
 
 export default function OrderSummary({
   promoCode,
   setPromoCode,
   onPlaceOrder,
+  isPlacingOrder,
 }: OrderSummaryProps) {
   const { setValue } = useFormContext();
   const checkoutPayload = useCartStore((state) => state.checkoutPayload);
@@ -133,10 +135,16 @@ export default function OrderSummary({
 
           <button
             type="button"
+            disabled={isPlacingOrder}
             onClick={onPlaceOrder}
-            className="flex items-center min-w-42 min-h-13 justify-center rounded-sm border font-medium text-white bg-button-primary gap-x-1.5 px-5 py-2.5 cursor-pointer"
+            className={`flex items-center min-w-42 min-h-13 justify-center rounded-sm border font-medium text-white gap-x-1.5 px-5 py-2.5 cursor-pointer
+    ${
+      isPlacingOrder
+        ? "bg-button-primary cursor-not-allowed"
+        : "bg-button-primary"
+    }`}
           >
-            Place Order
+            {isPlacingOrder ? "Placing Order..." : "Place Order"}
           </button>
         </div>
       </div>

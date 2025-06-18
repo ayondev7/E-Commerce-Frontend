@@ -1,10 +1,14 @@
+"use client";
+import { useEffect, useState } from "react";
+
 export interface AuthResult {
   userType?: "seller" | "customer";
   userId?: string;
+  errorAuth?: string;
   error?: string;
 }
 
-export const checkAuth = async (): Promise<AuthResult> => {
+const checkAuth = async (): Promise<AuthResult> => {
   try {
     const accessToken = sessionStorage.getItem("accessToken");
 
@@ -12,7 +16,7 @@ export const checkAuth = async (): Promise<AuthResult> => {
       return { error: "No token found in sessionStorage" };
     }
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/auth-check`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/auth-check`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -29,7 +33,19 @@ export const checkAuth = async (): Promise<AuthResult> => {
       userType: data.userType,
       userId: data.userId,
     };
-  } catch (err) {
+  } catch {
     return { error: "Network error while checking auth" };
   }
 };
+
+export const useAuthCheck = () => {
+  const [authResult, setAuthResult] = useState<AuthResult>({});
+
+  useEffect(() => {
+    checkAuth().then(setAuthResult);
+  }, []);
+
+  return authResult;
+};
+
+export default useAuthCheck;

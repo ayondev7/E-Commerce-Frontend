@@ -42,7 +42,7 @@ const WishListModal: React.FC<WishListModalProps> = ({
                 You don't have any wishlists available.
               </p>
               <p className="text-text-secondary">
-                Go to wishlist page to Create a one now.
+                Go to wishlist page to Create one now.
               </p>
             </div>
           ) : (

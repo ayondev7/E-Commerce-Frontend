@@ -1,14 +1,17 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SalesAnalyticsCard from "../SalesAnalyticsCard";
 import OrderStatus from "../OrderStatus";
 import { AlertCircle } from "lucide-react";
 import RevenueChart from "../RevenueChart";
 import Link from "next/link";
 import { useOrderStatusCounts } from "@/hooks/orderHooks";
+import useAuthCheck from "@/hooks/useAuthCheck";
+import { useRouter } from "next/navigation";
 
 const SellerOverview = () => {
   const { data, isLoading, error } = useOrderStatusCounts();
+  const router = useRouter();
 
   const renderOrderStatus = () => {
     if (isLoading) {
@@ -43,7 +46,8 @@ const SellerOverview = () => {
         <h1 className="text-3xl font-semibold mb-2">Welcome back, John Doe!</h1>
         <p className="text-lg text-text-primary">
           You've made{" "}
-          <span className="text-text-primary text-lg font-bold">$2,450</span> today.
+          <span className="text-text-primary text-lg font-bold">$2,450</span>{" "}
+          today.
         </p>
       </div>
 
@@ -70,9 +74,7 @@ const SellerOverview = () => {
 
       <div className="bg-background-primary my-10 px-3 py-5 rounded-lg border border-border-primary">
         <h2 className="text-lg font-semibold mb-2.5">Order Status</h2>
-        <div className="grid grid-cols-4 gap-x-5">
-          {renderOrderStatus()}
-        </div>
+        <div className="grid grid-cols-4 gap-x-5">{renderOrderStatus()}</div>
       </div>
 
       <div className="my-10">

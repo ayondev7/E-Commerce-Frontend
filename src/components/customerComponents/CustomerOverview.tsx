@@ -3,7 +3,7 @@ import React from "react";
 import { Package, Heart, Truck, Gift, LucideIcon } from "lucide-react";
 import CustomerOverviewCard from "../CustomerOverviewCard";
 import ActivityCard from "../ActivityCard";
-import { useCustomerStats } from "@/hooks/customerHooks";
+import { useCustomerStats, useGetCustomerProfile } from "@/hooks/customerHooks";
 
 type Activity = {
   id: string;
@@ -23,6 +23,7 @@ type CardData = {
 
 const CustomerOverview = () => {
   const { data: stats, isLoading } = useCustomerStats();
+   const { data: customerData, isLoading: customerLoading, error: customerError } = useGetCustomerProfile();
 
   const cardData: CardData[] = [
     {
@@ -96,7 +97,7 @@ const CustomerOverview = () => {
   return (
     <div>
       <div>
-        <h1 className="text-5xl font-semibold mb-5">Hi, Alex</h1>
+        <h1 className="text-5xl font-semibold mb-5">Hi, {customerData?.firstName}{" "}👋</h1>
         <h3 className="text-base text-right text-text-secondary mb-5">
           Last updated: Today, 10:30 AM
         </h3>

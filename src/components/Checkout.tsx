@@ -17,6 +17,7 @@ export default function Checkout() {
   const checkoutPayload = useCartStore((state) => state.checkoutPayload);
   const addOrderMutation = useAddOrder();
   const { resetEverything } = useCartStore();
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const router = useRouter();
 
   const methods = useForm<CheckoutFormData>({
@@ -45,24 +46,24 @@ export default function Checkout() {
       promoCode,
       paymentMethod: selectedPayment,
     };
-    const loadingToast = toast.loading("Creating your order...");
+    setIsPlacingOrder(true);
     addOrderMutation.mutate(payloadToSubmit, {
       onSuccess: (response) => {
-        toast.dismiss(loadingToast);
         resetEverything();
         localStorage.removeItem("cart-storage");
         toast.success(`Order created successfully!`);
+        setIsPlacingOrder(false);
         setTimeout(() => {
-          router.push("/customer/my-orders"); 
+          router.push("/customer/my-orders");
         }, 2000);
       },
       onError: (error: any) => {
-        toast.dismiss(loadingToast);
         const errorMessage =
           error?.response?.data?.message ||
           error?.message ||
           "Failed to create order";
         toast.error(errorMessage);
+        setIsPlacingOrder(false);
         console.error("Order Error:", error);
       },
     });
@@ -98,6 +99,7 @@ export default function Checkout() {
             promoCode={promoCode}
             setPromoCode={setPromoCode}
             onPlaceOrder={methods.handleSubmit(onSubmit)}
+            isPlacingOrder={isPlacingOrder}
           />
         </div>
       </form>
