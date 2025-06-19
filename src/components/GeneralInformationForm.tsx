@@ -157,7 +157,7 @@ const GeneralInformationForm = ({
             </button>
           </div>
           {watchedImages.length > 0 && (
-            <div className="mt-4 grid grid-cols-4 gap-4">
+            <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
               {watchedImages.map((image:File, index:number) => (
                 <div key={index} className="relative group">
                   <Image
