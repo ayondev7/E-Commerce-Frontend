@@ -103,7 +103,7 @@ const ShoppingCart: React.FC = () => {
 
   return (
     <div>
-      <div className="mb-10 space-y-1">
+      <div className="mb-5 lg:mb-10 space-y-1">
         <h1 className="text-3xl font-semibold">Shopping Cart</h1>
         <h3 className="text-text-secondary text-base">
           You have (
@@ -112,7 +112,7 @@ const ShoppingCart: React.FC = () => {
         </h3>
       </div>
 
-      <div className="grid grid-cols-2 gap-x-10">
+      <div className="grid lg:grid-cols-2 gap-y-5 lg:gap-x-10">
         <div className="space-y-5">
           <div className="flex min-h-16 justify-between w-full items-center px-5 bg-white border-1 border-border-primary rounded-lg">
             <div className="flex items-center gap-x-2.5 text-text-secondary text-base">

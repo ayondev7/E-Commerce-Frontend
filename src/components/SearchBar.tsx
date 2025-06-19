@@ -197,7 +197,7 @@ const SearchBar: React.FC<{}> = ({}) => {
         {searchTriggered && data?.products && data.products.length > 0 && (
           <div
             ref={dropdownRef}
-            className="mt-6 space-y-6 max-h-[500px] overflow-y-scroll border border-border-secondary rounded-lg p-5 z-20 top-40 bg-white w-full max-w-[1000px] absolute"
+            className="mt-6 space-y-6 max-h-[500px] overflow-y-scroll border border-border-secondary rounded-lg p-5 z-20 top-40 bg-white w-full max-w-xl lg:max-w-5xl absolute"
           >
             {data.products.map((item) => (
               <div key={item._id} className="flex items-center gap-4">
