@@ -48,7 +48,95 @@ const ProductTable = ({ products }: ProductTableProps) => {
 
   return (
     <>
-      <div className="border border-border-primary rounded-lg bg-white">
+      <div className="block md:hidden space-y-4">
+        {products.length === 0 ? (
+          <div className="text-center py-6 text-text-secondary text-base">
+            No products found.
+          </div>
+        ) : (
+          products.map((product) => (
+            <div
+              key={product._id}
+              className="border border-border-primary rounded-lg bg-white p-4"
+            >
+              <div className="flex items-start gap-3 mb-4">
+                <Image
+                  width={60}
+                  height={60}
+                  src={
+                    product?.image && product?.image !== "null"
+                      ? `data:image/jpeg;base64,${product?.image}`
+                      : "https://example.com/default-image.jpg"
+                  }
+                  alt={product?.title}
+                  className="w-15 h-15 object-cover rounded-sm"
+                />
+                <div className="flex-1">
+                  <div className="text-base font-medium text-text-primary mb-1">
+                    {product?.title}
+                  </div>
+                  <div className="text-base text-text-primary">
+                    {product?.sku}
+                  </div>
+                </div>
+              </div>
+              
+              <hr className="border-border-primary mb-4" />
+              
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                <div>
+                  <div className="text-sm text-text-secondary mb-1">Price</div>
+                  <div className="text-base font-medium text-text-primary">
+                    ${product?.price.toFixed(2)}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-sm text-text-secondary mb-1 text-center">Stock</div>
+                  <div className="text-base font-medium text-text-primary text-center">
+                    {product?.stock}
+                  </div>
+                </div>
+                <div className="flex flex-col items-end">
+                  <div className="text-sm text-text-secondary mb-1 pr-2.5">Status</div>
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-medium text-right ${getStatusStyles(
+                      product.status
+                    )}`}
+                  >
+                    {product.status
+                      .split("_")
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")}
+                  </span>
+                </div>
+              </div>
+
+               <hr className="border-border-primary mb-4" />
+              
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleEditClick(product?._id)}
+                  className="flex items-center justify-center flex-1 gap-x-2 px-4 py-3 rounded-md text-text-primary border border-border-primary text-base hover:bg-background-secondary"
+                >
+                  <Edit className="w-5 h-5" />
+                  <span className="font-medium">Edit</span>
+                </button>
+                <button
+                  onClick={() => handleDeleteClick(product)}
+                  className="flex items-center justify-center flex-1 gap-x-2 px-4 py-3 rounded-md text-button-primary border border-danger-border text-base hover:bg-danger-secondary"
+                >
+                  <Trash2 className="w-5 h-5" />
+                  <span className="font-medium">Delete</span>
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="hidden md:block border border-border-primary rounded-lg bg-white">
         <Table>
           <TableHeader>
             <TableRow className="border-b border-border-primary">

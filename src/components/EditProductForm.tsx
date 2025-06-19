@@ -53,7 +53,6 @@ const EditProductForm = () => {
     formState: { errors },
   } = methods;
 
-  // Memoize the form data transformation to prevent unnecessary recalculations
   const transformProductData = useCallback((data: any) => {
     return {
       title: data.title || "",
@@ -78,7 +77,6 @@ const EditProductForm = () => {
     };
   }, []);
 
-  // Fixed useEffect - only run once when productData is first loaded
   useEffect(() => {
     if (productData && !isLoading) {
       const formData = transformProductData(productData);
@@ -90,17 +88,15 @@ const EditProductForm = () => {
   const onSubmit = async (data: ProductFormData) => {
     try {
       setIsSubmitting(true);
-
-      // Prepare the data for patching
       const patchData = {
         ...data,
         negotiable,
         productId,
-        // Convert string values back to appropriate types
+       
         price: parseFloat(data.price),
         salePrice: data.salePrice ? parseFloat(data.salePrice) : undefined,
         quantity: parseInt(data.quantity),
-        // Convert tags string back to array
+       
         tags: data.tags
           ? data.tags
               .split(",")
@@ -109,11 +105,8 @@ const EditProductForm = () => {
           : [],
       };
 
-      // For now, just console.log the data
+     
       console.log("Data to patch:", patchData);
-
-      // TODO: Replace with actual API call
-      // const response = await apiClient.patch(`/api/products/${productId}`, patchData);
 
       alert("Product updated successfully! (Check console for data)");
     } catch (error: unknown) {
@@ -135,7 +128,6 @@ const EditProductForm = () => {
       )
     ) {
       if (productData) {
-        // Reset form to original data
         const originalData = transformProductData(productData);
         reset(originalData);
         setNegotiable(productData.negotiable || false);
@@ -143,7 +135,7 @@ const EditProductForm = () => {
     }
   }, [productData, reset, transformProductData]);
 
-  // Loading state
+  
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -152,7 +144,7 @@ const EditProductForm = () => {
     );
   }
 
-  // Error state
+ 
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -163,7 +155,7 @@ const EditProductForm = () => {
     );
   }
 
-  // No product data
+  
   if (!productData) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -197,7 +189,7 @@ const EditProductForm = () => {
                 title: productData.title,
                 description: productData.description,
                 category: productData.category,
-                productImages: [], // Handle existing images if needed
+                productImages: [], 
               }}
             />
 

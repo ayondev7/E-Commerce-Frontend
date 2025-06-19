@@ -12,7 +12,6 @@ export interface CartItem {
   quantity: number;
 }
 
-// Type for the new cart entry structure
 export interface CartEntry {
   wishlistId: string;
   productId: string | string[];

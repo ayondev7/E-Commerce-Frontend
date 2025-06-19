@@ -27,7 +27,9 @@ export default function PaymentTransactions() {
                 </p>
               </div>
               <div>
-                <div className="font-medium text-base text-text-primary">$249.99</div>
+                <div className="font-medium text-base text-text-primary">
+                  $249.99
+                </div>
                 <div className="text-sm text-text-secondary">May 26, 2025</div>
               </div>
             </div>
@@ -36,9 +38,9 @@ export default function PaymentTransactions() {
                 Paid
               </span>
               <div className="h-full flex items-end">
-                <button className="flex items-center min-h-13 gap-x-2.5 justify-center text-base font-medium text-text-primary border border-border-primary px-3 py-1.5 rounded-sm cursor-pointer">
+                <button className="flex items-center md:min-h-13 gap-x-2.5 justify-center text-base font-medium text-text-primary border border-border-primary px-3 py-1.5 rounded-sm cursor-pointer">
                   <Download className="w-6 h-6" />
-                  Download Receipt
+                  <span className="hidden md:block">Download Receipt</span>
                 </button>
               </div>
             </div>
@@ -57,7 +59,9 @@ export default function PaymentTransactions() {
                 </p>
               </div>
               <div>
-                <div className="font-medium text-base text-text-primary">$249.99</div>
+                <div className="font-medium text-base text-text-primary">
+                  $249.99
+                </div>
                 <div className="text-sm text-text-secondary">May 26, 2025</div>
               </div>
             </div>
@@ -66,9 +70,9 @@ export default function PaymentTransactions() {
                 Pending
               </span>
               <div className="h-full flex items-end">
-                <button className="flex items-center min-h-13 gap-x-2.5 justify-center text-base font-medium text-text-secondary border border-border-primary px-3 py-1.5 rounded-sm cursor-not-allowed opacity-50">
+                <button className="flex items-center md:min-h-13 gap-x-2.5 justify-center text-base font-medium text-text-secondary border border-border-primary px-3 py-1.5 rounded-sm cursor-not-allowed opacity-50">
                   <Download className="w-6 h-6" />
-                  Download Receipt
+                  <span className="hidden md:block">Download Receipt</span>
                 </button>
               </div>
             </div>
@@ -87,7 +91,9 @@ export default function PaymentTransactions() {
                 </p>
               </div>
               <div>
-                <div className="font-medium text-base text-text-primary">$249.99</div>
+                <div className="font-medium text-base text-text-primary">
+                  $249.99
+                </div>
                 <div className="text-sm text-text-secondary">May 26, 2025</div>
               </div>
             </div>
@@ -96,9 +102,9 @@ export default function PaymentTransactions() {
                 Failed
               </span>
               <div className="h-full flex items-end">
-                <button className="flex items-center min-h-13 gap-x-2.5 justify-center text-base font-medium text-text-dark-grey border border-border-primary px-3 py-1.5 rounded-sm cursor-not-allowed opacity-50">
+                <button className="flex items-center md:min-h-13 gap-x-2.5 justify-center text-base font-medium text-text-dark-grey border border-border-primary px-3 py-1.5 rounded-sm cursor-not-allowed opacity-50">
                   <Download className="w-6 h-6" />
-                  Download Receipt
+                  <span className="hidden md:block">Download Receipt</span>
                 </button>
               </div>
             </div>

@@ -14,6 +14,7 @@ export interface Order {
   customerName?: string;
   status: string;
   orderId: string;
+  productTitle?: string;
 }
 
 

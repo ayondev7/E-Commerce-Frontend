@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import { useAddAddress, useUpdateAddress } from "@/hooks/addressHooks";
 import toast from "react-hot-toast";
+import { X } from "lucide-react";
 
 export default function AddressModal({
   onClose,
@@ -40,53 +40,51 @@ export default function AddressModal({
     };
   }, [onClose]);
 
- const handleSubmit = () => {
-  if (!name || !addressLine || !city || !country || !zipCode || !state) {
-    toast.error("Please fill in all fields");
-    return;
-  }
+  const handleSubmit = () => {
+    if (!name || !addressLine || !city || !country || !zipCode || !state) {
+      toast.error("Please fill in all fields");
+      return;
+    }
 
-  const updates = {
-    name,
-    addressLine,
-    city,
-    country,
-    zipCode,
-    state,
-  };
+    const updates = {
+      name,
+      addressLine,
+      city,
+      country,
+      zipCode,
+      state,
+    };
 
-  if (initialData) {
-    updateAddress(
-      { addressId: initialData._id, updates },
-      {
-        onSuccess: () => {
-          toast.success("Address updated successfully");
-          onClose();
-        },
-        onError: () => toast.error("Failed to update address"),
-      }
-    );
-  } else {
-    createAddress(
-      updates,
-      {
+    if (initialData) {
+      updateAddress(
+        { addressId: initialData._id, updates },
+        {
+          onSuccess: () => {
+            toast.success("Address updated successfully");
+            onClose();
+          },
+          onError: () => toast.error("Failed to update address"),
+        }
+      );
+    } else {
+      createAddress(updates, {
         onSuccess: () => {
           toast.success("Address saved successfully");
           onClose();
         },
         onError: () => toast.error("Failed to save address"),
-      }
-    );
-  }
-};
+      });
+    }
+  };
 
-
-  return createPortal(
-    <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 bg-[#7D8184] opacity-50"  />
       <div
         ref={modalRef}
-        className="bg-white p-6.5 rounded-sm border border-border-primary w-full max-w-2xl"
+        className="bg-white relative p-6.5 rounded-sm border max-h-[95vh] overflow-y-scroll md:overflow-hidden border-border-primary w-full max-w-2xl mx-4"
       >
+        <span className="md:hidden"><X onClick={onClose} className="absolute top-1 right-1 w-6 h-6 cursor-pointer"/></span>
         <h2 className="text-2xl font-medium text-text-primary mb-6.5">
           {initialData ? "Edit Address" : "Add New Address"}
         </h2>
@@ -172,21 +170,27 @@ export default function AddressModal({
           </div>
         </div>
 
-        <button
-          onClick={handleSubmit}
-          disabled={isCreating || isUpdating}
-          className="mt-2 w-full md:w-auto px-6 py-3 bg-button-primary text-white rounded-sm hover:bg-opacity-90"
-        >
-          {isCreating || isUpdating
-            ? initialData
-              ? "Updating..."
-              : "Saving..."
-            : initialData
-            ? "Update Address"
-            : "Save Address"}
-        </button>
+        <div className="flex gap-x-2.5 mt-2">
+          <button
+            onClick={onClose}
+            className="px-6 py-3 hidden lg:block border md:min-w-44 border-border-primary text-text-primary rounded-sm hover:bg-gray-50"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSubmit}
+            disabled={isCreating || isUpdating}
+            className="px-6 py-3 bg-button-primary text-white rounded-sm hover:bg-opacity-90"
+          >
+            {isCreating || isUpdating
+              ? initialData
+                ? "Updating..."
+                : "Saving..."
+              : initialData
+              ? "Update Address"
+              : "Save Address"}
+          </button>
+        </div>
       </div>
-    </div>,
-    document.body
+    </div>
   );
-}

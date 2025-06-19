@@ -14,7 +14,6 @@ const Wishlist = () => {
     useWishlistStore();
   const { mutate: addToCart } = useAddToCart();
   const { mutate: createList, isPending: creating } = useCreateWishlist();
-  
 
   const selectedIds = getSelected();
   const hasSelected = selectedIds.length > 0;
@@ -108,11 +107,12 @@ const Wishlist = () => {
 
       {showModal && (
         <div
-          className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center"
+          className="fixed inset-0 z-50 flex items-center justify-center"
           onClick={() => setShowModal(false)}
         >
+          <div className="fixed inset-0 bg-[#7D8184] opacity-50"/>
           <div
-            className="bg-white w-full max-w-md rounded-lg p-6 shadow-xl"
+            className="bg-white relative w-full max-w-md rounded-lg p-6 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-xl font-semibold text-text-primary mb-4">

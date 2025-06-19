@@ -95,7 +95,6 @@ export const useUpdateCustomer = () => {
   });
 };
 
-// For future use if you implement delete
 export const useDeleteCustomer = () => {
   const queryClient = useQueryClient();
 

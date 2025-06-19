@@ -102,7 +102,7 @@ const PersonalInfo = () => {
           Update your personal details.
         </p>
 
-        <div className="grid grid-cols-2 gap-5 mb-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
           <div>
             <label className="block text-xl font-medium text-text-primary mb-2.5">
               First name
@@ -133,7 +133,7 @@ const PersonalInfo = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-5 mb-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
           <div>
             <label className="block text-xl font-medium text-text-primary mb-2.5">
               Email

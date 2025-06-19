@@ -8,9 +8,7 @@ import {
 } from "@/hooks/addressHooks";
 import toast from "react-hot-toast";
 import { MapPin, Edit, Trash2, Plus, Check } from "lucide-react";
-import dynamic from "next/dynamic";
-
-const AddressModal = dynamic(() => import("./AddressModal"), { ssr: false });
+import AddressModal from "./AddressModal";
 
 export default function AddressInfo() {
   const [showModal, setShowModal] = useState(false);
@@ -46,7 +44,7 @@ export default function AddressInfo() {
   return (
     <>
       <div className="w-full p-6.5 bg-white border border-border-primary rounded-lg">
-        <div className="flex justify-between items-center mb-6.5">
+        <div className="flex md:flex-row flex-col items-start md:justify-between md:items-center mb-6.5">
           <div>
             <h1 className="text-2xl font-medium text-text-primary mb-1">
               Addresses
@@ -60,7 +58,7 @@ export default function AddressInfo() {
               setEditingAddress(null);
               setShowModal(true);
             }}
-            className="flex items-center justify-center min-w-43.5 h-13 gap-2.5 px-5 py-2.5 font-medium bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors cursor-pointer"
+            className="flex mt-2.5 md:mt-0 items-center justify-center min-w-43.5 h-13 gap-2.5 px-5 py-2.5 font-medium bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors cursor-pointer"
           >
             <Plus className="w-6 h-6" />
             Add Address
@@ -94,26 +92,26 @@ export default function AddressInfo() {
                     className="flex items-center gap-x-[0.4rem] px-4 py-2 text-base font-medium text-text-primary border border-border-primary rounded-sm"
                   >
                     <Edit className="w-6 h-6" />
-                    Edit
+                    <span className="hidden md:block">Edit</span>
                   </button>
                   <button
                     onClick={() => handleDelete(address._id)}
                     className="flex items-center gap-x-[0.4rem] px-4 py-2 text-base font-medium text-button-primary border border-danger-border rounded-sm"
                   >
                     <Trash2 className="w-6 h-6" />
-                    Delete
+                    <span className="hidden md:block">Delete</span>
                   </button>
                   {address.isDefault ? (
                     <div className="flex items-center gap-x-[0.4rem] px-4 py-2 text-base font-medium text-text-secondary rounded-sm">
                       <Check className="w-6 h-6" />
-                      Default
+                     <span>Default</span>
                     </div>
                   ) : (
                     <div
                       onClick={() => handleSetDefault(address._id)}
                       className="flex items-center gap-x-[0.4rem] px-4 py-2 text-base font-medium text-text-primary border border-border-primary rounded-sm hover:cursor-pointer"
                     >
-                      Set as Default
+                      <span>Set as Default</span>
                     </div>
                   )}
                 </div>
