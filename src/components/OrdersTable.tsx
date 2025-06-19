@@ -126,7 +126,7 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
               Date
             </TableHead>
             {userType === "seller" && (
-              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg hidden lg:block">
                 Buyer
               </TableHead>
             )}
@@ -154,7 +154,7 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
                 {formatDate(order?.createdAt)}
               </TableCell>
               {userType === "seller" && (
-                <TableCell className="text-text-primary px-4 py-4 text-base">
+                <TableCell className="text-text-primary px-4 py-4 text-base hidden lg:block">
                   {order?.customerName}
                 </TableCell>
               )}
@@ -176,18 +176,18 @@ const OrdersTable = ({ orders, userType }: OrdersTableProps) => {
                   <div className="flex gap-2.5">
                     <button
                       onClick={() => handleViewClick(order._id, order.orderId)}
-                      className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
+                      className="flex items-center justify-center min-h-10 min-w-14 lg:min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
                     >
                       <Eye className="w-6 h-6" />
-                      <span className="font-medium">View</span>
+                      <span className="font-medium hidden lg:block">View</span>
                     </button>
                     {order.status === "pending" && (
                       <button
                         onClick={() => handleShipClick(order)}
-                        className="flex justify-center items-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-white border bg-button-primary text-base cursor-pointer"
+                        className="flex justify-center items-center min-h-10 min-w-14 lg:min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-white border bg-button-primary text-base cursor-pointer"
                       >
                         <Truck className="w-6 h-6" />
-                        <span className="font-medium">Ship</span>
+                        <span className="font-medium hidden lg:block">Ship</span>
                       </button>
                     )}
                   </div>

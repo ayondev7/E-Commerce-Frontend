@@ -31,7 +31,7 @@ const ProductDetailsCard = ({
             {order?.product?.stockStatus}
           </span>
         </div>
-        <div className="flex gap-x-10">
+        <div className="flex gap-x-4 lg:gap-x-10">
           {[
             { label: "Order ID", value: orderId },
             {
@@ -49,7 +49,7 @@ const ProductDetailsCard = ({
               <span className="text-text-secondary text-base">
                 {item.label}
               </span>
-              <span className="text-text-primary text-xl">{item.value}</span>
+              <span className="text-text-primary text-lg lg:text-xl">{item.value}</span>
             </div>
           ))}
         </div>

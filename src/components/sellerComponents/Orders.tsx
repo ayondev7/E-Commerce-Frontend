@@ -38,7 +38,7 @@ const Orders = () => {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="lg:space-y-6 space-y-2.5">
       <div>
         <h1 className="text-3xl font-semibold">Orders</h1>
       </div>

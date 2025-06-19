@@ -17,7 +17,7 @@ const CustomerLayout = ({
       
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
-        <main className="flex-1 bg-background-secondary pl-5 py-6 pr-14 overflow-y-auto">
+        <main className="flex-1 bg-background-secondary pl-5 py-6 pr-8 lg:pr-14 overflow-y-auto">
           {children}
         </main>
       </div>

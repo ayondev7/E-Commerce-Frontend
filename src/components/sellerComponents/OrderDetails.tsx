@@ -63,7 +63,7 @@ const OrderDetails = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between mr-5">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between mr-5 gap-y-5">
         <div className="flex items-center gap-x-2">
           <button
             onClick={() => router.push("/seller/orders")}
@@ -84,13 +84,14 @@ const OrderDetails = () => {
           </button>
         </div>
       </div>
-      <div className="mt-10 rounded-lg border border-border-primary bg-white p-5">
+      <div className="lg:mt-10 mt-5 rounded-lg border border-border-primary bg-white p-5">
         <ProductDetailsCard order={order} orderId={orderId} />
         <div className="flex gap-x-5 mt-5 items-start">
           <Timeline />
           <BuyerInformation order={order} />
-          <PaymentInformation order={order} />
+         <div className="hidden lg:block"> <PaymentInformation order={order} /></div>
         </div>
+         <div className="lg:hidden blockn mt-5 w-61"> <PaymentInformation order={order} /></div>
         <div className="flex gap-x-5 mt-10">
           <button
             onClick={() => setIsCancelModalOpen(true)}

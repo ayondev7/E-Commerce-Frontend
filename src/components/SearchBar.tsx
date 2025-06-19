@@ -11,7 +11,14 @@ import { useSearchProducts } from "@/hooks/productHooks";
 import { useAddToWishlist } from "@/hooks/wishlistHooks";
 import { toast } from "react-hot-toast";
 import WishListModal from "@/components/WishListModal";
-import { Search, Heart, ShoppingCart, Loader2, PlusIcon, LoaderCircle } from "lucide-react";
+import {
+  Search,
+  Heart,
+  ShoppingCart,
+  Loader2,
+  PlusIcon,
+  LoaderCircle,
+} from "lucide-react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { useUserStore } from "@/store/userStore";
@@ -136,11 +143,16 @@ const SearchBar: React.FC<{}> = ({}) => {
           </div>
 
           <button
-            className="lg:h-12 h-10.5 absolute right-2 lg:static min-w-10.5 lg:min-w-29 lg:px-4 lg:py-2 font-medium bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors text-base flex items-center justify-center gap-2"
+            className={`lg:h-12 h-10.5 absolute ${
+              userType === "seller"
+                ? "right-2"
+                : userType === "customer"
+                ? "right-30"
+                : ""
+            } lg:static min-w-10.5 lg:min-w-29 lg:px-4 lg:py-2 font-medium bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors text-base flex items-center justify-center gap-2`}
             onClick={handleSearchClick}
             disabled={isLoading}
           >
-           
             <span className="lg:hidden">
               {isLoading ? (
                 <LoaderCircle className="h-6 w-6 animate-spin" />
@@ -149,7 +161,6 @@ const SearchBar: React.FC<{}> = ({}) => {
               )}
             </span>
 
-           
             <span className="hidden lg:flex items-center gap-2">
               {isLoading ? (
                 <>
@@ -168,15 +179,15 @@ const SearchBar: React.FC<{}> = ({}) => {
           {userType === "customer" && (
             <div className="flex gap-x-2.5">
               <Link className="text-decoration: none" href="/customer/wishlist">
-                <div className="flex items-center px-4 py-2 justify-center gap-x-2.5 text-base text-text-secondary hover:cursor-pointer">
+                <div className="flex items-center px-2 lg:px-4 py-2 justify-center gap-x-2.5 text-base text-text-secondary hover:cursor-pointer">
                   <Heart className="w-6 h-6" />
-                  <span>Wishlist</span>
+                  <span className="hidden lg:block">Wishlist</span>
                 </div>
               </Link>
               <Link className="text-decoration: none" href="/shopping-cart">
-                <div className="flex items-center px-4 py-2 gap-x-2.5 justify-center text-base text-text-secondary hover:cursor-pointer">
+                <div className="flex items-center px-2 lg:px-4 py-2 gap-x-2.5 justify-center text-base text-text-secondary hover:cursor-pointer">
                   <ShoppingCart className="w-6 h-6" />
-                  <span>Cart</span>
+                  <span className="hidden lg:block">Cart</span>
                 </div>
               </Link>
             </div>

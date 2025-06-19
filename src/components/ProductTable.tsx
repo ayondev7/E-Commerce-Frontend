@@ -61,7 +61,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
               <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
                 SKU
               </TableHead>
-              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg hidden lg:block">
                 Price
               </TableHead>
               <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
@@ -110,7 +110,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
                   <TableCell className="text-text-primary px-4 py-4 text-base">
                     {product?.sku}
                   </TableCell>
-                  <TableCell className="text-text-primary px-4 py-4 text-base">
+                  <TableCell className="text-text-primary px-4 py-4 text-base hidden lg:block">
                     ${product?.price.toFixed(2)}
                   </TableCell>
                   <TableCell className="text-text-primary px-4 py-4 text-base">
@@ -134,17 +134,17 @@ const ProductTable = ({ products }: ProductTableProps) => {
                     <div className="flex gap-2.5">
                       <button
                         onClick={() => handleEditClick(product?._id)}
-                        className="flex items-center justify-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
+                        className="flex items-center justify-center min-h-10 min-w-14 lg:min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-text-primary border border-border-primary text-base cursor-pointer"
                       >
                         <Edit className="w-5 h-5" />
-                        <span className="font-medium">Edit</span>
+                        <span className="font-medium  hidden lg:block">Edit</span>
                       </button>
                       <button
                         onClick={() => handleDeleteClick(product)}
-                        className="flex border border-danger-border justify-center items-center min-h-10 min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-button-primary text-base cursor-pointer"
+                        className="flex border border-danger-border justify-center items-center min-h-10 min-w-14 lg:min-w-25 gap-x-1.5 px-4 py-2 hover:cursor-pointer rounded-sm text-button-primary text-base cursor-pointer"
                       >
                         <Trash2 className="w-5 h-5" />
-                        <span className="font-medium">Delete</span>
+                        <span className="font-medium  hidden lg:block">Delete</span>
                       </button>
                     </div>
                   </TableCell>
