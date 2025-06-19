@@ -9,7 +9,7 @@ const CartLayout = ({ children }: { children: React.ReactNode }) => {
         <Navbar />
         <SearchBar/>
       </div>
-      <main className="bg-background-secondary px-8 lg:px-18 py-6">
+      <main className="bg-background-secondary px-4 md:px-8 lg:px-18 py-6">
         {children}
       </main>
     </div>

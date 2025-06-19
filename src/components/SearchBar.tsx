@@ -99,7 +99,7 @@ const SearchBar: React.FC<{}> = ({}) => {
         <div className="w-full relative flex items-center gap-x-5">
           <div className="flex-1 relative flex items-center border border-text-secondary rounded-lg">
             <Select onValueChange={setCategory}>
-              <SelectTrigger className="w-[145px] hidden md:block min-h-13 space-x-2.5 [&>svg]:w-6 [&>svg]:h-6 text-text-secondary border-0 rounded-none rounded-l-lg text-base focus:ring-0 focus:ring-offset-0 [&[data-state=open]>svg]:rotate-180">
+              <SelectTrigger className="w-[145px] hidden md:flex min-h-13 space-x-2.5 [&>svg]:w-6 [&>svg]:h-6 text-text-secondary border-0 rounded-none rounded-l-lg text-base focus:ring-0 focus:ring-offset-0 [&[data-state=open]>svg]:rotate-180">
                 <SelectValue
                   placeholder="Categories"
                   className="text-base text-text-secondary"
