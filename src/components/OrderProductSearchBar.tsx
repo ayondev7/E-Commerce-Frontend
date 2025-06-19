@@ -58,7 +58,7 @@ const OrderProductSearchBar = ({ type }: OrderProductSearchBarProps) => {
         />
       </div>
 
-      <div className="flex gap-x-5 lg:hidden mt-2.5">
+      <div className="flex md:flex-rows flex-col gap-y-2.5 gap-x-5 lg:hidden mt-2.5">
         {type === "product" && (
           <>
             <Select value={category} onValueChange={setCategory}>

@@ -64,7 +64,6 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
 
   useEffect(() => {
     if (initialData && !isInitialized.current) {
-      // reset all form values at once:
       reset({
         brand: initialData.brand || "",
         model: initialData.model || "",
@@ -75,7 +74,7 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
         features: initialData.features || [],
       });
 
-      // initialize your local states once to keep UI in sync with form state:
+     
       setSelectedBrand(initialData.brand || "");
       setSelectedModel(initialData.model || "");
       setSelectedStorage(initialData.storage || "");
@@ -160,12 +159,12 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
   };
 
   return (
-    <div className="space-y-6.5 bg-background-primary p-6 rounded-lg border border-border-primary">
+    <div className="space-y-6.5 bg-background-primary p-2.5 md:p-6 rounded-lg border border-border-primary">
       <div className="flex justify-between items-start">
         <h2 className="text-2xl font-medium">Specifications</h2>
         <button
           onClick={() => setShowConditionInput(true)}
-          className="flex items-center gap-x-1.5 text-base text-custom-blue hover:cursor-pointer transition-colors"
+          className="flex items-center gap-x-1.5 text-sm md:text-base text-custom-blue hover:cursor-pointer transition-colors"
         >
           <Plus className="w-6 h-6" />
           Add another specification
@@ -182,22 +181,22 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
             onValueChange={(value) => handleSelectChange("brand", value)}
           >
             <SelectTrigger
-              className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base [&>svg]:w-6 [&>svg]:h-6 ${
+              className={`w-full min-h-13 px-2.5 md:px-5 py-2.5 text-sm md:text-base rounded-md border-border-primary focus:ring-0 [&>svg]:w-6 [&>svg]:h-6 ${
                 selectedBrand ? "text-text-primary" : "text-text-secondary"
               }`}
             >
               <SelectValue placeholder="Select brand" />
             </SelectTrigger>
             <SelectContent className="bg-white border-border-primary text-base">
-              <SelectItem value="apple" className="text-base">Apple</SelectItem>
-              <SelectItem value="samsung" className="text-base">Samsung</SelectItem>
-              <SelectItem value="sony" className="text-base">Sony</SelectItem>
-              <SelectItem value="lg" className="text-base">LG</SelectItem>
+              <SelectItem value="apple" className="text-sm md:text-base">Apple</SelectItem>
+              <SelectItem value="samsung" className="text-sm md:text-base">Samsung</SelectItem>
+              <SelectItem value="sony" className="text-sm md:text-base">Sony</SelectItem>
+              <SelectItem value="lg" className="text-sm md:text-base">LG</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-rows-1 md:grid-cols-2 grid-rows-2 gap-4">
           <div>
             <label className="block font-medium text-xl mb-2.5">
               Model <span className="text-danger-primary">*</span>
@@ -207,16 +206,16 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
               onValueChange={(value) => handleSelectChange("model", value)}
             >
               <SelectTrigger
-                className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base [&>svg]:w-6 [&>svg]:h-6 ${
+                className={`w-full min-h-13 px-2.5 md:px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-sm md:text-base [&>svg]:w-6 [&>svg]:h-6 ${
                   selectedModel ? "text-text-primary" : "text-text-secondary"
                 }`}
               >
                 <SelectValue placeholder="Select model" />
               </SelectTrigger>
-              <SelectContent className="bg-white border-border-primary text-base">
-                <SelectItem value="iphone14" className="text-base">iPhone 14</SelectItem>
-                <SelectItem value="iphone13" className="text-base">iPhone 13</SelectItem>
-                <SelectItem value="iphone12" className="text-base">iPhone 12</SelectItem>
+              <SelectContent className="bg-white border-border-primary text-sm md:text-base">
+                <SelectItem value="iphone14" className="text-sm md:text-base">iPhone 14</SelectItem>
+                <SelectItem value="iphone13" className="text-sm md:text-base">iPhone 13</SelectItem>
+                <SelectItem value="iphone12" className="text-sm md:text-base">iPhone 12</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -230,23 +229,23 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
               onValueChange={(value) => handleSelectChange("storage", value)}
             >
               <SelectTrigger
-                className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base [&>svg]:w-6 [&>svg]:h-6 ${
+                className={`w-full min-h-13 px-2.5 md:px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-sm md:text-base [&>svg]:w-6 [&>svg]:h-6 ${
                   selectedStorage ? "text-text-primary" : "text-text-secondary"
                 }`}
               >
                 <SelectValue placeholder="Select storage" />
               </SelectTrigger>
-              <SelectContent className="bg-white border-border-primary text-base">
-                <SelectItem value="64" className="text-base">64GB</SelectItem>
-                <SelectItem value="128" className="text-base">128GB</SelectItem>
-                <SelectItem value="256" className="text-base">256GB</SelectItem>
-                <SelectItem value="512" className="text-base">512GB</SelectItem>
+              <SelectContent className="bg-white border-border-primary text-sm md:text-base">
+                <SelectItem value="64" className="text-sm md:text-base">64GB</SelectItem>
+                <SelectItem value="128" className="text-sm md:text-base">128GB</SelectItem>
+                <SelectItem value="256" className="text-sm md:text-base">256GB</SelectItem>
+                <SelectItem value="512" className="text-sm md:text-base">512GB</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-rows-1 md:grid-cols-2 grid-rows-2 gap-4">
           <div>
             <label className="block font-medium text-xl mb-2.5">
               RAM <span className="text-danger-primary">*</span>
@@ -256,17 +255,17 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
               onValueChange={(value) => handleSelectChange("ram", value)}
             >
               <SelectTrigger
-                className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base [&>svg]:w-6 [&>svg]:h-6 ${
+                className={`w-full min-h-13 px-2.5 md:px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-sm md:text-base [&>svg]:w-6 [&>svg]:h-6 ${
                   selectedRAM ? "text-text-primary" : "text-text-secondary"
                 }`}
               >
                 <SelectValue placeholder="Select RAM" />
               </SelectTrigger>
-              <SelectContent className="bg-white border-border-primary text-base">
-                <SelectItem value="4" className="text-base">4GB</SelectItem>
-                <SelectItem value="6" className="text-base">6GB</SelectItem>
-                <SelectItem value="8" className="text-base">8GB</SelectItem>
-                <SelectItem value="12" className="text-base">12GB</SelectItem>
+              <SelectContent className="bg-white border-border-primary text-sm md:text-base">
+                <SelectItem value="4" className="text-sm md:text-base">4GB</SelectItem>
+                <SelectItem value="6" className="text-sm md:text-base">6GB</SelectItem>
+                <SelectItem value="8" className="text-sm md:text-base">8GB</SelectItem>
+                <SelectItem value="12" className="text-sm md:text-base">12GB</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -280,23 +279,23 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
               onValueChange={(value) => handleSelectChange("color", value)}
             >
               <SelectTrigger
-                className={`w-full min-h-13 px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-base [&>svg]:w-6 [&>svg]:h-6 ${
+                className={`w-full min-h-13 px-2.5 md:px-5 py-2.5 rounded-md border-border-primary focus:ring-0 text-sm md:text-base [&>svg]:w-6 [&>svg]:h-6 ${
                   selectedColor ? "text-text-primary" : "text-text-secondary"
                 }`}
               >
                 <SelectValue placeholder="Select color" />
               </SelectTrigger>
-              <SelectContent className="bg-white border-border-primary text-base">
-                <SelectItem value="black" className="text-base">Black</SelectItem>
-                <SelectItem value="white" className="text-base">White</SelectItem>
-                <SelectItem value="silver" className="text-base">Silver</SelectItem>
-                <SelectItem value="gold" className="text-base">Gold</SelectItem>
+              <SelectContent className="bg-white border-border-primary text-sm md:text-base">
+                <SelectItem value="black" className="text-sm md:text-base">Black</SelectItem>
+                <SelectItem value="white" className="text-sm md:text-base">White</SelectItem>
+                <SelectItem value="silver" className="text-sm md:text-base">Silver</SelectItem>
+                <SelectItem value="gold" className="text-sm md:text-base">Gold</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-x-8">
+        <div className="grid md:grid-rows-1 md:grid-cols-2 grid-rows-2 gap-x-8 gap-y-2.5">
           <div>
             <label className="block font-medium text-xl mb-5">
               Condition <span className="text-danger-primary">*</span>
@@ -310,7 +309,7 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
                     onCheckedChange={() => toggleCondition(condition)}
                     className="rounded-full border-text-primary border-2 data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-2 [&_svg]:!h-2 [&_svg]:!stroke-5"
                   />
-                  <label htmlFor={condition} className="text-base">
+                  <label htmlFor={condition} className="text-sm md:text-base">
                     {condition}
                   </label>
                 </div>
@@ -318,7 +317,7 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
               {!showConditionInput ? (
                 <button
                   onClick={() => setShowConditionInput(true)}
-                  className="flex items-center gap-1 mt-3 text-base text-blue-500 transition-colors"
+                  className="flex items-center gap-1 mt-3 text-sm md:text-base text-blue-500 transition-colors"
                 >
                   <Plus className="w-4 h-4" />
                   Add new condition
@@ -330,18 +329,18 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
                     value={newCondition}
                     onChange={(e) => setNewCondition(e.target.value)}
                     placeholder="Enter new condition"
-                    className="w-48 min-h-13 px-3 py-1.5 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="w-48 min-h-13 px-3 py-1.5 border text-sm md:text-base border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
                     autoFocus
                   />
                   <button
                     onClick={addCondition}
-                    className="px-3 py-1.5 text-base text-primary hover:text-primary/80 transition-colors"
+                    className="px-3 py-1.5 text-sm md:text-base text-primary hover:text-primary/80 transition-colors"
                   >
                     Add
                   </button>
                   <button
                     onClick={cancelCondition}
-                    className="px-3 py-1.5 text-base text-text-secondary hover:text-text-primary transition-colors"
+                    className="px-3 py-1.5 text-sm md:text-base text-text-secondary hover:text-text-primary transition-colors"
                   >
                     Cancel
                   </button>
@@ -363,7 +362,7 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
                     onCheckedChange={() => toggleFeature(feature)}
                     className="rounded-full border-text-primary border-2 data-[state=checked]:border-blue-500 data-[state=checked]:bg-white data-[state=checked]:text-blue-500 [&_svg]:!w-2 [&_svg]:!h-2 [&_svg]:!stroke-5"
                   />
-                  <label htmlFor={feature} className="text-base">
+                  <label htmlFor={feature} className="text-sm md:text-base">
                     {feature}
                   </label>
                 </div>
@@ -371,7 +370,7 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
               {!showFeatureInput ? (
                 <button
                   onClick={() => setShowFeatureInput(true)}
-                  className="flex items-center mt-3 gap-1 text-base text-blue-500 transition-colors"
+                  className="flex items-center mt-3 gap-1 text-sm md:text-base text-blue-500 transition-colors"
                 >
                   <Plus className="w-4 h-4" />
                   Add new feature
@@ -383,18 +382,18 @@ const SpecificationsForm = ({ initialData }: SpecificationsFormProps) => {
                     value={newFeature}
                     onChange={(e) => setNewFeature(e.target.value)}
                     placeholder="Enter new feature"
-                    className="w-48 min-h-13 px-3 py-1.5 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="w-48 min-h-13 px-3 py-1.5 text-sm md:text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
                     autoFocus
                   />
                   <button
                     onClick={addFeature}
-                    className="px-3 py-1.5 text-base text-primary hover:text-primary/80 transition-colors"
+                    className="px-3 py-1.5 text-sm md:text-base text-primary hover:text-primary/80 transition-colors"
                   >
                     Add
                   </button>
                   <button
                     onClick={cancelFeature}
-                    className="px-3 py-1.5 text-base text-text-secondary hover:text-text-primary transition-colors"
+                    className="px-3 py-1.5 text-sm md:text-base text-text-secondary hover:text-text-primary transition-colors"
                   >
                     Cancel
                   </button>

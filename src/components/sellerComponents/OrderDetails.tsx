@@ -84,15 +84,15 @@ const OrderDetails = () => {
           </button>
         </div>
       </div>
-      <div className="lg:mt-10 mt-5 rounded-lg border border-border-primary bg-white p-5">
+      <div className="lg:mt-10 mt-5 rounded-lg md:border md:border-border-primary bg-white md:p-5">
         <ProductDetailsCard order={order} orderId={orderId} />
-        <div className="flex gap-x-5 mt-5 items-start">
+        <div className="flex md:flex-row flex-col gap-y-4 md:gap-y-0 gap-x-5 mt-5 items-start">
           <Timeline />
           <BuyerInformation order={order} />
          <div className="hidden lg:block"> <PaymentInformation order={order} /></div>
         </div>
-         <div className="lg:hidden blockn mt-5 w-61"> <PaymentInformation order={order} /></div>
-        <div className="flex gap-x-5 mt-10">
+         <div className="lg:hidden blockn mt-5 w-full md:w-61"> <PaymentInformation order={order} /></div>
+        <div className="flex justify-between md:justify-start gap-x-5 mt-10">
           <button
             onClick={() => setIsCancelModalOpen(true)}
             disabled={statusUpdated || order?.orderStatus !== "pending"}

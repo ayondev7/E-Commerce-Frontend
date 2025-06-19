@@ -98,10 +98,10 @@ const AdditionalInformationForm = ({
             value={newTagInput}
             onChange={(e) => setNewTagInput(e.target.value)}
             onKeyDown={addTag}
-            className="w-full px-5 py-2.5 min-h-13 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+            className="w-full px-2.5 md:px-5 py-2.5 min-h-13 text-sm md:text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
           />
           <input type="hidden" {...register("tags")} />
-          <p className="mt-2.5 text-text-secondary text-base">
+          <p className="mt-2.5 text-text-secondary text-sm md:text-base">
             Tags help buyers find your product when searching
           </p>
         </div>
@@ -112,7 +112,7 @@ const AdditionalInformationForm = ({
             type="text"
             placeholder="Custom titles for search engines"
             {...register("seoTitle")}
-            className="w-full px-5 py-2.5 min-h-13 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+            className="w-full px-2.5 md:px-5 py-2.5 min-h-13 text-sm md:text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
 
@@ -124,7 +124,7 @@ const AdditionalInformationForm = ({
             placeholder="Custom description for search engines"
             rows={3}
             {...register("seoDescription")}
-            className="w-full min-h-[160px] px-5 py-2.5 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary resize-none"
+            className="w-full min-h-[160px] px-2.5 md:px-5 py-2.5 text-sm md:text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary resize-none"
           />
         </div>
       </div>

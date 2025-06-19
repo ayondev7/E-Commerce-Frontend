@@ -11,7 +11,7 @@ const ProductDetailsCard = ({
 }) => {
   return (
     <div className="flex gap-x-5 border bg-white border-border-primary rounded-md p-5 w-max max-w-full">
-      <div className="max-w-29.5 max-h-29.5 rounded-sm overflow-hidden">
+      <div className="md:max-w-29.5 md:max-h-29.5 max-w-11.5 max-h-11.5 rounded-sm overflow-hidden">
         <Image
           src={
             order?.product?.firstImageBase64

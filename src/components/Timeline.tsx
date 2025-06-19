@@ -16,7 +16,7 @@ const timelineData: TimelineStep[] = [
 
 export default function Timeline() {
   return (
-    <div className="bg-white px-3 py-5 lg:px-5 border border-border-primary rounded-lg w-full max-w-xs">
+    <div className="bg-white px-3 py-5 lg:px-5 border border-border-primary rounded-lg w-full md:max-w-xs">
       <div className="text-2xl font-semibold mb-5">Timeline</div>
 
       <div className="relative">

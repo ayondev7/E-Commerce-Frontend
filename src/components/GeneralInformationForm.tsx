@@ -81,7 +81,7 @@ const GeneralInformationForm = ({
   }, [initialData, reset]);
 
   return (
-    <div className="space-y-6.5 bg-background-primary p-6 rounded-lg border border-border-primary">
+    <div className="space-y-6.5 bg-background-primary p-2.5 md:p-6 rounded-lg border border-border-primary">
       <h2 className="text-2xl font-medium">General Information</h2>
       <div className="space-y-4">
         <div>
@@ -92,7 +92,7 @@ const GeneralInformationForm = ({
             {...register("title", { required: "Product title is required" })}
             type="text"
             id="title"
-            className="w-full min-h-13 px-5 py-2.5 border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary text-base"
+            className="w-full min-h-13 px-2.5 md:px-5 py-2.5 border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary text-sm md:text-base"
             placeholder="Enter product title"
           />
           {errors.title && (
@@ -113,7 +113,7 @@ const GeneralInformationForm = ({
             {...register("description", { required: "Description is required" })}
             id="description"
             rows={4}
-            className="w-full px-5 py-2.5 border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary resize-none text-base"
+            className="w-full px-2.5 md:px-5 py-2.5 text-sm md:text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary resize-none"
             placeholder="Enter product description"
           />
           {errors.description && (
@@ -128,7 +128,7 @@ const GeneralInformationForm = ({
             Product Images <span className="text-danger-primary">*</span>
           </label>
           <div
-            className="border-2 border-dashed min-h-[280px] border-border-primary rounded-md px-5 py-2.5 text-center flex flex-col justify-center items-center gap-y-5"
+            className="border-2 border-dashed min-h-[280px] border-border-primary rounded-md px-2.5 md:px-5 py-2.5 text-center flex flex-col justify-center items-center gap-y-5"
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleImageDrop}
           >
@@ -136,7 +136,7 @@ const GeneralInformationForm = ({
             <div className="text-xl font-medium text-text-primary">
               Drag & drop product images
             </div>
-            <div className="text-base text-text-secondary">
+            <div className="text-sm md:text-base text-text-secondary">
               or click to browse files (PNG, JPG, WEBP up to 5MB each)
             </div>
             <input
@@ -150,7 +150,7 @@ const GeneralInformationForm = ({
             <button
               type="button"
               onClick={() => document.getElementById("images")?.click()}
-              className="px-5 py-2.5 text-text-primary border font-medium border-border-primary text-base rounded-sm hover:cursor-pointer transition"
+              className="px-2.5 md:px-5 py-2.5 text-text-primary border font-medium border-border-primary text-sm md:text-base rounded-sm hover:cursor-pointer transition"
             >
               Select Files
             </button>
@@ -186,16 +186,16 @@ const GeneralInformationForm = ({
             value={watchedCategory}
           >
             <SelectTrigger
-              className={`w-full min-h-13 px-5 py-2.5 [&>svg]:w-6 [&>svg]:h-6 rounded-md border-border-primary focus:outline-none focus:ring-0 text-base ${
+              className={`w-full min-h-13 px-2.5 md:px-5 py-2.5 [&>svg]:w-6 [&>svg]:h-6 rounded-md border-border-primary focus:outline-none focus:ring-0 text-sm md:text-base ${
                 watchedCategory ? "text-text-primary" : "text-text-secondary"
               }`}
             >
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
-            <SelectContent className="bg-white border-border-primary text-base">
-              <SelectItem value="electronics" className="text-base">Electronics</SelectItem>
-              <SelectItem value="clothing" className="text-base">Clothing</SelectItem>
-              <SelectItem value="books" className="text-base">Books</SelectItem>
+            <SelectContent className="bg-white border-border-primary text-sm md:text-base">
+              <SelectItem value="electronics" className="text-sm md:text-base">Electronics</SelectItem>
+              <SelectItem value="clothing" className="text-sm md:text-base">Clothing</SelectItem>
+              <SelectItem value="books" className="text-sm md:text-base">Books</SelectItem>
             </SelectContent>
           </Select>
           {errors.category && (

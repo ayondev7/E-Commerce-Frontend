@@ -173,7 +173,7 @@ const AddProductForm = () => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="relative">
-        <div className="pl-5 pr-14 pb-50">
+        <div className="md:pl-5 md:pr-14 pl-4 pr-4 pb-50">
           <div className="flex items-center gap-x-2">
             <button
               type="button"
@@ -210,7 +210,7 @@ const AddProductForm = () => {
               </label>
             </div>
 
-            <div className="space-y-6 bg-background-primary p-6 rounded-lg border border-border-primary">
+            <div className="space-y-6 bg-background-primary p-2.5 md:p-6 rounded-lg border border-border-primary">
               <AdditionalInformationForm />
             </div>
           </div>

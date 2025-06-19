@@ -103,7 +103,7 @@ const CustomerOverview = () => {
         </h3>
       </div>
 
-      <div className="grid grid-cols-4 gap-x-2.5">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-x-2.5 gap-y-2.5">
         {cardData.map((card, index) => (
           <CustomerOverviewCard
             key={index}
@@ -116,7 +116,7 @@ const CustomerOverview = () => {
         ))}
       </div>
 
-      <div className="mt-10">
+      <div className="lg:mt-10 md:mt-5 mt-2.5">
         <ActivityCard activities={sampleActivities} />
       </div>
     </div>

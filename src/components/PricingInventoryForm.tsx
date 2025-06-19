@@ -41,7 +41,7 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
 
 
   return (
-    <div className="space-y-6.5 bg-background-primary p-6 rounded-lg border border-border-primary">
+    <div className="space-y-6.5 bg-background-primary p-2.5 md:p-6 rounded-lg border border-border-primary">
       <h2 className="text-2xl font-medium">Pricing & Inventory</h2>
 
       <div className="space-y-5">
@@ -59,7 +59,7 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
                 required: "Price is required",
                 min: { value: 0, message: "Price must be positive" }
               })}
-              className="w-full px-5 py-2.5 min-h-13 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+              className="w-full px-2.5 md:px-5 py-2.5 min-h-13 text-sm md:text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             />
             {errors.price && (
               <p className="text-danger-primary text-sm mt-1">
@@ -82,7 +82,7 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
                   !value || parseFloat(value) <= parseFloat(watchedPrice) || 
                   "Sale price must be less than regular price"
               })}
-              className="w-full px-5 py-2.5 min-h-13 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+              className="w-full px-2.5 md:px-5 py-2.5 min-h-13 text-sm md:text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             />
             {errors.salePrice && (
               <p className="text-danger-primary text-sm mt-1">
@@ -105,7 +105,7 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
                 required: "Quantity is required",
                 min: { value: 0, message: "Quantity must be positive" }
               })}
-              className="w-full px-5 py-2.5 min-h-13 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+              className="w-full px-2.5 md:px-5 py-2.5 min-h-13 text-sm md:text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             />
             {errors.quantity && (
               <p className="text-danger-primary text-sm mt-1">
@@ -122,7 +122,7 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
               type="text"
               placeholder="Enter SKU"
               {...register("sku")}
-              className="w-full px-5 py-2.5 min-h-13 text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
+              className="w-full px-2.5 md:px-5 py-2.5 min-h-13 text-sm md:text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
         </div>

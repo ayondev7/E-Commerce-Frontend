@@ -4,7 +4,7 @@ import { OrderDetailsResponse } from "@/types/ordertypes";
 
 const BuyerInformation = ({ order }: { order: OrderDetailsResponse }) => {
   return (
-    <div className="bg-white p-5 border border-border-primary rounded-lg">
+    <div className="bg-white p-5 border border-border-primary rounded-lg w-full">
       <div className="text-2xl font-semibold mb-5">Buyer Information</div>
 
       <div className="space-y-5 text-base">

@@ -145,7 +145,7 @@ const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
 
                 <div className="flex-1">
                   <div className="w-full flex gap-x-2.5 justify-between items-center">
-                    <h3 className="text-xl font-medium text-text-primary">
+                    <h3 className="text-xl font-medium text-text-primary line-clamp-1">
                       {item.title}
                     </h3>
                     <button
@@ -195,7 +195,7 @@ const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
                     ) : (
                       <button
                         onClick={() => handleAddSingle(list._id, item._id)}
-                        className="flex items-center min-h-12 min-w-39.5 justify-center gap-x-2.5 px-4 py-2 text-white font-medium text-base rounded-sm bg-button-primary hover:cursor-pointer"
+                        className="flex items-center md:min-h-12 md:min-w-39.5 justify-center gap-x-2.5 px-4 py-2 text-white font-medium text-base rounded-sm bg-button-primary hover:cursor-pointer"
                       >
                         {addingId === item._id ? (
                           <svg
@@ -220,7 +220,7 @@ const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
                         ) : (
                           <>
                             <ShoppingCart className="w-6 h-6" />
-                            <span className="text-sm font-medium">
+                            <span className="text-sm font-medium hidden md:block">
                               Add to Cart
                             </span>
                           </>

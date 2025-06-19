@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Home,
   Box,
@@ -13,6 +13,7 @@ import {
   HelpCircle,
   Truck,
   X,
+  LogOut,
 } from "lucide-react";
 import { useUserStore } from "@/store/userStore";
 import {
@@ -32,6 +33,20 @@ interface MobileSidebarProps {
 const MobileSidebar = ({ isOpen, setIsOpen, trigger }: MobileSidebarProps) => {
   const pathname = usePathname();
   const { userType } = useUserStore();
+  const router = useRouter();
+  const { resetUser } = useUserStore.getState();
+
+  const handleLogout = async () => {
+    if (typeof window !== "undefined") {
+      sessionStorage.clear();
+      resetUser();
+      await fetch("/api/session/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      router.push("/auth");
+    }
+  };
 
   const sellerNavItems = [
     { name: "Overview", href: "/seller/overview", icon: Home },
@@ -58,11 +73,9 @@ const MobileSidebar = ({ isOpen, setIsOpen, trigger }: MobileSidebarProps) => {
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
-      <SheetTrigger asChild>
-        {trigger}
-      </SheetTrigger>
-      <SheetContent 
-        side="left" 
+      <SheetTrigger asChild>{trigger}</SheetTrigger>
+      <SheetContent
+        side="left"
         className="w-80 p-0 bg-white border-r border-border-primary"
       >
         <SheetHeader className="p-4 border-b border-border-primary">
@@ -72,7 +85,7 @@ const MobileSidebar = ({ isOpen, setIsOpen, trigger }: MobileSidebarProps) => {
             </SheetTitle>
           </div>
         </SheetHeader>
-        
+
         <div className="p-4 flex-1">
           <nav className="space-y-1">
             {navItems.map((item) => {
@@ -105,6 +118,13 @@ const MobileSidebar = ({ isOpen, setIsOpen, trigger }: MobileSidebarProps) => {
                 </Link>
               );
             })}
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-3 w-full px-4 py-4 rounded-md text-left text-text-secondary hover:bg-background-secondary transition-colors"
+            >
+              <LogOut className="h-6 w-6" />
+              <span className="text-base">Logout</span>
+            </button>
           </nav>
         </div>
       </SheetContent>

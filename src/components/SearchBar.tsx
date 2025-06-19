@@ -197,7 +197,7 @@ const SearchBar: React.FC<{}> = ({}) => {
         {searchTriggered && data?.products && data.products.length > 0 && (
           <div
             ref={dropdownRef}
-            className="mt-6 space-y-6 max-h-[500px] overflow-y-scroll border border-border-secondary rounded-lg p-5 z-20 top-40 bg-white w-full max-w-xl lg:max-w-5xl absolute"
+            className="mt-6 space-y-6 max-h-[500px] overflow-y-scroll border border-border-secondary rounded-lg p-5 z-20 top-40 bg-white w-full max-w-sm md:max-w-xl lg:max-w-5xl absolute"
           >
             {data.products.map((item) => (
               <div key={item._id} className="flex items-center gap-4">
@@ -231,10 +231,10 @@ const SearchBar: React.FC<{}> = ({}) => {
                         <button
                           onClick={(e) => handleAddWishlistClick(item._id, e)}
                           disabled={wishlistLoading}
-                          className="flex items-center min-h-12 justify-center gap-x-2.5 px-4 py-2 text-white font-medium text-base rounded-sm bg-button-primary hover:cursor-pointer"
+                          className="flex items-center md:min-h-12 justify-center gap-x-2.5 px-2 md:px-4 py-1 md:py-2 text-white font-medium text-base rounded-sm bg-button-primary hover:cursor-pointer"
                         >
                           <PlusIcon className="w-6 h-6" />
-                          <span className="text-sm font-medium">
+                          <span className="text-sm font-medium hidden md:block">
                             {wishlistLoading ? "Adding..." : "Add to Wishlist"}
                           </span>
                         </button>

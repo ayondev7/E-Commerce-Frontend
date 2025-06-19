@@ -51,7 +51,7 @@ const SellerOverview = () => {
         </p>
       </div>
 
-      <div className="flex flex-wrap md:grid md:grid-cols-3 gap-x-0 justify-between gap-y-2.5 md:gap-x-5 mt-5">
+      <div className="flex flex-wrap md:grid md:grid-cols-3 gap-x-2.5 gap-y-2.5 md:gap-x-5 mt-5">
         <SalesAnalyticsCard
           title="Sales Today"
           currentValue={2450}
