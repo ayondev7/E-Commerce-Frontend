@@ -31,7 +31,7 @@ const SalesAnalyticsCard: React.FC<SalesAnalyticsCardProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-border-primary p-[25px] h-full shadow-xs">
+    <div className="bg-white rounded-lg border border-border-primary p-5 h-full shadow-xs">
       <div className="flex flex-col gap-y-1">
         <p className="text-sm text-text-secondary font-medium">
           {title}

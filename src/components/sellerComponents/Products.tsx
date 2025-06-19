@@ -63,7 +63,7 @@ const Products = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="lg:space-y-6 space-y-2.5">
       {Header}
       <OrderProductSearchBar type="product" />
       <ProductTable products={filteredProducts} />

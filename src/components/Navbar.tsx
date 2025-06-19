@@ -41,7 +41,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full bg-white py-6 px-18">
+    <nav className="w-full bg-white py-6 px-8 lg:px-18">
       <div className="container w-full h-full flex items-center justify-between">
         <Link
           href={`/${userType}/overview`}

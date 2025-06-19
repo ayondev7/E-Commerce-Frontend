@@ -89,12 +89,12 @@ const SellerOverview = () => {
               You have 2 products running low.{" "}
             </span>
             <span className="text-[#C77414]">
-              Restock now to avoid stockouts.
+              Restock now.
             </span>
           </div>
         </div>
         <Link href="/seller/products">
-          <button className="rounded-lg hover:cursor-pointer border min-w-31 min-h-10 flex justify-center font-medium items-center border-warning-border text-warning-primary px-4 py-2 bg-white">
+          <button className="rounded-lg text-sm lg:text-base hover:cursor-pointer border lg:min-w-31 lg:min-h-10 flex justify-center font-medium items-center border-warning-border text-warning-primary px-4 py-2 bg-white">
             View Products
           </button>
         </Link>

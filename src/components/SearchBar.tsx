@@ -11,7 +11,7 @@ import { useSearchProducts } from "@/hooks/productHooks";
 import { useAddToWishlist } from "@/hooks/wishlistHooks";
 import { toast } from "react-hot-toast";
 import WishListModal from "@/components/WishListModal";
-import { Search, Heart, ShoppingCart, Loader2, PlusIcon } from "lucide-react";
+import { Search, Heart, ShoppingCart, Loader2, PlusIcon, LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { useUserStore } from "@/store/userStore";
@@ -87,7 +87,7 @@ const SearchBar: React.FC<{}> = ({}) => {
   }, [searchTriggered]);
 
   return (
-    <div className="w-full border-t border-b border-border-primary px-18 py-5">
+    <div className="w-full border-t border-b border-border-primary px-8 lg:px-18 py-5">
       <div className="container h-full flex flex-col">
         <div className="w-full relative flex items-center gap-x-5">
           <div className="flex-1 relative flex items-center border border-text-secondary rounded-lg">
@@ -136,18 +136,33 @@ const SearchBar: React.FC<{}> = ({}) => {
           </div>
 
           <button
-            className="h-12 min-w-29 px-4 py-2 font-medium bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors text-base flex items-center justify-center gap-2"
+            className="lg:h-12 h-10.5 absolute right-2 lg:static min-w-10.5 lg:min-w-29 lg:px-4 lg:py-2 font-medium bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors text-base flex items-center justify-center gap-2"
             onClick={handleSearchClick}
             disabled={isLoading}
           >
-            {isLoading ? (
-              <>
-                <Loader2 className="h-5 w-5 animate-spin" />
-                Searching...
-              </>
-            ) : (
-              "Search"
-            )}
+           
+            <span className="lg:hidden">
+              {isLoading ? (
+                <LoaderCircle className="h-6 w-6 animate-spin" />
+              ) : (
+                <Search className="h-6 w-6" />
+              )}
+            </span>
+
+           
+            <span className="hidden lg:flex items-center gap-2">
+              {isLoading ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Searching...
+                </>
+              ) : (
+                <>
+                  <Search className="h-5 w-5" />
+                  Search
+                </>
+              )}
+            </span>
           </button>
 
           {userType === "customer" && (

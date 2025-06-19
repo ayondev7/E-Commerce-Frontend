@@ -54,10 +54,11 @@ const OrderProductSearchBar = ({ type }: OrderProductSearchBarProps) => {
         />
       </div>
 
-      {type === "product" && (
+      <div className="flex gap-x-5 lg:hidden">
+          {type === "product" && (
         <>
           <Select value={category} onValueChange={setCategory}>
-            <SelectTrigger className="w-51 bg-white min-h-13 py-2.5 px-5 [&>svg]:w-6 [&>svg]:h-6 text-base text-text-primary focus:ring-0 focus:ring-offset-0 [&>svg]:text-text-primary [&[data-state=open]>svg]:rotate-180 rounded-md border-border-primary">
+            <SelectTrigger className="w-full hidden lg:flex bg-white min-h-13 py-2.5 px-5 [&>svg]:w-6 [&>svg]:h-6 text-base text-text-primary focus:ring-0 focus:ring-offset-0 [&>svg]:text-text-primary [&[data-state=open]>svg]:rotate-180 rounded-md border-border-primary">
               <SelectValue placeholder="Categories" />
             </SelectTrigger>
             <SelectContent className="[&>div>div>span]:right-auto [&>div>div>span]:left-2 bg-white border-border-primary">
@@ -94,7 +95,68 @@ const OrderProductSearchBar = ({ type }: OrderProductSearchBarProps) => {
 
       {type === "customer" && (
         <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger className="w-51 text-base bg-white px-5 py-2.5 min-h-13 [&>svg]:w-6 [&>svg]:h-6 text-text-primary focus:ring-0 focus:ring-offset-0 [&>svg]:text-text-primary [&[data-state=open]>svg]:rotate-180 rounded-md border-border-primary">
+          <SelectTrigger className="w-full text-base hidden lg:flex bg-white px-5 py-2.5 min-h-13 [&>svg]:w-6 [&>svg]:h-6 text-text-primary focus:ring-0 focus:ring-offset-0 [&>svg]:text-text-primary [&[data-state=open]>svg]:rotate-180 rounded-md border-border-primary">
+            <SelectValue placeholder="Order Status" />
+          </SelectTrigger>
+          <SelectContent className="[&>div>div>span]:right-auto [&>div>div>span]:left-2 bg-white border-border-primary">
+            <SelectItem value="delivered" className="pl-8 text-base">
+              Delivered
+            </SelectItem>
+            <SelectItem value="shipped" className="pl-8 text-base">
+              Shipped
+            </SelectItem>
+            <SelectItem value="pending" className="pl-8 text-base">
+              Pending
+            </SelectItem>
+            <SelectItem value="cancelled" className="pl-8 text-base">
+              Cancelled
+            </SelectItem>
+          </SelectContent>
+        </Select>
+      )}
+      </div>
+
+      {type === "product" && (
+        <>
+          <Select value={category} onValueChange={setCategory}>
+            <SelectTrigger className="w-51 hidden lg:flex bg-white min-h-13 py-2.5 px-5 [&>svg]:w-6 [&>svg]:h-6 text-base text-text-primary focus:ring-0 focus:ring-offset-0 [&>svg]:text-text-primary [&[data-state=open]>svg]:rotate-180 rounded-md border-border-primary">
+              <SelectValue placeholder="Categories" />
+            </SelectTrigger>
+            <SelectContent className="[&>div>div>span]:right-auto [&>div>div>span]:left-2 bg-white border-border-primary">
+              <SelectItem value="electronics" className="pl-7 text-base">
+                Electronics
+              </SelectItem>
+              <SelectItem value="clothing" className="pl-7 text-base">
+                Clothing
+              </SelectItem>
+              <SelectItem value="books" className="pl-7 text-base">
+                Books
+              </SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={stockStatus} onValueChange={setStockStatus}>
+            <SelectTrigger className="w-51 bg-white py-2.5 min-h-13 px-5 [&>svg]:w-6 [&>svg]:h-6 text-base text-text-primary focus:ring-0 focus:ring-offset-0 [&>svg]:text-text-primary [&[data-state=open]>svg]:rotate-180 rounded-md border-border-primary">
+              <SelectValue placeholder="Stock Status" />
+            </SelectTrigger>
+            <SelectContent className="[&>div>div>span]:right-auto [&>div>div>span]:left-2 bg-white border-border-primary">
+              <SelectItem value="active" className="pl-7 text-base">
+                Active
+              </SelectItem>
+              <SelectItem value="low stock" className="pl-7 text-base">
+                Low Stock
+              </SelectItem>
+              <SelectItem value="out of stock" className="pl-7 text-base">
+                Out of Stock
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </>
+      )}
+
+      {type === "customer" && (
+        <Select value={status} onValueChange={setStatus}>
+          <SelectTrigger className="w-51 text-base hidden lg:flex bg-white px-5 py-2.5 min-h-13 [&>svg]:w-6 [&>svg]:h-6 text-text-primary focus:ring-0 focus:ring-offset-0 [&>svg]:text-text-primary [&[data-state=open]>svg]:rotate-180 rounded-md border-border-primary">
             <SelectValue placeholder="Order Status" />
           </SelectTrigger>
           <SelectContent className="[&>div>div>span]:right-auto [&>div>div>span]:left-2 bg-white border-border-primary">

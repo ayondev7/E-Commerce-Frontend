@@ -39,7 +39,7 @@ const Sidebar = () => {
   const navItems = userType === "seller" ? sellerNavItems : customerNavItems;
 
   return (
-    <aside className="w-84 pl-14 h-full bg-white relative z-[10] border-r border-border-primary flex flex-col">
+    <aside className="lg:w-84 pl-3 lg:pl-14 h-full bg-white relative z-[10] border-r border-border-primary flex flex-col">
       <div className="p-4 flex-1">
         <nav className="space-y-1">
           {navItems.map((item) => {
@@ -62,12 +62,12 @@ const Sidebar = () => {
                 href={item.href}
                 className={`flex items-center gap-3 px-4 py-4 rounded-md transition-colors ${
                   isActive
-                    ? "bg-danger-secondary text-danger-primary font-medium"
+                    ? "lg:bg-danger-secondary text-danger-primary font-medium"
                     : "text-text-secondary hover:bg-background-secondary font-normal"
                 }`}
               >
                 <item.icon className="h-6 w-6" />
-                <span className="text-base">{item.name}</span>
+                <span className="text-base hidden lg:block">{item.name}</span>
               </Link>
             );
           })}
