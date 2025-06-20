@@ -167,7 +167,7 @@ const EditProductForm = () => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="relative">
-        <div className="pl-5 pr-14 pb-50">
+        <div className="lg:pl-5 lg:pr-14 md:pr-8 pl-4 pr-4 pb-50">
           <div className="flex items-center gap-x-2">
             <button
               type="button"
@@ -246,7 +246,7 @@ const EditProductForm = () => {
           </div>
         </div>
 
-        <div className="flex justify-between items-center pl-5 pr-14 bg-white border-t border-border-primary h-29 absolute bottom-0 w-full">
+        <div className="flex justify-between items-center md:pl-8 md:pr-8 pl-4 pr-4 lg:pl-5 lg:pr-14 bg-white border-t border-border-primary h-29 absolute bottom-0 w-full">
           <button
             type="button"
             onClick={discardChanges}
@@ -254,7 +254,7 @@ const EditProductForm = () => {
             className="flex items-center gap-x-1.5 px-4 py-2 hover:bg-background-hover rounded-sm text-danger-primary border border-[#f5cdd5] text-base cursor-pointer disabled:opacity-50"
           >
             <Trash2 className="w-5 h-5" />
-            <span className="font-medium">Discard</span>
+            <span className="font-medium hidden md:block">Discard</span>
           </button>
 
           <div>

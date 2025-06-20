@@ -173,7 +173,7 @@ const AddProductForm = () => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="relative">
-        <div className="md:pl-5 md:pr-14 pl-4 pr-4 pb-50">
+        <div className="lg:pl-5 lg:pr-14 md:pr-8 pl-4 pr-4 pb-50">
           <div className="flex items-center gap-x-2">
             <button
               type="button"
@@ -216,15 +216,15 @@ const AddProductForm = () => {
           </div>
         </div>
 
-        <div className="flex justify-between items-center pl-5 pr-14 bg-white border-t border-border-primary h-29 absolute bottom-0 w-full">
+        <div className="flex justify-between items-center pl-4 pr-4 lg:pl-5 lg:pr-14 bg-white border-t border-border-primary h-16 md:h-29 absolute bottom-0 w-full">
           <button
             type="button"
             onClick={discardProduct}
             disabled={isSubmitting}
-            className="flex items-center gap-x-1.5 px-4 py-2 hover:bg-background-hover rounded-sm text-danger-primary border border-[#f5cdd5] text-base cursor-pointer disabled:opacity-50"
+            className="flex items-center gap-x-1.5 px-2 py-1 md:px-4 md:py-2 text-sm md:text-base hover:bg-background-hover rounded-sm text-danger-primary border border-[#f5cdd5] cursor-pointer disabled:opacity-50"
           >
             <Trash2 className="w-5 h-5" />
-            <span className="font-medium">Discard</span>
+            <span className="font-medium hidden md:block">Discard</span>
           </button>
 
           <div className="flex gap-x-1">
@@ -232,7 +232,7 @@ const AddProductForm = () => {
               type="button"
               onClick={saveDraft}
               disabled={isSubmitting}
-              className="px-5 py-[10px] bg-button-secondary text-text-primary rounded-sm border border-border-primary mr-2 cursor-pointer"
+              className="md:px-5 md:py-2.5 px-2 py-1 bg-button-secondary text-sm md:text-base text-text-primary rounded-sm border border-border-primary mr-2 cursor-pointer"
             >
               Save Draft
             </button>
@@ -240,7 +240,7 @@ const AddProductForm = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-5 py-[10px] bg-button-primary text-white rounded-sm cursor-pointer"
+              className="md:px-5 md:py-2.5 px-2 py-1 bg-button-primary text-sm md:text-base text-white rounded-sm cursor-pointer"
             >
               {isSubmitting ? "Sending..." : "Send for Review"}
             </button>
