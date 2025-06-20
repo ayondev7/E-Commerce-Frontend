@@ -149,10 +149,10 @@ const ProductTable = ({ products }: ProductTableProps) => {
               <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
                 SKU
               </TableHead>
-              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg hidden lg:block">
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg hidden lg:table-cell">
                 Price
               </TableHead>
-              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
+              <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg hidden lg:table-cell">
                 Stock
               </TableHead>
               <TableHead className="text-text-secondary font-medium px-4 py-3 text-lg">
@@ -192,16 +192,16 @@ const ProductTable = ({ products }: ProductTableProps) => {
                       className="w-11 h-11 object-cover rounded-sm"
                     />
                   </TableCell>
-                  <TableCell className="text-text-primary px-4 py-4 text-base">
+                  <TableCell className="text-text-primary px-4 py-4 text-base max-w-48 overflow-hidden">
                     {product?.title}
                   </TableCell>
                   <TableCell className="text-text-primary px-4 py-4 text-base">
                     {product?.sku}
                   </TableCell>
-                  <TableCell className="text-text-primary px-4 py-4 text-base hidden lg:block">
+                  <TableCell className="text-text-primary px-4 py-4 text-base hidden lg:table-cell">
                     ${product?.price.toFixed(2)}
                   </TableCell>
-                  <TableCell className="text-text-primary px-4 py-4 text-base">
+                  <TableCell className="text-text-primary px-4 py-4 text-base hidden lg:table-cell">
                     {product?.stock}
                   </TableCell>
                   <TableCell className="px-4 py-4">

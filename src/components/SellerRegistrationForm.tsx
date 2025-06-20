@@ -79,7 +79,6 @@ const SellerRegistrationForm = ({ onBack }: { onBack: () => void }) => {
       toast.error(
         err.response?.data?.error || "Registration failed. Please try again."
       );
-    } finally {
       setIsLoading(false);
     }
   };

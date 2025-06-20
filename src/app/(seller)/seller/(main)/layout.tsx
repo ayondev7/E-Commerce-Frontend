@@ -12,7 +12,7 @@ const SellerLayout = ({ children }: { children: React.ReactNode }) => {
       </div>
 
       <div className="flex flex-1 overflow-hidden">
-        <div className="hidden lg:block">
+        <div className="hidden md:block">
           <Sidebar />
         </div>
         <main className="flex-1 bg-background-secondary pr-4 pl-4 md:pl-5 py-6 md:pr-8 lg:pr-14 overflow-y-auto">

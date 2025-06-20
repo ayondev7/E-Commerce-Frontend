@@ -1,11 +1,11 @@
 "use client";
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { useUserStore } from '@/store/userStore';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import { Eye, EyeOff } from 'lucide-react';
+import React, { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useUserStore } from "@/store/userStore";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import { Eye, EyeOff } from "lucide-react";
 
 interface FormData {
   firstName: string;
@@ -31,50 +31,59 @@ const CustomerRegistrationForm = ({ onBack }: { onBack: () => void }) => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const password = watch('password');
+  const password = watch("password");
 
   const onSubmit = async (data: FormData) => {
     if (data.password !== data.confirmPassword) {
-      toast.error('Passwords do not match');
+      toast.error("Passwords do not match");
       return;
     }
 
     try {
       setIsLoading(true);
       const formData = new FormData();
-      formData.append('firstName', data.firstName);
-      formData.append('lastName', data.lastName);
-      formData.append('email', data.email);
-      formData.append('password', data.password);
-      formData.append('phone', data.phone);
+      formData.append("firstName", data.firstName);
+      formData.append("lastName", data.lastName);
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+      formData.append("phone", data.phone);
       if (data.customerImage && data.customerImage[0]) {
-        formData.append('customerImage', data.customerImage[0]);
+        formData.append("customerImage", data.customerImage[0]);
       }
 
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/customers/register`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/customers/register`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-      const loginRes = await axios.post('/api/session/login', {
-        email: data.email,
-        password: data.password,
-        userType: 'customer'
-      }, { withCredentials: true });
+      const loginRes = await axios.post(
+        "/api/session/login",
+        {
+          email: data.email,
+          password: data.password,
+          userType: "customer",
+        },
+        { withCredentials: true }
+      );
 
       const { accessToken, user } = loginRes.data;
-      sessionStorage.setItem('accessToken', accessToken);
+      sessionStorage.setItem("accessToken", accessToken);
       setUser({
-        userType: 'customer',
-        name: `${user?.firstName || ''} ${user?.lastName || ''}`.trim()
+        userType: "customer",
+        name: `${user?.firstName || ""} ${user?.lastName || ""}`.trim(),
       });
 
-      toast.success('Registration successful!');
-      router.push('/customer/overview');
+      toast.success("Registration successful!");
+      router.push("/customer/overview");
     } catch (err: any) {
-      toast.error(err.response?.data?.error || 'Registration failed. Please try again.');
-    } finally {
+      toast.error(
+        err.response?.data?.error || "Registration failed. Please try again."
+      );
       setIsLoading(false);
     }
   };
@@ -96,13 +105,15 @@ const CustomerRegistrationForm = ({ onBack }: { onBack: () => void }) => {
             </label>
             <input
               placeholder="Enter your first name"
-              {...register('firstName', { required: 'First name is required' })}
+              {...register("firstName", { required: "First name is required" })}
               className={`w-full border border-border-primary rounded-md px-5 min-h-13 focus:outline-none text-base text-primary placeholder:text-secondary ${
-                errors.firstName ? 'border-red-500' : ''
+                errors.firstName ? "border-red-500" : ""
               }`}
             />
             {errors.firstName && (
-              <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.firstName.message}
+              </p>
             )}
           </div>
 
@@ -112,13 +123,15 @@ const CustomerRegistrationForm = ({ onBack }: { onBack: () => void }) => {
             </label>
             <input
               placeholder="Enter your last name"
-              {...register('lastName', { required: 'Last name is required' })}
+              {...register("lastName", { required: "Last name is required" })}
               className={`w-full border border-border-primary rounded-md px-5 min-h-13 focus:outline-none text-base text-primary placeholder:text-secondary ${
-                errors.lastName ? 'border-red-500' : ''
+                errors.lastName ? "border-red-500" : ""
               }`}
             />
             {errors.lastName && (
-              <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.lastName.message}
+              </p>
             )}
           </div>
 
@@ -129,15 +142,15 @@ const CustomerRegistrationForm = ({ onBack }: { onBack: () => void }) => {
             <input
               placeholder="Enter your email"
               type="email"
-              {...register('email', {
-                required: 'Email is required',
+              {...register("email", {
+                required: "Email is required",
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: 'Invalid email address',
+                  message: "Invalid email address",
                 },
               })}
               className={`w-full border border-border-primary rounded-md px-5 min-h-13 focus:outline-none text-base text-primary placeholder:text-secondary ${
-                errors.email ? 'border-red-500' : ''
+                errors.email ? "border-red-500" : ""
               }`}
             />
             {errors.email && (
@@ -153,16 +166,16 @@ const CustomerRegistrationForm = ({ onBack }: { onBack: () => void }) => {
             </label>
             <input
               placeholder="Enter your password"
-              type={showPassword ? 'text' : 'password'}
-              {...register('password', {
-                required: 'Password is required',
+              type={showPassword ? "text" : "password"}
+              {...register("password", {
+                required: "Password is required",
                 minLength: {
                   value: 6,
-                  message: 'Password must be at least 6 characters',
+                  message: "Password must be at least 6 characters",
                 },
               })}
               className={`w-full border border-border-primary rounded-md px-5 min-h-13 pr-10 focus:outline-none text-base text-primary placeholder:text-secondary ${
-                errors.password ? 'border-red-500' : ''
+                errors.password ? "border-red-500" : ""
               }`}
             />
             <button
@@ -189,14 +202,14 @@ const CustomerRegistrationForm = ({ onBack }: { onBack: () => void }) => {
             </label>
             <input
               placeholder="Confirm your password"
-              type={showConfirmPassword ? 'text' : 'password'}
-              {...register('confirmPassword', {
-                required: 'Please confirm your password',
+              type={showConfirmPassword ? "text" : "password"}
+              {...register("confirmPassword", {
+                required: "Please confirm your password",
                 validate: (value) =>
-                  value === password || 'Passwords do not match',
+                  value === password || "Passwords do not match",
               })}
               className={`w-full border border-border-primary rounded-md px-5 min-h-13 pr-10 focus:outline-none text-base text-primary placeholder:text-secondary ${
-                errors.confirmPassword ? 'border-red-500' : ''
+                errors.confirmPassword ? "border-red-500" : ""
               }`}
             />
             <button
@@ -224,9 +237,9 @@ const CustomerRegistrationForm = ({ onBack }: { onBack: () => void }) => {
             <input
               placeholder="Enter your phone number"
               type="tel"
-              {...register('phone', { required: 'Phone number is required' })}
+              {...register("phone", { required: "Phone number is required" })}
               className={`w-full border border-border-primary rounded-md px-5 min-h-13 focus:outline-none text-base text-primary placeholder:text-secondary ${
-                errors.phone ? 'border-red-500' : ''
+                errors.phone ? "border-red-500" : ""
               }`}
             />
             {errors.phone && (
@@ -243,7 +256,7 @@ const CustomerRegistrationForm = ({ onBack }: { onBack: () => void }) => {
             <input
               type="file"
               accept="image/*"
-              {...register('customerImage')}
+              {...register("customerImage")}
               className="w-full border min-h-13 flex items-center border-border-primary rounded-md px-5 py-2 text-base text-primary placeholder:text-secondary"
             />
           </div>
@@ -255,7 +268,7 @@ const CustomerRegistrationForm = ({ onBack }: { onBack: () => void }) => {
             disabled={isLoading}
             className="bg-button-primary text-white py-2 px-4 rounded-md min-w-sm flex justify-center items-center"
           >
-            {isLoading ? 'Registering...' : 'Register'}
+            {isLoading ? "Registering..." : "Register"}
           </button>
           <button
             type="button"

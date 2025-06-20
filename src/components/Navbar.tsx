@@ -44,7 +44,7 @@ const Navbar = () => {
 
   return (
     <div className="w-full bg-white">
-      <nav className="lg:hidden block w-full py-6 px-4 lg:px-18">
+      <nav className="md:hidden block w-full py-6 px-4 lg:px-18">
         <div className="container w-full h-full flex items-center justify-between">
           <MobileSidebar
             isOpen={isMobileSidebarOpen}
@@ -90,7 +90,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      <nav className="hidden lg:block w-full py-6 px-8 lg:px-18">
+      <nav className="hidden md:block w-full py-6 px-8 lg:px-18">
         <div className="container w-full h-full flex items-center justify-between">
           <Link
             href={`/${userType}/overview`}
