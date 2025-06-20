@@ -91,7 +91,7 @@ const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
                 setValue("userType", value as "seller" | "customer");
               }}
             >
-              <SelectTrigger className="w-full border focus:ring-0 border-border-primary focus:outline-none px-5 min-h-13 rounded-md text-base text-primary placeholder:text-secondary">
+              <SelectTrigger className="w-full border [&>svg]:w-6 [&>svg]:h-6 text-text-secondary focus:ring-0 border-border-primary focus:outline-none px-5 min-h-13 rounded-md text-base text-primary placeholder:text-secondary">
                 <SelectValue placeholder="Select user type" />
               </SelectTrigger>
               <SelectContent className="bg-white border-border-primary text-base">

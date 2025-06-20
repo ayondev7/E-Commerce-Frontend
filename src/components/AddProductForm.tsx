@@ -216,7 +216,7 @@ const AddProductForm = () => {
           </div>
         </div>
 
-        <div className="flex justify-between items-center pl-4 pr-4 lg:pl-5 lg:pr-14 bg-white border-t border-border-primary h-16 md:h-29 absolute bottom-0 w-full">
+        <div className="flex justify-between items-center md:pr-8 pl-4 pr-4 lg:pl-5 lg:pr-14 bg-white border-t border-border-primary h-16 md:h-29 absolute bottom-0 w-full">
           <button
             type="button"
             onClick={discardProduct}
