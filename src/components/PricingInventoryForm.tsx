@@ -15,7 +15,6 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
   const {
     register,
     setValue,
-    reset,
     watch,
     formState: { errors },
   } = useFormContext();
@@ -25,20 +24,19 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
   const watchedQuantity = watch("quantity", "");
   const watchedSku = watch("sku", "");
 
- const isInitialized = useRef(false);
+  const isInitialized = useRef(false);
 
   useEffect(() => {
     if (initialData && !isInitialized.current) {
-      reset({
-        price: initialData.price !== undefined ? initialData.price.toString() : "",
-        salePrice: initialData.salePrice !== undefined ? initialData.salePrice.toString() : "",
-        quantity: initialData.quantity !== undefined ? initialData.quantity.toString() : "",
-        sku: initialData.sku || "",
-      });
+      // Set individual field values instead of using reset
+      if (initialData.price !== undefined) setValue("price", initialData.price.toString());
+      if (initialData.salePrice !== undefined) setValue("salePrice", initialData.salePrice.toString());
+      if (initialData.quantity !== undefined) setValue("quantity", initialData.quantity.toString());
+      if (initialData.sku !== undefined) setValue("sku", initialData.sku);
+      
       isInitialized.current = true;
     }
-  }, [initialData, reset]);
-
+  }, [initialData, setValue]);
 
   return (
     <div className="space-y-6.5 bg-background-primary p-2.5 md:p-6 rounded-lg border border-border-primary">

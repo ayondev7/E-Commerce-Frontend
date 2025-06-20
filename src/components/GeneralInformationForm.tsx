@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 import { Trash2, Upload } from "lucide-react";
 import { useFormContext } from "react-hook-form";
@@ -33,6 +33,9 @@ const GeneralInformationForm = ({
   } = useFormContext();
 
   const isInitialized = useRef(false);
+  const [selectedCategory, setSelectedCategory] = useState(
+    initialData?.category || ""
+  );
 
   const watchedTitle = watch("title");
   const watchedDescription = watch("description");
@@ -65,11 +68,13 @@ const GeneralInformationForm = ({
   };
 
   const removeImage = (index: number) => {
-    const newImages = watchedImages.filter((file:File, i:number) => i !== index);
+    const newImages = watchedImages.filter(
+      (file: File, i: number) => i !== index
+    );
     setValue("productImages", newImages);
   };
 
- useEffect(() => {
+  useEffect(() => {
     if (initialData && !isInitialized.current) {
       reset({
         title: initialData.title || "",
@@ -77,6 +82,7 @@ const GeneralInformationForm = ({
         category: initialData.category || "",
         productImages: initialData.productImages || [],
       });
+      setSelectedCategory(initialData.category || "");
       isInitialized.current = true;
     }
   }, [initialData, reset]);
@@ -102,7 +108,7 @@ const GeneralInformationForm = ({
             </p>
           )}
         </div>
-        
+
         <div>
           <label
             htmlFor="description"
@@ -111,7 +117,9 @@ const GeneralInformationForm = ({
             Description <span className="text-danger-primary">*</span>
           </label>
           <textarea
-            {...register("description", { required: "Description is required" })}
+            {...register("description", {
+              required: "Description is required",
+            })}
             id="description"
             rows={4}
             className="w-full px-5 py-2.5 border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary resize-none text-base"
@@ -123,7 +131,7 @@ const GeneralInformationForm = ({
             </p>
           )}
         </div>
-        
+
         <div>
           <label className="block font-medium text-xl mb-2.5">
             Product Images <span className="text-danger-primary">*</span>
@@ -158,7 +166,7 @@ const GeneralInformationForm = ({
           </div>
           {watchedImages.length > 0 && (
             <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-              {watchedImages.map((image:File, index:number) => (
+              {watchedImages.map((image: File, index: number) => (
                 <div key={index} className="relative group">
                   <Image
                     width={220}
@@ -172,21 +180,24 @@ const GeneralInformationForm = ({
                     onClick={() => removeImage(index)}
                     className="absolute top-1 right-1 text-danger-primary p-1 rounded-sm"
                   >
-                    <Trash2 className="w-6 h-6 cursor-pointer"/>
+                    <Trash2 className="w-6 h-6 cursor-pointer" />
                   </button>
                 </div>
               ))}
             </div>
           )}
         </div>
-        
+
         <div>
           <label className="block font-medium text-xl mb-2.5">
             Category <span className="text-danger-primary">*</span>
           </label>
           <Select
-            onValueChange={(value) => setValue("category", value)}
-            value={watchedCategory}
+            value={selectedCategory}
+            onValueChange={(value) => {
+              setValue("category", value);
+              setSelectedCategory(value);
+            }}
           >
             <SelectTrigger
               className={`w-full min-h-13 px-5 py-2.5 [&>svg]:w-6 [&>svg]:h-6 rounded-md border-border-primary focus:outline-none focus:ring-0 text-base ${
@@ -196,9 +207,15 @@ const GeneralInformationForm = ({
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent className="bg-white border-border-primary text-base">
-              <SelectItem value="electronics" className="text-base">Electronics</SelectItem>
-              <SelectItem value="clothing" className="text-base">Clothing</SelectItem>
-              <SelectItem value="books" className="text-base">Books</SelectItem>
+              <SelectItem value="electronics" className="text-base">
+                Electronics
+              </SelectItem>
+              <SelectItem value="clothing" className="text-base">
+                Clothing
+              </SelectItem>
+              <SelectItem value="books" className="text-base">
+                Books
+              </SelectItem>
             </SelectContent>
           </Select>
           {errors.category && (

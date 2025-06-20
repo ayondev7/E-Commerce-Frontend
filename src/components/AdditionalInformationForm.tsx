@@ -23,8 +23,11 @@ const AdditionalInformationForm = ({
   } = useFormContext();
 
   const watchedTags = watch("tags", "");
-  const watchedSeoTitle = watch("seoTitle", "");
-  const watchedSeoDescription = watch("seoDescription", "");
+  const seoTitleValue = watch("seoTitle", initialData?.seoTitle || "");
+  const seoDescriptionValue = watch(
+    "seoDescription",
+    initialData?.seoDescription || ""
+  );
 
   const [existingTags, setExistingTags] = useState<string[]>([]);
   const [newTagInput, setNewTagInput] = useState("");
@@ -111,7 +114,8 @@ const AdditionalInformationForm = ({
           <input
             type="text"
             placeholder="Custom titles for search engines"
-            {...register("seoTitle")}
+            value={seoTitleValue}
+            onChange={(e) => setValue("seoTitle", e.target.value)}
             className="w-full px-2.5 md:px-5 py-2.5 min-h-13 text-sm md:text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
@@ -123,7 +127,8 @@ const AdditionalInformationForm = ({
           <textarea
             placeholder="Custom description for search engines"
             rows={3}
-            {...register("seoDescription")}
+            value={seoDescriptionValue}
+            onChange={(e) => setValue("seoDescription", e.target.value)}
             className="w-full min-h-[160px] px-2.5 md:px-5 py-2.5 text-sm md:text-base border border-border-primary rounded-md focus:outline-none focus:ring-1 focus:ring-primary resize-none"
           />
         </div>

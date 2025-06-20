@@ -10,6 +10,8 @@ import AdditionalInformationForm from "./AdditionalInformationForm";
 import { Checkbox } from "./ui/checkbox";
 import { ProductFormData } from "@/types/productTypes";
 import { useSingleProduct } from "@/hooks/productHooks";
+import apiClient from "@/lib/apiClient";
+import toast from "react-hot-toast";
 
 const EditProductForm = () => {
   const router = useRouter();
@@ -20,8 +22,6 @@ const EditProductForm = () => {
   const [negotiable, setNegotiable] = useState(false);
 
   const { data: productData, isLoading, error } = useSingleProduct(productId);
-
-  console.log("Product Data:", productData);
 
   const methods = useForm<ProductFormData>({
     defaultValues: {
@@ -88,15 +88,14 @@ const EditProductForm = () => {
   const onSubmit = async (data: ProductFormData) => {
     try {
       setIsSubmitting(true);
+
       const patchData = {
         ...data,
         negotiable,
         productId,
-       
         price: parseFloat(data.price),
         salePrice: data.salePrice ? parseFloat(data.salePrice) : undefined,
         quantity: parseInt(data.quantity),
-       
         tags: data.tags
           ? data.tags
               .split(",")
@@ -105,19 +104,24 @@ const EditProductForm = () => {
           : [],
       };
 
-     
       console.log("Data to patch:", patchData);
 
-      alert("Product updated successfully! (Check console for data)");
+      const response = await apiClient.patch(`/api/products/update-product`, patchData);
+
+      if (response.data.success) {
+        toast.success("Product updated successfully!");
+        router.push("/seller/products");
+      } else {
+        throw new Error(response.data.message || "Failed to update product");
+      }
     } catch (error: unknown) {
       console.error("Error updating product:", error);
       if (error instanceof Error) {
-        alert(error.message);
+        toast.error(error.message);
       } else {
-        alert("Failed to update product. Please try again.");
+        toast.error("Failed to update product. Please try again.");
+        setIsSubmitting(false);
       }
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -135,7 +139,6 @@ const EditProductForm = () => {
     }
   }, [productData, reset, transformProductData]);
 
-  
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -144,7 +147,6 @@ const EditProductForm = () => {
     );
   }
 
- 
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -155,7 +157,6 @@ const EditProductForm = () => {
     );
   }
 
-  
   if (!productData) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -189,7 +190,7 @@ const EditProductForm = () => {
                 title: productData.title,
                 description: productData.description,
                 category: productData.category,
-                productImages: [], 
+                productImages: [],
               }}
             />
 
