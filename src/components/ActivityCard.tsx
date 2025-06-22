@@ -9,21 +9,14 @@ import {
   XCircle,
   HeartOff,
 } from 'lucide-react';
-
-interface ActivityItem {
-  id: string;
-  type: string;
-  title: string;
-  description: string;
-  timestamp: string;
-}
+import { Activity } from '@/types/activityTypes'; 
 
 interface ActivityCardProps {
-  activities: ActivityItem[];
+  activities: Activity[];
   className?: string;
 }
 
-const getActivityIcon = (type: ActivityItem['type']) => {
+const getActivityIcon = (type: Activity['activityStatus']) => {
   const iconProps = { className: "w-5 h-5" };
 
   switch (type) {
@@ -32,7 +25,7 @@ const getActivityIcon = (type: ActivityItem['type']) => {
     case 'added to wishlist':
       return <Heart {...iconProps} className="text-pink-500" />;
     case 'removed from wishlist':
-      return <HeartOff {...iconProps} className="text-rose-500" />;
+      return <HeartOff {...iconProps} className="text-pink-500" />;
     case 'order shipped':
       return <Truck {...iconProps} className="text-blue-500" />;
     case 'review posted':
@@ -40,37 +33,86 @@ const getActivityIcon = (type: ActivityItem['type']) => {
     case 'coupon applied':
       return <Gift {...iconProps} className="text-purple-400" />;
     case 'order added':
-      return <ShoppingCart {...iconProps} className="text-sky-500" />;
+      return <ShoppingCart {...iconProps} className="text-blue-500" />;
     case 'order cancelled':
       return <XCircle {...iconProps} className="text-red-500" />;
     default:
-      return <CheckCircle {...iconProps} className="text-text-secondary" />;
+      return <CheckCircle {...iconProps} className="text-yellow-500" />;
   }
 };
 
 const ActivityCard: React.FC<ActivityCardProps> = ({ activities, className = "" }) => {
+  console.log("Activities:", activities);
+  const toTitleCase = (str: string) => {
+  return str
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
+const formatActivityDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  const now = new Date();
+
+  const isToday =
+    date.getDate() === now.getDate() &&
+    date.getMonth() === now.getMonth() &&
+    date.getFullYear() === now.getFullYear();
+
+  const yesterday = new Date();
+  yesterday.setDate(now.getDate() - 1);
+
+  const isYesterday =
+    date.getDate() === yesterday.getDate() &&
+    date.getMonth() === yesterday.getMonth() &&
+    date.getFullYear() === yesterday.getFullYear();
+
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  };
+
+  if (isToday) {
+    return `Today, ${date.toLocaleTimeString([], timeOptions)}`;
+  }
+
+  if (isYesterday) {
+    return `Yesterday, ${date.toLocaleTimeString([], timeOptions)}`;
+  }
+
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  };
+
+  return date.toLocaleDateString(undefined, dateOptions); 
+};
+
   return (
     <div className={`bg-white rounded-md border border-border-primary p-6 ${className}`}>
       <h2 className="text-xl font-semibold text-text-primary mb-4">Recent Activity</h2>
-      
+
       <div className="space-y-6">
         {activities.map((activity) => (
-          <div key={activity.id} className="flex items-start gap-x-2.5 p-3">
+          <div key={activity._id} className="flex items-start gap-x-2.5 p-3">
             <div className="flex-shrink-0 mt-0.5">
-              {getActivityIcon(activity.type)}
+              {getActivityIcon(activity.activityType)}
             </div>
-            
+
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between">
                 <h3 className="text-base font-medium text-text-primary">
-                  {activity.title}
+                  {toTitleCase(activity?.activityType)}
                 </h3>
                 <span className="text-sm text-text-secondary whitespace-nowrap ml-4">
-                  {activity.timestamp}
+                 {formatActivityDate(activity?.createdAt)}
+
                 </span>
               </div>
               <p className="text-sm text-text-secondary mt-2.5">
-                {activity.description}
+                {activity?.activityStatus}
               </p>
             </div>
           </div>

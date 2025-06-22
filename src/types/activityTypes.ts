@@ -4,6 +4,7 @@ export interface Activity {
   wishlistId?: string;
   orderId?: string;
   activityStatus: string;
+  activityType: string;
   createdAt: string;
   updatedAt: string;
 }
