@@ -1,9 +1,18 @@
 import React from 'react';
-import { CheckCircle, Heart, Truck, Star, Gift } from 'lucide-react';
+import {
+  CheckCircle,
+  Heart,
+  Truck,
+  Star,
+  Gift,
+  ShoppingCart,
+  XCircle,
+  HeartOff,
+} from 'lucide-react';
 
 interface ActivityItem {
   id: string;
-  type: 'order_delivered' | 'wishlist_added' | 'order_shipped' | 'review_posted' | 'coupon_applied';
+  type: string;
   title: string;
   description: string;
   timestamp: string;
@@ -16,20 +25,26 @@ interface ActivityCardProps {
 
 const getActivityIcon = (type: ActivityItem['type']) => {
   const iconProps = { className: "w-5 h-5" };
-  
+
   switch (type) {
-    case 'order_delivered':
-      return <CheckCircle {...iconProps} className="w-5 h-5 text-green-600" />;
-    case 'wishlist_added':
-      return <Heart {...iconProps} className="w-5 h-5 text-pink-500" />;
-    case 'order_shipped':
-      return <Truck {...iconProps} className="w-5 h-5 text-blue-500" />;
-    case 'review_posted':
-      return <Star {...iconProps} className="w-5 h-5 text-yellow-500" />;
-    case 'coupon_applied':
-      return <Gift {...iconProps} className="w-5 h-5 text-purple-400" />;
+    case 'order delivered':
+      return <CheckCircle {...iconProps} className="text-green-600" />;
+    case 'added to wishlist':
+      return <Heart {...iconProps} className="text-pink-500" />;
+    case 'removed from wishlist':
+      return <HeartOff {...iconProps} className="text-rose-500" />;
+    case 'order shipped':
+      return <Truck {...iconProps} className="text-blue-500" />;
+    case 'review posted':
+      return <Star {...iconProps} className="text-yellow-500" />;
+    case 'coupon applied':
+      return <Gift {...iconProps} className="text-purple-400" />;
+    case 'order added':
+      return <ShoppingCart {...iconProps} className="text-sky-500" />;
+    case 'order cancelled':
+      return <XCircle {...iconProps} className="text-red-500" />;
     default:
-      return <CheckCircle {...iconProps} className="w-5 h-5 text-text-secondary" />;
+      return <CheckCircle {...iconProps} className="text-text-secondary" />;
   }
 };
 
