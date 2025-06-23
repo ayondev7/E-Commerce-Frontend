@@ -27,6 +27,14 @@ export default function Checkout() {
     },
   });
 
+  const handleCancelOrder = () => {
+    resetEverything();
+    toast.success("Order has been cancelled!");
+    setTimeout(() => {
+      router.push("/customer/overview");
+    }, 2000);
+  };
+
   const onSubmit = (data: CheckoutFormData) => {
     if (!selectedPayment) {
       toast.error("Please select a payment method");
@@ -109,6 +117,7 @@ export default function Checkout() {
             setPromoCode={setPromoCode}
             onPlaceOrder={methods.handleSubmit(onSubmit)}
             isPlacingOrder={isPlacingOrder}
+            onCancelOrder={handleCancelOrder}
           />
         </div>
       </form>

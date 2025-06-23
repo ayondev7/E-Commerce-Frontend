@@ -42,7 +42,7 @@ export default function PaymentTransactions() {
                   </div>
                   <div>
                     <div className="font-medium text-base text-text-primary">
-                      ${payment.price?.toFixed(2) || "0.00"}
+                      ${(payment.price * payment.quantity).toFixed(2) || "0.00"}
                     </div>
                     <div className="text-sm text-text-secondary">
                       {new Date(payment.createdAt).toLocaleDateString("en-US", {
