@@ -9,7 +9,7 @@ import ProductDetailsCard from "../ProductDetailsCard";
 import { CancelOrderModal } from "../CancelOrderModal";
 import { useGetOrderDetails, useUpdateOrderStatus } from "@/hooks/orderHooks";
 import toast from "react-hot-toast";
-import { OrderDetailsResponse } from "@/types/orderTypes";
+import { OrderDetailsResponse } from "@/types/ordertypes";
 
 const OrderDetails = () => {
   const router = useRouter();

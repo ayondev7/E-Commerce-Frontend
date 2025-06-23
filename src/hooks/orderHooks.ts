@@ -7,7 +7,7 @@ import {
   OrderDetailsResponse,
   OrderStatusCounts,
   Payment,
-} from "@/types/orderTypes";
+} from "@/types/ordertypes";
 import {
   CUSTOMER_ACTIVITIES_QUERY_KEY,
   CUSTOMER_NOTIFICATIONS_QUERY_KEY,

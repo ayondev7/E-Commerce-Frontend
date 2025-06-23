@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { AlertTriangle } from "lucide-react";
-import { OrderDetailsResponse } from "@/types/orderTypes";
+import { OrderDetailsResponse } from "@/types/ordertypes";
 import { useUpdateOrderStatus } from "@/hooks/orderHooks";
 import toast from "react-hot-toast";
 
