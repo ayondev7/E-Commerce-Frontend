@@ -14,6 +14,7 @@ import { useUserStore } from "@/store/userStore";
 import Image from "next/image";
 import { useUserProfile } from "@/hooks/userHooks";
 import MobileSidebar from "./MobileSidebar";
+import { useCartStore } from "@/store/cartStore";
 
 const Navbar = () => {
   const router = useRouter();
@@ -21,11 +22,13 @@ const Navbar = () => {
   const { resetUser } = useUserStore.getState();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const { data, isLoading } = useUserProfile();
+   const { resetEverything } = useCartStore();
 
   const handleLogout = async () => {
     if (typeof window !== "undefined") {
       sessionStorage.clear();
       resetUser();
+      resetEverything();
       await fetch("/api/session/logout", {
         method: "POST",
         credentials: "include",
