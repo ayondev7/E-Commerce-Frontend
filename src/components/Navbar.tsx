@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Globe, HelpCircle, Bell, PanelLeft } from "lucide-react";
@@ -15,6 +15,11 @@ import Image from "next/image";
 import { useUserProfile } from "@/hooks/userHooks";
 import MobileSidebar from "./MobileSidebar";
 import { useCartStore } from "@/store/cartStore";
+import {
+  useGetCustomerNotifications,
+  useMarkNotificationsAsSeen,
+} from "@/hooks/customerHooks";
+import NotificationContainer from "./NotificationContainer";
 
 const Navbar = () => {
   const router = useRouter();
@@ -22,7 +27,20 @@ const Navbar = () => {
   const { resetUser } = useUserStore.getState();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const { data, isLoading } = useUserProfile();
-   const { resetEverything } = useCartStore();
+  const { resetEverything } = useCartStore();
+  const [showNotifications, setShowNotifications] = useState(false);
+  const notifRef = useRef<HTMLDivElement>(null);
+
+  const { data: notificationsData } = useGetCustomerNotifications();
+  const { mutate: markAsSeen } = useMarkNotificationsAsSeen();
+
+  const [hasOpenedNotifications, setHasOpenedNotifications] = useState(false);
+  const [hasMarkedSeen, setHasMarkedSeen] = useState(false);
+
+  const latestNewExists =
+    (notificationsData?.notifications?.some((n) => n.isNew) &&
+      !showNotifications) ||
+    false;
 
   const handleLogout = async () => {
     if (typeof window !== "undefined") {
@@ -42,6 +60,46 @@ const Navbar = () => {
       handleLogout();
     } else if (value === "profile") {
       router.push("/profile");
+    }
+  };
+
+  const newNotificationCount =
+    notificationsData?.notifications?.filter((n) => n.isNew).length || 0;
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        notifRef.current &&
+        !notifRef.current.contains(event.target as Node)
+      ) {
+        setShowNotifications(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleBellClick = () => {
+    if (!showNotifications) {
+      setShowNotifications(true);
+      if (!hasOpenedNotifications) {
+        setHasOpenedNotifications(true);
+      }
+    } else {
+      setShowNotifications(false);
+      if (hasOpenedNotifications && !hasMarkedSeen) {
+        const latestNewNotification = notificationsData?.notifications?.find(
+          (n) => n.isNew
+        );
+        if (latestNewNotification) {
+          markAsSeen(latestNewNotification._id, {
+            onSuccess: () => {
+              setHasMarkedSeen(true);
+            },
+          });
+        }
+      }
     }
   };
 
@@ -130,13 +188,29 @@ const Navbar = () => {
               <span className="text-base text-text-secondary">Help</span>
             </button>
 
-            <div className="relative">
-              <button className="w-10 h-10 p-[1px] border border-border-primary rounded-md flex justify-center items-center">
+            <div className="relative" ref={notifRef}>
+              <button
+                className="w-10 h-10 p-[1px] border border-border-primary rounded-md flex justify-center items-center"
+                onClick={handleBellClick}
+              >
                 <Bell className="h-6 w-6 text-text-primary" />
-                <span className="absolute -top-1 -right-1 h-4 w-4 bg-button-primary font-medium rounded-full text-[10px] text-white flex items-center justify-center">
-                  3
-                </span>
+                {notificationsData?.notifications?.some((n) => n.isNew) && (
+                  <span className="absolute -top-1 -right-1 h-4 w-4 bg-button-primary font-medium rounded-full text-[10px] text-white flex items-center justify-center">
+                    {
+                      notificationsData.notifications.filter((n) => n.isNew)
+                        .length
+                    }
+                  </span>
+                )}
               </button>
+
+              {showNotifications && (
+                <div className="absolute right-0 mt-2 z-50">
+                  <NotificationContainer
+                    notifications={notificationsData?.notifications || []}
+                  />
+                </div>
+              )}
             </div>
 
             <Select onValueChange={handleUserMenuChange}>

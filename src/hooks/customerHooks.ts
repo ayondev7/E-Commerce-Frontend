@@ -2,11 +2,13 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import apiClient from '@/lib/apiClient';
 import { RegisterPayload, LoginResponse, Customer, UpdatePayload, CustomerStats } from '@/types/customerTypes';
 import { ActivitiesResponse } from '@/types/activityTypes';
+import { NotificationsResponse } from '@/types/notificationTypes';
 
 export const CUSTOMER_QUERY_KEY = ['customers'];
 export const CUSTOMER_PROFILE_QUERY_KEY = ['customer-profile'];
 export const CUSTOMER_STATS_QUERY_KEY = ['customer-stats'];
 export const CUSTOMER_ACTIVITIES_QUERY_KEY = ['customer-activities'];
+export const CUSTOMER_NOTIFICATIONS_QUERY_KEY = ['customer-notifications'];
 
 export const useCustomerStats = () => {
   return useQuery<CustomerStats>({
@@ -50,6 +52,17 @@ export const useGetCustomerActivities = () => {
   });
 };
 
+export const useGetCustomerNotifications = () => {
+  return useQuery<NotificationsResponse>({
+    queryKey: CUSTOMER_NOTIFICATIONS_QUERY_KEY,
+    queryFn: async () => {
+      const res = await apiClient.get("/api/customers/get-notifications");
+      return res.data;
+    },
+    staleTime:0, 
+  });
+};
+
 export const useLoginCustomer = () => {
   return useMutation({
     mutationFn: async (credentials: { email: string; password: string }) => {
@@ -82,6 +95,21 @@ export const useGetCustomerProfile = () => {
   });
 };
 
+export const useMarkNotificationsAsSeen = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (notificationId: string) => {
+      const response = await apiClient.post("/api/customers/mark-as-seen", {
+        notificationId,
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: CUSTOMER_NOTIFICATIONS_QUERY_KEY });
+    },
+  });
+};
 
 export const useUpdateCustomer = () => {
   const queryClient = useQueryClient();
