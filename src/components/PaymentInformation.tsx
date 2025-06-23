@@ -1,4 +1,4 @@
-import { OrderDetailsResponse } from "@/types/ordertypes";
+import { OrderDetailsResponse } from "@/types/orderTypes";
 import React from "react";
 
 const PaymentInformation = ({

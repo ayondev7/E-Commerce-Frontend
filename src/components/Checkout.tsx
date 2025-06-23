@@ -8,7 +8,7 @@ import OrderSummary from "./OrderSummary";
 import toast from "react-hot-toast";
 import { useCartStore } from "@/store/cartStore";
 import { useAddOrder } from "@/hooks/orderHooks";
-import { CheckoutFormData } from "@/types/ordertypes";
+import { CheckoutFormData } from "@/types/orderTypes";
 import { useRouter } from "next/navigation";
 
 export default function Checkout() {

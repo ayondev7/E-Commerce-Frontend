@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ViewOrderModal } from "./ViewOrderModal";
-import { Order } from "@/types/ordertypes";
+import { Order } from "@/types/orderTypes";
 import { useUpdateOrderStatus } from "@/hooks/orderHooks";
 import toast from "react-hot-toast";
 

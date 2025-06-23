@@ -5,7 +5,7 @@ import OrderProductSearchBar from "../OrderProductSearchBar";
 import Tab from "../Tab";
 import { useGetAllSellerOrders } from "@/hooks/orderHooks";
 import { useOrderFilterStore } from "@/store/orderProductFilterStore";
-import { Order } from "@/types/ordertypes";
+import { Order } from "@/types/orderTypes";
 
 const Orders = () => {
   const { data, isLoading, isError } = useGetAllSellerOrders();

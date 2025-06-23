@@ -1,6 +1,6 @@
 import React from "react";
 import { Mail, MapPin } from "lucide-react";
-import { OrderDetailsResponse } from "@/types/ordertypes";
+import { OrderDetailsResponse } from "@/types/orderTypes";
 
 const BuyerInformation = ({ order }: { order: OrderDetailsResponse }) => {
   return (

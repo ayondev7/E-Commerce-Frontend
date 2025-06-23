@@ -1,4 +1,4 @@
-import { OrderDetailsResponse } from "@/types/ordertypes";
+import { OrderDetailsResponse } from "@/types/orderTypes";
 import Image from "next/image";
 import React from "react";
 
