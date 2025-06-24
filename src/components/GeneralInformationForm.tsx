@@ -18,6 +18,7 @@ interface GeneralInformationFormProps {
     description?: string;
     category?: string;
     productImages?: File[];
+    productImageStrings?: string[]; 
   };
 }
 
@@ -32,15 +33,23 @@ const GeneralInformationForm = ({
     formState: { errors },
   } = useFormContext();
 
+  console.log("Initial Data:", initialData);
+
   const isInitialized = useRef(false);
   const [selectedCategory, setSelectedCategory] = useState(
     initialData?.category || ""
+  );
+  
+  const [existingImages, setExistingImages] = useState<string[]>(
+    initialData?.productImageStrings || []
   );
 
   const watchedTitle = watch("title");
   const watchedDescription = watch("description");
   const watchedCategory = watch("category");
   const watchedImages = watch("productImages") || [];
+
+  const totalImages = existingImages.length + watchedImages.length;
 
   const handleImageDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -49,7 +58,7 @@ const GeneralInformationForm = ({
       (file) =>
         file.type.startsWith("image/") &&
         file.size <= 5 * 1024 * 1024 &&
-        watchedImages.length + files.length <= 4
+        totalImages + files.length <= 4
     );
     setValue("productImages", [...watchedImages, ...validFiles]);
   };
@@ -61,17 +70,23 @@ const GeneralInformationForm = ({
         (file) =>
           file.type.startsWith("image/") &&
           file.size <= 5 * 1024 * 1024 &&
-          watchedImages.length + files.length <= 4
+          totalImages + files.length <= 4
       );
       setValue("productImages", [...watchedImages, ...validFiles]);
     }
   };
 
-  const removeImage = (index: number) => {
+  const removeNewImage = (index: number) => {
     const newImages = watchedImages.filter(
       (file: File, i: number) => i !== index
     );
     setValue("productImages", newImages);
+  };
+
+  const removeExistingImage = (index: number) => {
+    const updatedExistingImages = existingImages.filter((_, i) => i !== index);
+    setExistingImages(updatedExistingImages);
+    setValue("productImageStrings", updatedExistingImages);
   };
 
   useEffect(() => {
@@ -81,11 +96,17 @@ const GeneralInformationForm = ({
         description: initialData.description || "",
         category: initialData.category || "",
         productImages: initialData.productImages || [],
+        productImageStrings: initialData.productImageStrings || [],
       });
       setSelectedCategory(initialData.category || "");
+      setExistingImages(initialData.productImageStrings || []);
       isInitialized.current = true;
     }
   }, [initialData, reset]);
+
+  useEffect(() => {
+    setValue("productImageStrings", existingImages);
+  }, [existingImages, setValue]);
 
   return (
     <div className="space-y-6.5 bg-background-primary p-6 rounded-lg border border-border-primary">
@@ -148,6 +169,9 @@ const GeneralInformationForm = ({
             <div className="text-base text-text-secondary">
               or click to browse files (PNG, JPG, WEBP up to 5MB each)
             </div>
+            <div className="text-sm text-text-secondary">
+              {totalImages}/4 images selected
+            </div>
             <input
               type="file"
               id="images"
@@ -155,29 +179,51 @@ const GeneralInformationForm = ({
               accept="image/*"
               className="hidden"
               onChange={handleImageUpload}
+              disabled={totalImages >= 4}
             />
             <button
               type="button"
               onClick={() => document.getElementById("images")?.click()}
-              className="px-5 py-2.5 text-text-primary border font-medium border-border-primary text-base rounded-sm hover:cursor-pointer transition"
+              disabled={totalImages >= 4}
+              className="px-5 py-2.5 text-text-primary border font-medium border-border-primary text-base rounded-sm hover:cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Select Files
             </button>
           </div>
-          {watchedImages.length > 0 && (
+          
+          {(existingImages.length > 0 || watchedImages.length > 0) && (
             <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-              {watchedImages.map((image: File, index: number) => (
-                <div key={index} className="relative group">
+              {existingImages.map((imageBase64: string, index: number) => (
+                <div key={`existing-${index}`} className="relative group">
                   <Image
                     width={220}
                     height={220}
-                    src={URL.createObjectURL(image)}
-                    alt={`Preview ${index + 1}`}
+                    src={`data:image/jpeg;base64,${imageBase64}`}
+                    alt={`Existing ${index + 1}`}
                     className="w-full h-45 object-cover rounded-md"
                   />
                   <button
                     type="button"
-                    onClick={() => removeImage(index)}
+                    onClick={() => removeExistingImage(index)}
+                    className="absolute top-1 right-1 text-danger-primary p-1 rounded-sm"
+                  >
+                    <Trash2 className="w-6 h-6 cursor-pointer" />
+                  </button>
+                </div>
+              ))}
+              
+              {watchedImages.map((image: File, index: number) => (
+                <div key={`new-${index}`} className="relative group">
+                  <Image
+                    width={220}
+                    height={220}
+                    src={URL.createObjectURL(image)}
+                    alt={`New ${index + 1}`}
+                    className="w-full h-45 object-cover rounded-md"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeNewImage(index)}
                     className="absolute top-1 right-1 text-danger-primary p-1 rounded-sm"
                   >
                     <Trash2 className="w-6 h-6 cursor-pointer" />
