@@ -2,9 +2,20 @@
 import React from "react";
 import { Download } from "lucide-react";
 import { useGetPaymentTransactions } from "@/hooks/orderHooks";
+import { useGetSellerPaymentTransactions } from "@/hooks/sellerHooks"; 
 
-export default function PaymentTransactions() {
-  const { data, isLoading, isError } = useGetPaymentTransactions();
+interface PaymentTransactionsProps {
+  userType: "customer" | "seller";
+}
+
+export default function PaymentTransactions({ userType }: PaymentTransactionsProps) {
+  const {
+    data,
+    isLoading,
+    isError,
+  } = userType === "seller"
+    ? useGetSellerPaymentTransactions()
+    : useGetPaymentTransactions();
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Something went wrong</div>;
@@ -23,8 +34,8 @@ export default function PaymentTransactions() {
 
       <div className="space-y-2.5">
         {data?.payments
-          .slice() 
-          .reverse() 
+          .slice()
+          .reverse()
           .map((payment) => (
             <div
               key={payment._id}
