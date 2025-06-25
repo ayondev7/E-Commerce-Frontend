@@ -20,6 +20,11 @@ import {
   useMarkNotificationsAsSeen,
 } from "@/hooks/customerHooks";
 import NotificationContainer from "./NotificationContainer";
+import {
+  useGetSellerNotifications,
+  useUpdateLastNotificationSeen,
+} from "@/hooks/sellerHooks";
+import SellerNotificationContainer from "./SellerNotificationContainer";
 
 const Navbar = () => {
   const router = useRouter();
@@ -31,16 +36,30 @@ const Navbar = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const notifRef = useRef<HTMLDivElement>(null);
 
-  const { data: notificationsData } = useGetCustomerNotifications();
-  const { mutate: markAsSeen } = useMarkNotificationsAsSeen();
+  const { data: notificationsData } = useGetCustomerNotifications({
+    enabled: userType === "customer",
+  });
+
+  const { data: sellerNotificationsData } = useGetSellerNotifications({
+    enabled: userType === "seller",
+  });
+
+  const { mutate: markCustomerSeen } = useMarkNotificationsAsSeen();
+  const { mutate: markSellerSeen } = useUpdateLastNotificationSeen();
 
   const [hasOpenedNotifications, setHasOpenedNotifications] = useState(false);
   const [hasMarkedSeen, setHasMarkedSeen] = useState(false);
 
-  const latestNewExists =
-    (notificationsData?.notifications?.some((n) => n.isNew) &&
-      !showNotifications) ||
-    false;
+  const customerNotifications = notificationsData?.notifications ?? [];
+  const sellerNotifications = sellerNotificationsData?.notifications ?? [];
+
+  const currentNotifications =
+    userType === "customer" ? customerNotifications : sellerNotifications;
+
+  const newNotificationCount = currentNotifications.filter(
+    (n) => n.isNew
+  ).length;
+  const latestNewNotification = currentNotifications.find((n) => n.isNew);
 
   const handleLogout = async () => {
     if (typeof window !== "undefined") {
@@ -62,9 +81,6 @@ const Navbar = () => {
       router.push("/profile");
     }
   };
-
-  const newNotificationCount =
-    notificationsData?.notifications?.filter((n) => n.isNew).length || 0;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -89,15 +105,23 @@ const Navbar = () => {
     } else {
       setShowNotifications(false);
       if (hasOpenedNotifications && !hasMarkedSeen) {
-        const latestNewNotification = notificationsData?.notifications?.find(
+        const latestNewNotification = currentNotifications?.find(
           (n) => n.isNew
         );
         if (latestNewNotification) {
-          markAsSeen(latestNewNotification._id, {
-            onSuccess: () => {
-              setHasMarkedSeen(true);
-            },
-          });
+          if (userType === "customer") {
+            markCustomerSeen(latestNewNotification?._id, {
+              onSuccess: () => {
+                setHasMarkedSeen(true);
+              },
+            });
+          } else if (userType === "seller") {
+            markSellerSeen(latestNewNotification?._id, {
+              onSuccess: () => {
+                setHasMarkedSeen(true);
+              },
+            });
+          }
         }
       }
     }
@@ -194,21 +218,24 @@ const Navbar = () => {
                 onClick={handleBellClick}
               >
                 <Bell className="h-6 w-6 text-text-primary" />
-                {notificationsData?.notifications?.some((n) => n.isNew) && (
+                {newNotificationCount > 0 && (
                   <span className="absolute -top-1 -right-1 h-4 w-4 bg-button-primary font-medium rounded-full text-[10px] text-white flex items-center justify-center">
-                    {
-                      notificationsData.notifications.filter((n) => n.isNew)
-                        .length
-                    }
+                    {newNotificationCount}
                   </span>
                 )}
               </button>
 
               {showNotifications && (
                 <div className="absolute right-0 mt-2 z-50">
-                  <NotificationContainer
-                    notifications={notificationsData?.notifications || []}
-                  />
+                  {userType === "customer" ? (
+                    <NotificationContainer
+                      notifications={notificationsData?.notifications || []}
+                    />
+                  ) : (
+                    <SellerNotificationContainer
+                      notifications={sellerNotificationsData?.notifications || []}
+                    />
+                  )}
                 </div>
               )}
             </div>
