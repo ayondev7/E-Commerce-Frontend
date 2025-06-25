@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { useEffect } from "react";
-import { Trash2, Upload } from "lucide-react";
+import { Trash2, Upload,ImagePlus } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import {
   Select,
@@ -18,7 +18,7 @@ interface GeneralInformationFormProps {
     description?: string;
     category?: string;
     productImages?: File[];
-    productImageStrings?: string[]; 
+    productImageStrings?: string[];
   };
 }
 
@@ -39,7 +39,7 @@ const GeneralInformationForm = ({
   const [selectedCategory, setSelectedCategory] = useState(
     initialData?.category || ""
   );
-  
+
   const [existingImages, setExistingImages] = useState<string[]>(
     initialData?.productImageStrings || []
   );
@@ -50,6 +50,7 @@ const GeneralInformationForm = ({
   const watchedImages = watch("productImages") || [];
 
   const totalImages = existingImages.length + watchedImages.length;
+  const hasImages = totalImages > 0;
 
   const handleImageDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -157,42 +158,45 @@ const GeneralInformationForm = ({
           <label className="block font-medium text-xl mb-2.5">
             Product Images <span className="text-danger-primary">*</span>
           </label>
-          <div
-            className="border-2 border-dashed min-h-[280px] border-border-primary rounded-md px-5 py-2.5 text-center flex flex-col justify-center items-center gap-y-5"
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={handleImageDrop}
-          >
-            <Upload className="w-9 h-9 text-text-primary" strokeWidth={1} />
-            <div className="text-xl font-medium text-text-primary">
-              Drag & drop product images
-            </div>
-            <div className="text-base text-text-secondary">
-              or click to browse files (PNG, JPG, WEBP up to 5MB each)
-            </div>
-            <div className="text-sm text-text-secondary">
-              {totalImages}/4 images selected
-            </div>
-            <input
-              type="file"
-              id="images"
-              multiple
-              accept="image/*"
-              className="hidden"
-              onChange={handleImageUpload}
-              disabled={totalImages >= 4}
-            />
-            <button
-              type="button"
-              onClick={() => document.getElementById("images")?.click()}
-              disabled={totalImages >= 4}
-              className="px-5 py-2.5 text-text-primary border font-medium border-border-primary text-base rounded-sm hover:cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Select Files
-            </button>
-          </div>
           
-          {(existingImages.length > 0 || watchedImages.length > 0) && (
-            <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+         
+          {!hasImages && (
+            <div
+              className="border-2 border-dashed min-h-[280px] border-border-primary rounded-md px-5 py-2.5 text-center flex flex-col justify-center items-center gap-y-5"
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={handleImageDrop}
+            >
+              <Upload className="w-9 h-9 text-text-primary" strokeWidth={1} />
+              <div className="text-xl font-medium text-text-primary">
+                Drag & drop product images
+              </div>
+              <div className="text-base text-text-secondary">
+                or click to browse files (PNG, JPG, WEBP up to 5MB each)
+              </div>
+              <div className="text-sm text-text-secondary"></div>
+              <input
+                type="file"
+                id="images"
+                multiple
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageUpload}
+                disabled={totalImages >= 4}
+              />
+              <button
+                type="button"
+                onClick={() => document.getElementById("images")?.click()}
+                disabled={totalImages >= 4}
+                className="px-5 py-2.5 text-text-primary border font-medium border-border-primary text-base rounded-sm hover:cursor-pointer transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Select Files
+              </button>
+            </div>
+          )}
+
+        
+          {hasImages && (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {existingImages.map((imageBase64: string, index: number) => (
                 <div key={`existing-${index}`} className="relative group">
                   <Image
@@ -211,7 +215,7 @@ const GeneralInformationForm = ({
                   </button>
                 </div>
               ))}
-              
+
               {watchedImages.map((image: File, index: number) => (
                 <div key={`new-${index}`} className="relative group">
                   <Image
@@ -230,8 +234,33 @@ const GeneralInformationForm = ({
                   </button>
                 </div>
               ))}
+
+              {totalImages < 4 && (
+                <div className="relative">
+                  <div 
+                    className="w-full h-45 border-2 border-dashed bg-[#F5F5F5] border-border-primary rounded-md flex flex-col justify-center items-center gap-2 cursor-pointer hover:border-primary transition-colors"
+                    onClick={() => document.getElementById("images-grid")?.click()}
+                  >
+                    <ImagePlus className="w-7.5 h-7.5 text-text-secondary" strokeWidth={2} />
+                    <span className="text-base font-medium text-text-secondary">Add Image</span>
+                  </div>
+                  <input
+                    type="file"
+                    id="images-grid"
+                    multiple
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleImageUpload}
+                  />
+                </div>
+              )}
             </div>
           )}
+
+          <p className="mt-2.5 text-base text-text-secondary">
+            Upload up to 4 images. First image will be used as the product
+            thumbnail.
+          </p>
         </div>
 
         <div>
