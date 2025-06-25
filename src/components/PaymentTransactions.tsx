@@ -2,20 +2,19 @@
 import React from "react";
 import { Download } from "lucide-react";
 import { useGetPaymentTransactions } from "@/hooks/orderHooks";
-import { useGetSellerPaymentTransactions } from "@/hooks/sellerHooks"; 
+import { useGetSellerPaymentTransactions } from "@/hooks/sellerHooks";
 
 interface PaymentTransactionsProps {
   userType: "customer" | "seller";
 }
 
-export default function PaymentTransactions({ userType }: PaymentTransactionsProps) {
-  const {
-    data,
-    isLoading,
-    isError,
-  } = userType === "seller"
-    ? useGetSellerPaymentTransactions()
-    : useGetPaymentTransactions();
+export default function PaymentTransactions({
+  userType,
+}: PaymentTransactionsProps) {
+  const { data, isLoading, isError } =
+    userType === "seller"
+      ? useGetSellerPaymentTransactions()
+      : useGetPaymentTransactions();
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Something went wrong</div>;
@@ -27,8 +26,9 @@ export default function PaymentTransactions({ userType }: PaymentTransactionsPro
           Payment Transactions
         </h2>
         <p className="text-base text-text-secondary">
-          Track your payments and download receipts. All transactions are
-          securely processed via XYZ gateway.
+          {userType === "seller"
+            ? "View and manage payments received for your products. All transactions are securely processed via XYZ gateway."
+            : "Track your payments and download receipts. All transactions are securely processed via XYZ gateway."}
         </p>
       </div>
 
@@ -82,12 +82,16 @@ export default function PaymentTransactions({ userType }: PaymentTransactionsPro
                     {payment?.paymentStatus === "paid" ? (
                       <button className="flex items-center md:min-h-13 gap-x-2.5 justify-center text-base font-medium text-text-primary border border-border-primary px-3 py-1.5 rounded-sm cursor-pointer">
                         <Download className="w-6 h-6" />
-                        <span className="hidden md:block">Download Receipt</span>
+                        <span className="hidden md:block">
+                          Download Receipt
+                        </span>
                       </button>
                     ) : (
                       <button className="flex items-center md:min-h-13 gap-x-2.5 justify-center text-base font-medium text-text-secondary border border-border-primary px-3 py-1.5 rounded-sm cursor-not-allowed opacity-50">
                         <Download className="w-6 h-6" />
-                        <span className="hidden md:block">Download Receipt</span>
+                        <span className="hidden md:block">
+                          Download Receipt
+                        </span>
                       </button>
                     )}
                   </div>
