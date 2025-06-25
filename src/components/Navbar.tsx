@@ -108,15 +108,15 @@ const Navbar = () => {
         const latestNewNotification = currentNotifications?.find(
           (n) => n.isNew
         );
-        if (latestNewNotification) {
+        if (latestNewNotification && latestNewNotification._id) {
           if (userType === "customer") {
-            markCustomerSeen(latestNewNotification?._id, {
+            markCustomerSeen(latestNewNotification._id, {
               onSuccess: () => {
                 setHasMarkedSeen(true);
               },
             });
           } else if (userType === "seller") {
-            markSellerSeen(latestNewNotification?._id, {
+            markSellerSeen(latestNewNotification._id, {
               onSuccess: () => {
                 setHasMarkedSeen(true);
               },
@@ -233,7 +233,9 @@ const Navbar = () => {
                     />
                   ) : (
                     <SellerNotificationContainer
-                      notifications={sellerNotificationsData?.notifications || []}
+                      notifications={
+                        sellerNotificationsData?.notifications || []
+                      }
                     />
                   )}
                 </div>

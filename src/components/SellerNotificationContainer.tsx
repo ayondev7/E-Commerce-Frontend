@@ -27,7 +27,7 @@ const SellerNotificationContainer: React.FC<SellerNotificationContainerProps> = 
                   {toTitleCase(notification?.notificationType)}
                 </span>
                 <span className="text-xs text-text-secondary whitespace-nowrap">
-                  {formatActivityDate(notification?.createdAt)}
+                  {formatActivityDate(notification?.createdAt ?? '')}
                 </span>
               </div>
               <p className="text-xs text-text-secondary mt-1">

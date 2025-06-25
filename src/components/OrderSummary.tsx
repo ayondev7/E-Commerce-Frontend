@@ -1,7 +1,7 @@
 "use client";
 import React, { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
-import { Tag, X } from "lucide-react";
+import { Loader2, Tag, X } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useProductsById } from "@/hooks/productHooks";
 
@@ -147,6 +147,11 @@ export default function OrderSummary({
         : "bg-button-primary"
     }`}
           >
+            <Loader2
+              className={`w-6 h-6 ${
+                isPlacingOrder ? "animate-spin" : "hidden"
+              }`}
+            />
             {isPlacingOrder ? "Placing Order..." : "Place Order"}
           </button>
         </div>
