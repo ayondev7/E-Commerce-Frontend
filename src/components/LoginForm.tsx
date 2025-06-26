@@ -176,7 +176,7 @@ const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
           >
             {isLoading ? (
               <>
-                <Loader2 className="animate-spin h-4 w-4" />
+                <Loader2 className="animate-spin h-6 w-6" />
                 Logging in...
               </>
             ) : (

@@ -1,5 +1,5 @@
 "use client";
-import { ArrowLeft, Printer, Phone, X, Truck } from "lucide-react";
+import { ArrowLeft, Printer, Phone, X, Truck, Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import Timeline from "../Timeline";
@@ -39,9 +39,9 @@ const OrderDetails = () => {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
-        <div className="fixed inset-0 bg-[#7D8184] opacity-50" />
-        <div className="relative bg-background-primary rounded-lg p-5 border border-border-primary">
+      <div className="w-full h-full flex items-center justify-center lg:mt-42">
+        <div className="flex justify-between items-center gap-x-2.5 rounded-lg p-5">
+          <Loader2 className="w-10 h-10 animate-spin" />
           <p className="text-text-primary">Loading order details...</p>
         </div>
       </div>
@@ -87,7 +87,7 @@ const OrderDetails = () => {
       <div className="lg:mt-10 mt-5 rounded-lg md:border md:border-border-primary bg-white md:p-5">
         <ProductDetailsCard order={order} orderId={orderId} />
         <div className="flex md:flex-row flex-col gap-y-4 md:gap-y-0 gap-x-5 mt-5 items-start">
-          <Timeline />
+          <Timeline order={order} />
           <BuyerInformation order={order} />
          <div className="hidden lg:block"> <PaymentInformation order={order} /></div>
         </div>
