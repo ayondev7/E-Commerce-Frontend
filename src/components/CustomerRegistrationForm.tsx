@@ -39,6 +39,28 @@ const CustomerRegistrationForm = ({ onBack }: { onBack: () => void }) => {
       return;
     }
 
+    const image = data.customerImage?.[0];
+    if (image) {
+      const allowedTypes = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/webp",
+      ];
+      const isValidType = allowedTypes.includes(image.type);
+      const isValidSize = image.size <= 5 * 1024 * 1024;
+
+      if (!isValidType) {
+        toast.error("Only JPG, JPEG, PNG, or WEBP images are allowed");
+        return;
+      }
+
+      if (!isValidSize) {
+        toast.error("Image must be less than or equal to 5MB");
+        return;
+      }
+    }
+
     try {
       setIsLoading(true);
       const formData = new FormData();
@@ -47,8 +69,8 @@ const CustomerRegistrationForm = ({ onBack }: { onBack: () => void }) => {
       formData.append("email", data.email);
       formData.append("password", data.password);
       formData.append("phone", data.phone);
-      if (data.customerImage && data.customerImage[0]) {
-        formData.append("customerImage", data.customerImage[0]);
+      if (image) {
+        formData.append("customerImage", image);
       }
 
       const res = await axios.post(
