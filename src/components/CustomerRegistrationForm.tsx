@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/userStore";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 
 interface FormData {
   firstName: string;
@@ -266,8 +266,9 @@ const CustomerRegistrationForm = ({ onBack }: { onBack: () => void }) => {
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-button-primary text-white py-2 px-4 rounded-md min-w-sm flex justify-center items-center"
+            className="bg-button-primary gap-x-2.5 text-white py-2 px-4 rounded-md min-w-sm flex justify-center items-center"
           >
+            {isLoading && <Loader2 className="size-6 animate-spin" />}
             {isLoading ? "Registering..." : "Register"}
           </button>
           <button
