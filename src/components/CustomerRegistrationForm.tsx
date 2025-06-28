@@ -266,7 +266,7 @@ const CustomerRegistrationForm = ({ onBack }: { onBack: () => void }) => {
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-button-primary gap-x-2.5 text-white py-2 px-4 rounded-md min-w-sm flex justify-center items-center"
+            className="bg-button-primary gap-x-2.5 min-w-full text-white py-2 px-4 rounded-md md:min-w-sm flex justify-center items-center"
           >
             {isLoading && <Loader2 className="size-6 animate-spin" />}
             {isLoading ? "Registering..." : "Register"}
