@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { useEffect } from "react";
-import { Trash2, Upload,ImagePlus } from "lucide-react";
+import { Trash2, Upload, ImagePlus } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import {
   Select,
@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 interface GeneralInformationFormProps {
   initialData?: {
@@ -53,25 +54,77 @@ const GeneralInformationForm = ({
   const handleImageDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const files = Array.from(e.dataTransfer.files);
-    const validFiles = files.filter(
-      (file) =>
-        file.type.startsWith("image/") &&
-        file.size <= 5 * 1024 * 1024 &&
-        totalImages + files.length <= 4
-    );
-    setValue("productImages", [...watchedImages, ...validFiles]);
+
+    const validFiles: File[] = [];
+    for (const file of files) {
+      const fileType = file.type;
+      const isValidType = [
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+        "image/jpg",
+      ].includes(fileType);
+      const isValidSize = file.size <= 5 * 1024 * 1024;
+
+      if (!isValidType) {
+        toast.error(`Invalid file format: ${file.name}`);
+        continue;
+      }
+
+      if (!isValidSize) {
+        toast.error(`File too large (max 5MB): ${file.name}`);
+        continue;
+      }
+
+      if (totalImages + validFiles.length >= 4) {
+        toast.error("You can upload up to 4 images only");
+        break;
+      }
+
+      validFiles.push(file);
+    }
+
+    if (validFiles.length > 0) {
+      setValue("productImages", [...watchedImages, ...validFiles]);
+    }
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
-      const validFiles = files.filter(
-        (file) =>
-          file.type.startsWith("image/") &&
-          file.size <= 5 * 1024 * 1024 &&
-          totalImages + files.length <= 4
-      );
-      setValue("productImages", [...watchedImages, ...validFiles]);
+
+      const validFiles: File[] = [];
+      for (const file of files) {
+        const fileType = file.type;
+        const isValidType = [
+          "image/jpeg",
+          "image/png",
+          "image/webp",
+          "image/jpg",
+        ].includes(fileType);
+        const isValidSize = file.size <= 5 * 1024 * 1024;
+
+        if (!isValidType) {
+          toast.error(`Invalid file format: ${file.name}`);
+          continue;
+        }
+
+        if (!isValidSize) {
+          toast.error(`File too large (max 5MB): ${file.name}`);
+          continue;
+        }
+
+        if (totalImages + validFiles.length >= 4) {
+          toast.error("You can upload up to 4 images only");
+          break;
+        }
+
+        validFiles.push(file);
+      }
+
+      if (validFiles.length > 0) {
+        setValue("productImages", [...watchedImages, ...validFiles]);
+      }
     }
   };
 
@@ -156,8 +209,7 @@ const GeneralInformationForm = ({
           <label className="block font-medium text-xl mb-2.5">
             Product Images <span className="text-danger-primary">*</span>
           </label>
-          
-         
+
           {!hasImages && (
             <div
               className="border-2 border-dashed min-h-[280px] border-border-primary rounded-md px-5 py-2.5 text-center flex flex-col justify-center items-center gap-y-5"
@@ -192,7 +244,6 @@ const GeneralInformationForm = ({
             </div>
           )}
 
-        
           {hasImages && (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {existingImages.map((imageBase64: string, index: number) => (
@@ -235,12 +286,19 @@ const GeneralInformationForm = ({
 
               {totalImages < 4 && (
                 <div className="relative">
-                  <div 
+                  <div
                     className="w-full h-45 border-2 border-dashed bg-[#F5F5F5] border-border-primary rounded-md flex flex-col justify-center items-center gap-2 cursor-pointer hover:border-primary transition-colors"
-                    onClick={() => document.getElementById("images-grid")?.click()}
+                    onClick={() =>
+                      document.getElementById("images-grid")?.click()
+                    }
                   >
-                    <ImagePlus className="w-7.5 h-7.5 text-text-secondary" strokeWidth={2} />
-                    <span className="text-base font-medium text-text-secondary">Add Image</span>
+                    <ImagePlus
+                      className="w-7.5 h-7.5 text-text-secondary"
+                      strokeWidth={2}
+                    />
+                    <span className="text-base font-medium text-text-secondary">
+                      Add Image
+                    </span>
                   </div>
                   <input
                     type="file"
