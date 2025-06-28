@@ -1,6 +1,6 @@
 "use client";
-import React, { useMemo } from "react";
-import { Tag } from "lucide-react";
+import React, { useMemo, useState } from "react";
+import { Loader2, Tag } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useRouter } from "next/navigation";
 
@@ -19,6 +19,7 @@ const CartOrderSummary: React.FC<CartOrderSummaryProps> = ({
   const setCheckoutPayload = useCartStore((state) => state.setCheckoutPayload);
   const products = useCartStore((state) => state.getAll());
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const selectedIdsSet = useMemo(() => new Set(selectedIds), [selectedIds]);
 
@@ -40,6 +41,7 @@ const CartOrderSummary: React.FC<CartOrderSummaryProps> = ({
   const total = subtotal + shipping + tax;
 
   const handleProceedToCheckout = () => {
+    setIsLoading(true);
     const payload = {
       products: selectedProducts,
       subtotal,
@@ -105,10 +107,11 @@ const CartOrderSummary: React.FC<CartOrderSummaryProps> = ({
       <div className="w-full flex justify-end">
         <button
           onClick={handleProceedToCheckout}
-          disabled={selectedProducts.length === 0}
-          className="px-5 py-2.5 rounded-sm text-white text-base font-medium bg-button-primary hover:cursor-pointer"
+          disabled={selectedProducts.length === 0 || isLoading}
+          className="px-5 py-2.5 rounded-sm text-white text-base font-medium bg-button-primary hover:cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-x-2"
         >
-          Proceed to Checkout
+          {isLoading && <Loader2 className="w-6 h-6 animate-spin" />}
+          {isLoading ? "Processing..." : "Proceed to Checkout"}
         </button>
       </div>
     </div>
