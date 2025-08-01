@@ -144,7 +144,7 @@ const Navbar = () => {
             href={`/${userType}/overview`}
             className="text-[32px] font-bold text-text-tertiary"
           >
-            Logo
+            ShopNest
           </Link>
           <div className="flex items-center gap-x-5">
             <Select onValueChange={handleUserMenuChange}>
@@ -181,7 +181,7 @@ const Navbar = () => {
             href={`/${userType}/overview`}
             className="text-[32px] font-bold text-text-tertiary"
           >
-            Logo
+            ShopNest
           </Link>
           <div className="flex items-center gap-x-5">
             <Select>
