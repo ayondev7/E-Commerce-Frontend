@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/userStore";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import {
   Select,
@@ -27,7 +27,9 @@ interface LoginFormData {
 const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
   const router = useRouter();
   const setUser = useUserStore((state) => state.setUser);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [guestLoading, setGuestLoading] = useState<"seller" | "customer" | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -45,7 +47,8 @@ const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
   const userType = watch("userType");
 
   const onSubmit = async (data: LoginFormData) => {
-    setIsLoading(true);
+    setIsDisabled(true);
+    setSubmitLoading(true);
     try {
       const res = await axios.post(
         `/api/session/login`,
@@ -71,13 +74,47 @@ const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
           err.response?.data?.error || "Login failed. Please try again."
         );
       }
-      setIsLoading(false);
+    } finally {
+      setSubmitLoading(false);
+      setIsDisabled(false);
+    }
+  };
+
+  const handleGuestLogin = async (guestType: "seller" | "customer") => {
+    setIsDisabled(true);
+    setGuestLoading(guestType);
+    try {
+      const res = await axios.post(
+        `/api/session/login`,
+        { userType: guestType, guest: true },
+        { withCredentials: true }
+      );
+
+      const { accessToken, user } = res.data;
+      sessionStorage.setItem("accessToken", accessToken);
+      setUser({
+        userType: guestType,
+        name:
+          guestType === "seller"
+            ? user?.name || "Seller"
+            : `${user?.firstName || ""} ${user?.lastName || ""}`.trim(),
+      });
+      router.push(`/${guestType}/overview`);
+    } catch (err: any) {
+      if (err.response?.status === 401)
+        toast.error("Guest login failed: incorrect credentials.");
+      else {
+        toast.error(err.response?.data?.error || "Guest login failed. Please try again.");
+      }
+    } finally {
+      setGuestLoading(null);
+      setIsDisabled(false);
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
+      <div className="bg-white p-6 rounded shadow-md w-full max-w-xl">
         <form onSubmit={handleSubmit(onSubmit)}>
           <h1 className="text-2xl font-bold mb-4 text-center text-button-primary">
             Login
@@ -171,10 +208,10 @@ const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
 
           <button
             type="submit"
-            disabled={isLoading}
-            className="w-full bg-button-primary text-white rounded-md px-4 py-2 text-base flex justify-center items-center gap-2"
+            disabled={isDisabled}
+            className="w-full bg-button-primary cursor-pointer text-white rounded-md px-4 py-2 text-base flex justify-center items-center gap-2"
           >
-            {isLoading ? (
+            {submitLoading ? (
               <>
                 <Loader2 className="animate-spin h-6 w-6" />
                 Logging in...
@@ -183,6 +220,33 @@ const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
               "Login"
             )}
           </button>
+
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              disabled={isDisabled}
+              onClick={() => handleGuestLogin("seller")}
+              className="w-full bg-white border-2 font-medium cursor-pointer border-[#da4445] text-button-primary rounded-md px-4 py-2 text-base flex justify-center items-center"
+            >
+              {guestLoading === "seller" ? (
+                <Loader2 className="animate-spin h-5 w-5" />
+              ) : (
+                "Login as Guest Seller"
+              )}
+            </button>
+            <button
+              type="button"
+              disabled={isDisabled}
+              onClick={() => handleGuestLogin("customer")}
+              className="w-full bg-white border-2 font-medium cursor-pointer border-[#da4445] text-button-primary rounded-md px-4 py-2 text-base flex justify-center items-center"
+            >
+              {guestLoading === "customer" ? (
+                <Loader2 className="animate-spin h-5 w-5" />
+              ) : (
+                "Login as Guest Customer"
+              )}
+            </button>
+          </div>
         </form>
 
         <div className="mt-4 text-center text-base">
