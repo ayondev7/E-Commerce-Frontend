@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "@/components/Navbar";
-import SearchBar from "@/components/SearchBar";
+import Navbar from "@/components/navigation/Navbar";
+import SearchBar from "@/components/navigation/SearchBar";
 
 const CartLayout = ({ children }: { children: React.ReactNode }) => {
   return (

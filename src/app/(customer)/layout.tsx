@@ -1,7 +1,7 @@
 import React from 'react'
-import Navbar from '@/components/Navbar' 
-import SearchBar from '@/components/SearchBar' 
-import Sidebar from '@/components/Sidebar' 
+import Navbar from '@/components/navigation/Navbar' 
+import SearchBar from '@/components/navigation/SearchBar' 
+import Sidebar from '@/components/navigation/Sidebar' 
 
 const CustomerLayout = ({
   children,

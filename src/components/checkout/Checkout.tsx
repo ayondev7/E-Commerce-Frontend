@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import CheckoutProcess from "./CheckoutProcess";
-import ShippingInfoForm from "./ShippingInfoForm";
+import ShippingInfoForm from "../products/ShippingInfoForm";
 import PaymentMethod from "./PaymentMethod";
-import OrderSummary from "./OrderSummary";
+import OrderSummary from "../orders/OrderSummary";
 import toast from "react-hot-toast";
 import { useCartStore } from "@/store/cartStore";
 import { useAddOrder } from "@/hooks/orderHooks";

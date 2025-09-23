@@ -1,4 +1,4 @@
-import AddProductForm from '@/components/AddProductForm'
+import AddProductForm from '@/components/products/AddProductForm'
 import React from 'react'
 
 const page = () => {

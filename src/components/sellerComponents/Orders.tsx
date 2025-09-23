@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import OrdersTable from "../OrdersTable";
-import OrderProductSearchBar from "../OrderProductSearchBar";
-import Tab from "../Tab";
+import OrdersTable from "../orders/OrdersTable";
+import OrderProductSearchBar from "../orders/OrderProductSearchBar";
+import Tab from "../navigation/Tab";
 import { useGetAllSellerOrders } from "@/hooks/orderHooks";
 import { useOrderFilterStore } from "@/store/orderProductFilterStore";
 import { Order } from "@/types/ordertypes";

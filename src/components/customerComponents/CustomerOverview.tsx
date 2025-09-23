@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import { Package, Heart, Truck, Gift, LucideIcon } from "lucide-react";
-import CustomerOverviewCard from "../CustomerOverviewCard";
-import ActivityCard from "../ActivityCard";
+import CustomerOverviewCard from "../dashboard/CustomerOverviewCard";
+import ActivityCard from "../dashboard/ActivityCard";
 import {
   useCustomerStats,
   useGetCustomerActivities,

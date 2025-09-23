@@ -1,4 +1,4 @@
-import { Payment } from "@/components/PaymentTransactions";
+import { Payment } from "@/components/checkout/PaymentTransactions";
 import jsPDF from "jspdf";
 
 type UserType = "customer" | "seller";

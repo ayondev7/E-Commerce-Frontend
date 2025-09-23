@@ -19,12 +19,12 @@ import {
   useGetCustomerNotifications,
   useMarkNotificationsAsSeen,
 } from "@/hooks/customerHooks";
-import NotificationContainer from "./NotificationContainer";
+import NotificationContainer from "../notifications/NotificationContainer";
 import {
   useGetSellerNotifications,
   useUpdateLastNotificationSeen,
 } from "@/hooks/sellerHooks";
-import SellerNotificationContainer from "./SellerNotificationContainer";
+import SellerNotificationContainer from "../notifications/SellerNotificationContainer";
 
 const Navbar = () => {
   const router = useRouter();

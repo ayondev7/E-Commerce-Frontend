@@ -1,4 +1,4 @@
-import PaymentTransactions from '@/components/PaymentTransactions'
+import PaymentTransactions from '@/components/checkout/PaymentTransactions'
 import React from 'react'
 
 const page = () => {

@@ -2,8 +2,8 @@
 import React from "react";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import ProductTable from "../ProductTable";
-import OrderProductSearchBar from "../OrderProductSearchBar";
+import ProductTable from "../products/ProductTable";
+import OrderProductSearchBar from "../orders/OrderProductSearchBar";
 import { useProducts } from "@/hooks/productHooks";
 import { useProductFilterStore } from "@/store/productFilterStore";
 import { SimplifiedProduct } from "@/types/productTypes";

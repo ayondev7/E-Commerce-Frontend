@@ -10,7 +10,7 @@ import {
 import { useSearchProducts } from "@/hooks/productHooks";
 import { useAddToWishlist } from "@/hooks/wishlistHooks";
 import { toast } from "react-hot-toast";
-import WishListModal from "@/components/WishListModal";
+import WishListModal from "@/components/cart/WishListModal";
 import {
   Search,
   Heart,

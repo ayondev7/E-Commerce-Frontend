@@ -1,5 +1,5 @@
 
-import ShoppingCart from '@/components/ShoppingCart'
+import ShoppingCart from '@/components/cart/ShoppingCart'
 import React from 'react'
 
 const page = () => {
