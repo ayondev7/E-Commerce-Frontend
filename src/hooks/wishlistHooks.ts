@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/lib/apiClient";
 import { WishlistDocument, WishlistGroup } from "@/types/wishlistTypes";
+import { WISHLIST_ENDPOINTS } from "@/endpoints";
 import {
   CUSTOMER_ACTIVITIES_QUERY_KEY,
   CUSTOMER_STATS_QUERY_KEY,
@@ -14,7 +15,7 @@ export const useGetWishlist = () => {
   return useQuery<{ lists: WishlistGroup[] }>({
     queryKey: WISHLIST_QUERY_KEY,
     queryFn: async () => {
-      const res = await apiClient.get("/api/wishlists/get-all");
+      const res = await apiClient.get(WISHLIST_ENDPOINTS.GET_ALL);
       return res.data;
     },
     staleTime: 0,
@@ -26,7 +27,7 @@ export const useCreateWishlist = () => {
 
   return useMutation({
     mutationFn: async (title: string) => {
-      const res = await apiClient.post("/api/wishlists/create-list", { title });
+      const res = await apiClient.post(WISHLIST_ENDPOINTS.CREATE_LIST, { title });
       return res.data;
     },
     onSuccess: () => {
@@ -51,7 +52,7 @@ export const useAddToWishlist = () => {
       wishlistId: string;
       productId: string;
     }) => {
-      const res = await apiClient.post("/api/wishlists/add-to-list", {
+      const res = await apiClient.post(WISHLIST_ENDPOINTS.ADD_TO_LIST, {
         wishlistId,
         productId,
       });
@@ -73,7 +74,7 @@ export const useGetAllLists = () => {
   return useQuery<{ wishlists: WishlistDocument[] }>({
     queryKey: GET_ALL_LISTS_QUERY_KEY,
     queryFn: async () => {
-      const res = await apiClient.get("/api/wishlists/get-all-lists");
+      const res = await apiClient.get(WISHLIST_ENDPOINTS.GET_ALL_LISTS);
       return res.data;
     },
     staleTime: 0,
@@ -92,7 +93,7 @@ export const useRemoveFromWishlist = () => {
       productId: string | string[];
     }) => {
       const res = await apiClient.request({
-        url: `/api/wishlists/delete-wishlist-item/${wishlistId}`,
+        url: `${WISHLIST_ENDPOINTS.DELETE_ITEM}/${wishlistId}`,
         method: "DELETE",
         data: { productId },
       });

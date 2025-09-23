@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/lib/apiClient";
+import { CUSTOMER_ENDPOINTS } from "@/endpoints";
 import {
   RegisterPayload,
   LoginResponse,
@@ -20,7 +21,7 @@ export const useCustomerStats = () => {
   return useQuery<CustomerStats>({
     queryKey: CUSTOMER_STATS_QUERY_KEY,
     queryFn: async () => {
-      const response = await apiClient.get("/api/customers/get-overview-stats");
+      const response = await apiClient.get(CUSTOMER_ENDPOINTS.GET_OVERVIEW_STATS);
       return response.data;
     },
     staleTime: 0,
@@ -40,7 +41,7 @@ export const useRegisterCustomer = () => {
       if (payload.customerImage)
         formData.append("customerImage", payload.customerImage);
 
-      const response = await apiClient.post("/customers/register", formData, {
+      const response = await apiClient.post(CUSTOMER_ENDPOINTS.REGISTER, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       return response.data;
@@ -52,7 +53,7 @@ export const useGetCustomerActivities = () => {
   return useQuery<ActivitiesResponse>({
     queryKey: CUSTOMER_ACTIVITIES_QUERY_KEY,
     queryFn: async () => {
-      const res = await apiClient.get("/api/customers/get-recent-activity");
+      const res = await apiClient.get(CUSTOMER_ENDPOINTS.GET_RECENT_ACTIVITY);
       return res.data;
     },
     staleTime: 5 * 60 * 1000,
@@ -63,7 +64,7 @@ export const useGetCustomerNotifications = (options: { enabled?: boolean }) => {
   return useQuery<NotificationsResponse>({
     queryKey: CUSTOMER_NOTIFICATIONS_QUERY_KEY,
     queryFn: async () => {
-      const res = await apiClient.get("/api/customers/get-notifications");
+      const res = await apiClient.get(CUSTOMER_ENDPOINTS.GET_NOTIFICATIONS);
       return res.data;
     },
     enabled: options.enabled,
@@ -87,7 +88,7 @@ export const useGetAllCustomers = () => {
   return useQuery<Customer[]>({
     queryKey: CUSTOMER_QUERY_KEY,
     queryFn: async () => {
-      const response = await apiClient.get("/customers/get-all-customers");
+      const response = await apiClient.get(CUSTOMER_ENDPOINTS.GET_ALL_CUSTOMERS);
       return response.data.customers;
     },
     staleTime: 1000 * 60 * 5,
@@ -99,7 +100,7 @@ export const useGetCustomerProfile = () => {
   return useQuery<Customer>({
     queryKey: CUSTOMER_PROFILE_QUERY_KEY,
     queryFn: async () => {
-      const response = await apiClient.get("/api/customers/profile");
+      const response = await apiClient.get(CUSTOMER_ENDPOINTS.GET_PROFILE);
       return response.data;
     },
     staleTime: 0,
@@ -111,7 +112,7 @@ export const useMarkNotificationsAsSeen = () => {
 
   return useMutation({
     mutationFn: async (notificationId: string) => {
-      const response = await apiClient.post("/api/customers/mark-as-seen", {
+      const response = await apiClient.post(CUSTOMER_ENDPOINTS.MARK_AS_SEEN, {
         notificationId,
       });
       return response.data;
@@ -138,7 +139,7 @@ export const useUpdateCustomer = () => {
       if (payload.customerImage)
         formData.append("customerImage", payload.customerImage);
 
-      const response = await apiClient.patch("api/customers/update", formData, {
+      const response = await apiClient.patch(CUSTOMER_ENDPOINTS.UPDATE, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       return response.data;
@@ -155,7 +156,7 @@ export const useDeleteCustomer = () => {
 
   return useMutation({
     mutationFn: async () => {
-      const response = await apiClient.delete("/customers/delete");
+      const response = await apiClient.delete(CUSTOMER_ENDPOINTS.DELETE);
       return response.data;
     },
     onSuccess: () => {

@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/lib/apiClient";
+import { ADDRESS_ENDPOINTS } from "@/endpoints";
 
 export interface Address {
   _id: string;
@@ -30,7 +31,7 @@ export const useGetAddresses = () => {
   return useQuery<Address[]>({
     queryKey: ADDRESS_QUERY_KEY,
     queryFn: async () => {
-      const res = await apiClient.get("/api/addresses/all");
+      const res = await apiClient.get(ADDRESS_ENDPOINTS.GET_ALL);
       return res.data;
     },
     staleTime: 1000 * 60 * 5,
@@ -42,7 +43,7 @@ export const useAddAddress = () => {
 
   return useMutation({
     mutationFn: async (payload: AddressPayload) => {
-      const res = await apiClient.post("/api/addresses/add", payload);
+      const res = await apiClient.post(ADDRESS_ENDPOINTS.ADD, payload);
       return res.data;
     },
     onSuccess: () => {
@@ -62,7 +63,7 @@ export const useUpdateAddress = () => {
       addressId: string;
       updates: Partial<AddressPayload>;
     }) => {
-      const res = await apiClient.patch(`/api/addresses/${addressId}`, updates);
+      const res = await apiClient.patch(`${ADDRESS_ENDPOINTS.UPDATE}/${addressId}`, updates);
       return res.data;
     },
     onSuccess: () => {
@@ -76,7 +77,7 @@ export const useDeleteAddress = () => {
 
   return useMutation({
     mutationFn: async (addressId: string) => {
-      const res = await apiClient.delete(`/api/addresses/${addressId}`);
+      const res = await apiClient.delete(`${ADDRESS_ENDPOINTS.DELETE}/${addressId}`);
       return res.data;
     },
     onSuccess: () => {
@@ -90,7 +91,7 @@ export const useSetDefaultAddress = () => {
 
   return useMutation({
     mutationFn: async (addressId: string) => {
-      const res = await apiClient.patch(`/api/addresses/default/${addressId}`);
+      const res = await apiClient.patch(`${ADDRESS_ENDPOINTS.SET_DEFAULT}/${addressId}`);
       return res.data;
     },
     onSuccess: () => {

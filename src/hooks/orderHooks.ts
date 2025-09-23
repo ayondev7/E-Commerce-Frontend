@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/lib/apiClient";
+import { ORDER_ENDPOINTS } from "@/endpoints";
 import {
   Order,
   OrderResponse,
@@ -27,7 +28,7 @@ export const useGetAllOrders = () => {
   return useQuery<{ orders: Order[] }>({
     queryKey: ORDERS_QUERY_KEY,
     queryFn: async () => {
-      const res = await apiClient.get("/api/orders/get-all");
+      const res = await apiClient.get(ORDER_ENDPOINTS.GET_ALL);
       return res.data;
     },
     staleTime: 0,
@@ -38,7 +39,7 @@ export const useGetPaymentTransactions = () => {
   return useQuery<{ success: boolean; payments: Payment[] }>({
     queryKey: PAYMENTS_QUERY_KEY,
     queryFn: async () => {
-      const res = await apiClient.get("/api/orders/get-payments");
+      const res = await apiClient.get(ORDER_ENDPOINTS.GET_PAYMENTS);
       return res.data;
     },
     staleTime: 0,
@@ -63,7 +64,7 @@ export const useGetAllSellerOrders = () => {
   return useQuery<Order[]>({
     queryKey: SELLER_ORDERS_QUERY_KEY,
     queryFn: async () => {
-      const res = await apiClient.get("/api/orders/get-seller-orders");
+      const res = await apiClient.get(ORDER_ENDPOINTS.GET_SELLER_ORDERS);
       return res.data.data;
     },
     staleTime: 0,
@@ -75,7 +76,7 @@ export const useAddOrder = () => {
 
   return useMutation({
     mutationFn: async (orderData: CreateOrderRequest) => {
-      const res = await apiClient.post("/api/orders/add-order", orderData);
+      const res = await apiClient.post(ORDER_ENDPOINTS.ADD_ORDER, orderData);
       return res.data;
     },
     onSuccess: () => {
@@ -135,7 +136,7 @@ export const useOrderStatusCounts = () => {
   return useQuery<OrderStatusCounts>({
     queryKey: ORDER_STATUS_COUNTS_QUERY_KEY,
     queryFn: async () => {
-      const res = await apiClient.get("/api/orders/get-order-status-counts");
+      const res = await apiClient.get(ORDER_ENDPOINTS.GET_ORDER_STATUS_COUNTS);
       return res.data;
     },
     staleTime: 0,

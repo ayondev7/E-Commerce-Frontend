@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/lib/apiClient";
+import { SELLER_ENDPOINTS } from "@/endpoints";
 import {
   SellerNotificationResponse,
   SellerNotification,
@@ -13,7 +14,7 @@ export const useGetSellerNotifications = (options: { enabled?: boolean }) => {
   return useQuery<SellerNotificationResponse>({
     queryKey: SELLER_NOTIFICATIONS_QUERY_KEY,
     queryFn: async () => {
-      const res = await apiClient.get("/api/sellers/get-notifications");
+      const res = await apiClient.get(SELLER_ENDPOINTS.GET_NOTIFICATIONS);
       return res.data;
     },
     enabled: options.enabled,
@@ -25,7 +26,7 @@ export const useGetSellerPaymentTransactions = () => {
   return useQuery<{ success: boolean; payments: Payment[] }>({
     queryKey: SELLER_PAYMENTS_QUERY_KEY,
     queryFn: async () => {
-      const res = await apiClient.get("/api/sellers/get-payments");
+      const res = await apiClient.get(SELLER_ENDPOINTS.GET_PAYMENTS);
       return res.data;
     },
     staleTime: 0,

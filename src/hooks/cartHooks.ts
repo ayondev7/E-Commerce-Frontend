@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import apiClient from '@/lib/apiClient';
 import { SimplifiedProduct } from '@/types/productTypes';
 import { WishlistGroup } from '@/types/wishlistTypes';
+import { CART_ENDPOINTS } from '@/endpoints';
 
 export const CART_QUERY_KEY = ['cart'];
 export const WISHLIST_QUERY_KEY = ['wishlist'];
@@ -21,7 +22,7 @@ export const useGetCart = () => {
   return useQuery<{ lists: WishlistGroup[]}>({
     queryKey: CART_QUERY_KEY,
     queryFn: async () => {
-      const res = await apiClient.get('/api/carts/get-all');
+      const res = await apiClient.get(CART_ENDPOINTS.GET_ALL);
       return res.data;
     },
     staleTime:0,
@@ -33,7 +34,7 @@ export const useAddToCart = () => {
 
   return useMutation({
     mutationFn: async (entries: CartEntry | CartEntry[]) => {
-      const res = await apiClient.post('/api/carts/add-to-cart', entries);
+      const res = await apiClient.post(CART_ENDPOINTS.ADD_TO_CART, entries);
       return res.data;
     },
     onSuccess: () => {
@@ -54,7 +55,7 @@ export const useRemoveFromCart = () => {
 
   return useMutation({
     mutationFn: async ({ cartId, productId }: RemoveFromCartInput) => {
-      const res = await apiClient.delete(`/api/carts/delete-cart-item`, {
+      const res = await apiClient.delete(CART_ENDPOINTS.DELETE_ITEM, {
         data: { cartId, productId }, 
       });
       return res.data;
@@ -72,7 +73,7 @@ export const useUpdateCartQuantity = () => {
 
   return useMutation({
     mutationFn: async ({ id, quantity }: { id: string; quantity: number }) => {
-      const res = await apiClient.patch('/api/carts/update-quantity', {
+      const res = await apiClient.patch(CART_ENDPOINTS.UPDATE_QUANTITY, {
         id,
         quantity,
       });

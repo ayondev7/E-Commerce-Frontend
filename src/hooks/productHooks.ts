@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import apiClient from '@/lib/apiClient';
 import { ProductFormData, SimplifiedProduct } from '@/types/productTypes';
+import { PRODUCT_ENDPOINTS } from '@/endpoints';
 
 interface SelectedProduct {
   productId: string;
@@ -21,7 +22,7 @@ export const useSingleProduct = (productId?: string) => {
     queryKey: [...SINGLE_PRODUCT_QUERY_KEY, productId],
     queryFn: async () => {
       if (!productId) throw new Error('Product ID is required');
-      const response = await apiClient.get(`/api/products/get-product/${productId}`);
+      const response = await apiClient.get(`${PRODUCT_ENDPOINTS.GET_BY_ID}/${productId}`);
       return response.data;
     },
     enabled: !!productId,
@@ -33,7 +34,7 @@ export const useProducts = () => {
   return useQuery<{ products: SimplifiedProduct[] }>({
     queryKey: PRODUCT_QUERY_KEY,
     queryFn: async () => {
-      const response = await apiClient.get('api/products/get-all');
+      const response = await apiClient.get(PRODUCT_ENDPOINTS.GET_ALL);
       return response.data;
     },
     staleTime: 0, 
@@ -46,7 +47,7 @@ export const useProductsById = (
   return useQuery<ResponseData, Error>({
     queryKey: [...PRODUCTS_BY_ID_QUERY_KEY, selectedProducts],
     queryFn: async () => {
-      const response = await apiClient.post('/api/products/get-all-by-id', {
+      const response = await apiClient.post(PRODUCT_ENDPOINTS.GET_ALL_BY_ID, {
         products: selectedProducts?.map(({ productId, quantity }) => ({
           id: productId,
           quantity,
@@ -64,7 +65,7 @@ export const useCreateProduct = () => {
 
   return useMutation({
     mutationFn: async (formData: FormData) => {
-      const response = await apiClient.post('/products', formData, {
+      const response = await apiClient.post(PRODUCT_ENDPOINTS.CREATE, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response.data;
@@ -84,7 +85,7 @@ export const useSearchProducts = (category?: string, keyword?: string) => {
       if (category) params.append('category', category);
       if (keyword) params.append('keyword', keyword);
 
-      const response = await apiClient.get(`/api/products/search?${params.toString()}`);
+      const response = await apiClient.get(`${PRODUCT_ENDPOINTS.SEARCH}?${params.toString()}`);
       return response.data;
     },
     enabled:false,
@@ -97,7 +98,7 @@ export const useDeleteProduct = () => {
 
   return useMutation({
     mutationFn: async (productId: string) => {
-      const response = await apiClient.delete(`/api/products/delete/${productId}`);
+      const response = await apiClient.delete(`${PRODUCT_ENDPOINTS.DELETE}/${productId}`);
       return response.data;
     },
     onSuccess: () => {

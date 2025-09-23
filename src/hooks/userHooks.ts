@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import apiClient from '@/lib/apiClient';
+import { useQuery } from "@tanstack/react-query";
+import apiClient from "@/lib/apiClient";
+import { BASE_API_URL } from "@/endpoints";
 import { useUserStore } from '@/store/userStore';
 
 export const USER_PROFILE_QUERY_KEY = ['user-profile'];
@@ -25,7 +26,7 @@ export const useUserProfile = () => {
     queryFn: async () => {
       if (!userType) throw new Error('User type not set');
 
-      const response = await apiClient.get(`/api/${userType}s/get-profile`);
+      const response = await apiClient.get(`${BASE_API_URL}/${userType}s/get-profile`);
       return response.data;
     },
     enabled: !!userType, 
