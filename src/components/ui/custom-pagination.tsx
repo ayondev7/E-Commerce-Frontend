@@ -16,9 +16,8 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
   onPageChange,
   className,
 }) => {
-  // Generate page numbers to display
   const getPageNumbers = () => {
-    const delta = 2; // Number of pages to show on each side of current page
+    const delta = 2;
     const range = [];
     const rangeWithDots = [];
 
@@ -77,7 +76,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
       aria-label="pagination"
       className={cn("flex justify-center items-center space-x-2", className)}
     >
-      {/* Previous Button */}
+      
       <button
         onClick={handlePrevious}
         disabled={currentPage === 1}
@@ -93,7 +92,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
         <span className="hidden sm:block">Previous</span>
       </button>
 
-      {/* Page Numbers */}
+      
       <div className="flex items-center space-x-1">
         {pageNumbers.map((page, index) => (
           <React.Fragment key={index}>
@@ -120,7 +119,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
         ))}
       </div>
 
-      {/* Next Button */}
+      
       <button
         onClick={handleNext}
         disabled={currentPage === totalPages}

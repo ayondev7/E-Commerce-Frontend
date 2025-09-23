@@ -70,7 +70,7 @@ export default function OrderSummary({
               <div className="w-24 h-24 bg-gray-300 rounded-sm">
                 {product.image && (
                   <img
-                    src={`data:image/png;base64,${product?.image}`}
+                    src={product?.image ?? "/placeholder-product.jpg"}
                     alt={product.title}
                     className="w-full h-full object-cover rounded-sm"
                   />
@@ -85,7 +85,7 @@ export default function OrderSummary({
                 </p>
                 <div className="flex justify-between items-end">
                   <p className="font-medium text-xl text-text-primary">
-                    ${product.price?.toFixed(2) || "0.00"}
+                    ${(product.price ?? 0).toFixed(2)}
                   </p>
                   <p className="text-base font-medium text-text-secondary">
                     Quantity: {product?.quantity}

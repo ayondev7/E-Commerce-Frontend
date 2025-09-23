@@ -20,22 +20,22 @@ const ProductsPage: React.FC = () => {
 
   const { data, isLoading, isError } = useProducts();
 
-  // Filter and sort products
+  
   const filteredAndSortedProducts = useMemo(() => {
     if (!data?.products) return [];
 
     let filtered = data.products;
 
-    // (search removed) keep other filters
+    
 
-    // Category filter
+    
     if (categoryFilter !== "all") {
       filtered = filtered.filter((product) => 
         product.category.toLowerCase() === categoryFilter.toLowerCase()
       );
     }
 
-    // Price range filter
+    
     if (priceRange !== "all") {
       filtered = filtered.filter((product) => {
         switch (priceRange) {
@@ -53,7 +53,7 @@ const ProductsPage: React.FC = () => {
       });
     }
 
-    // Sort products
+    
     const sorted = [...filtered].sort((a, b) => {
       switch (sortBy) {
         case "price-low":
@@ -73,13 +73,13 @@ const ProductsPage: React.FC = () => {
     return sorted;
   }, [data?.products, sortBy, categoryFilter, priceRange]);
 
-  // Pagination
+  
   const totalPages = Math.ceil(filteredAndSortedProducts.length / PRODUCTS_PER_PAGE);
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
   const endIndex = startIndex + PRODUCTS_PER_PAGE;
   const paginatedProducts = filteredAndSortedProducts.slice(startIndex, endIndex);
 
-  // Get unique categories
+  
   const categories = useMemo(() => {
     if (!data?.products) return [];
     const uniqueCategories = [...new Set(data.products.map(p => p.category))];
@@ -117,7 +117,7 @@ const ProductsPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background-secondary">
-      {/* Header */}
+      
       <div className="bg-background-primary border-b border-border-primary">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col gap-4">
@@ -145,14 +145,14 @@ const ProductsPage: React.FC = () => {
               </div>
             </div>
 
-            {/* (search removed) */}
+          
           </div>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-6">
         <div className="flex gap-6">
-          {/* Filters Sidebar */}
+          
           <div className={`lg:block ${showFilters ? 'block' : 'hidden'} lg:w-64 flex-shrink-0`}>
             <div className="bg-background-primary rounded-lg border border-border-primary p-6 sticky top-6">
               <div className="flex items-center justify-between mb-4">
@@ -168,7 +168,7 @@ const ProductsPage: React.FC = () => {
               </div>
 
               <div className="space-y-6">
-                {/* Sort By */}
+            
                 <div>
                   <label className="block text-sm font-medium text-text-primary mb-2">
                     Sort By
@@ -187,7 +187,7 @@ const ProductsPage: React.FC = () => {
                   </Select>
                 </div>
 
-                {/* Category Filter */}
+                
                 <div>
                   <label className="block text-sm font-medium text-text-primary mb-2">
                     Category
@@ -207,7 +207,7 @@ const ProductsPage: React.FC = () => {
                   </Select>
                 </div>
 
-                {/* Price Range */}
+                
                 <div>
                   <label className="block text-sm font-medium text-text-primary mb-2">
                     Price Range
@@ -229,9 +229,9 @@ const ProductsPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Products Grid */}
+          
           <div className="flex-1">
-            {/* Results Header */}
+            
             <div className="flex items-center justify-between mb-6">
               <p className="text-text-secondary">
                 {isLoading 
@@ -241,7 +241,7 @@ const ProductsPage: React.FC = () => {
               </p>
             </div>
 
-            {/* Products Grid/List */}
+            
             {isLoading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {[...Array(8)].map((_, index) => (
@@ -282,7 +282,7 @@ const ProductsPage: React.FC = () => {
               </div>
             )}
 
-            {/* Pagination */}
+            
             {totalPages > 1 && (
               <div className="mt-12">
                 <CustomPagination

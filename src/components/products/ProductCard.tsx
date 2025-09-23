@@ -35,7 +35,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
     setIsCartLoading(true);
     
     try {
-      // Get first available wishlist ID (assuming default wishlist logic)
       const defaultWishlistId = wishlistsData?.wishlists?.[0]?._id;
       
       if (!defaultWishlistId) {
@@ -73,7 +72,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
     setIsWishlistLoading(true);
     
     try {
-      // Get first available wishlist ID
       const defaultWishlistId = wishlistsData?.wishlists?.[0]?._id;
       
       if (!defaultWishlistId) {
@@ -132,7 +130,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
       className="group relative bg-background-primary rounded-lg border border-border-primary shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer overflow-hidden"
       onClick={handleCardClick}
     >
-      {/* Product Image */}
+      
       <div className="relative aspect-square bg-background-secondary overflow-hidden">
         <Image
           src={product.image || "/placeholder-product.jpg"}
@@ -141,7 +139,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
           className="object-cover group-hover:scale-105 transition-transform duration-300"
         />
         
-        {/* Wishlist Button */}
+        
         <button
           onClick={handleAddToWishlist}
           disabled={isWishlistLoading}
@@ -154,7 +152,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
           />
         </button>
 
-        {/* Stock Status Badge */}
+        
         <div className={`absolute top-3 left-3 px-2 py-1 text-xs font-medium rounded-full ${
           product.quantity === 0 
             ? "bg-danger-secondary text-danger-primary border border-danger-border" 
@@ -166,19 +164,19 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
         </div>
       </div>
 
-      {/* Product Info */}
+      
       <div className="p-4">
-        {/* Category */}
+        
         <p className="text-xs font-medium text-text-secondary uppercase tracking-wide mb-1">
           {product.category}
         </p>
 
-        {/* Title */}
+        
         <h3 className="font-semibold text-text-primary text-sm leading-tight mb-2 line-clamp-2 group-hover:text-text-quaternary transition-colors">
           {product.title}
         </h3>
 
-        {/* Model & Color */}
+        
         <div className="flex items-center gap-2 mb-2">
           {product.model && (
             <span className="text-xs text-text-secondary">
@@ -195,7 +193,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
           )}
         </div>
 
-        {/* Rating - Mock rating for now */}
+        
         <div className="flex items-center gap-1 mb-3">
           {[...Array(5)].map((_, i) => (
             <Star
@@ -208,20 +206,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
           <span className="text-xs text-text-secondary ml-1">(4.0)</span>
         </div>
 
-        {/* Price */}
+        
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <span className="text-lg font-bold text-text-primary">
               {formatPrice(product.price)}
             </span>
-            {/* You can add sale price logic here if needed */}
+            
           </div>
           <span className={`text-xs font-medium ${getStockStatusColor()}`}>
             {product.quantity} left
           </span>
         </div>
 
-        {/* Add to Cart Button */}
+        
         <Button
           onClick={handleAddToCart}
           disabled={product.quantity === 0 || isCartLoading}

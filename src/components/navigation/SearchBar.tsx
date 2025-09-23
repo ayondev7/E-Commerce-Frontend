@@ -204,7 +204,7 @@ const SearchBar: React.FC<{}> = ({}) => {
                 <div className="w-24 h-24 bg-gray-200 rounded-md overflow-hidden flex-shrink-0">
                   {item.image ? (
                     <img
-                      src={`data:image/jpeg;base64,${item?.image}`}
+                      src={item?.image ?? "/placeholder-product.jpg"}
                       alt={item?.title}
                       className="w-full h-full object-cover"
                     />
@@ -224,7 +224,7 @@ const SearchBar: React.FC<{}> = ({}) => {
                   </p>
                   <div className="flex justify-between gap-x-2.5 w-full items-center">
                     <p className="text-xl font-medium text-text-primary">
-                      ${item.price.toFixed(2)}
+                      ${(item.price ?? 0).toFixed(2)}
                     </p>
                     <div>
                       {userType !== "seller" && (

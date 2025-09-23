@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { 
@@ -36,6 +36,8 @@ const SingleProductPage: React.FC = () => {
   const { mutate: addToCart } = useAddToCart();
   const { mutate: addToWishlist } = useAddToWishlist();
   const { data: wishlistsData } = useGetAllLists();
+
+  
 
   const handleAddToCart = async () => {
     if (!product || quantity <= 0) return;
@@ -158,11 +160,17 @@ const SingleProductPage: React.FC = () => {
     return "text-success-primary";
   };
 
+  const getImageSrc = (index: number) => {
+    const src =
+      product?.productImageStrings?.[index] ?? product?.productImages?.[index] ?? "/placeholder-product.jpg";
+    return src as unknown as string;
+  };
+
   if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Image Skeleton */}
+          
           <div className="space-y-4">
             <div className="aspect-square bg-background-secondary animate-pulse rounded-lg" />
             <div className="grid grid-cols-4 gap-2">
@@ -172,7 +180,7 @@ const SingleProductPage: React.FC = () => {
             </div>
           </div>
           
-          {/* Content Skeleton */}
+          
           <div className="space-y-4">
             <div className="h-8 bg-background-secondary animate-pulse rounded" />
             <div className="h-6 bg-background-secondary animate-pulse rounded w-3/4" />
@@ -205,18 +213,18 @@ const SingleProductPage: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Product Images */}
+        
         <div className="space-y-4">
-          {/* Main Image */}
+          
           <div className="aspect-square relative bg-background-secondary rounded-lg overflow-hidden">
             <Image
-              src={product.productImages?.[selectedImageIndex] || product.productImageStrings?.[selectedImageIndex] || "/placeholder-product.jpg"}
+              src={getImageSrc(selectedImageIndex)}
               alt={product.title}
               fill
               className="object-cover"
             />
             
-            {/* Stock Badge */}
+            
             <div className={`absolute top-4 left-4 px-3 py-1 text-xs font-medium rounded-full ${
               parseInt(product.quantity) === 0 
                 ? "bg-danger-secondary text-danger-primary border border-danger-border" 
@@ -228,10 +236,10 @@ const SingleProductPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Thumbnail Images */}
-          {(product.productImages?.length > 1 || product.productImageStrings?.length > 1) && (
+          
+          {(product.productImageStrings?.length || product.productImages?.length || 0) > 1 && (
             <div className="grid grid-cols-4 gap-2">
-              {(product.productImages || product.productImageStrings || []).map((image, index) => (
+              {(product.productImageStrings || product.productImages || []).map((image: any, index: number) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImageIndex(index)}
@@ -242,7 +250,7 @@ const SingleProductPage: React.FC = () => {
                   }`}
                 >
                   <Image
-                    src={image || "/placeholder-product.jpg"}
+                    src={getImageSrc(index)}
                     alt={`${product.title} ${index + 1}`}
                     fill
                     className="object-cover"
@@ -253,9 +261,9 @@ const SingleProductPage: React.FC = () => {
           )}
         </div>
 
-        {/* Product Information */}
+        
         <div className="space-y-6">
-          {/* Header */}
+          
           <div>
             <div className="flex items-center gap-2 mb-2">
               <Badge variant="secondary" className="text-xs">
@@ -270,7 +278,7 @@ const SingleProductPage: React.FC = () => {
               {product.title}
             </h1>
 
-            {/* Rating */}
+            
             <div className="flex items-center gap-2 mb-4">
               <div className="flex items-center">
                 {[...Array(5)].map((_, i) => (
@@ -285,7 +293,7 @@ const SingleProductPage: React.FC = () => {
               <span className="text-sm text-text-secondary">(4.0) • 24 reviews</span>
             </div>
 
-            {/* Price */}
+            
             <div className="flex items-center gap-4 mb-4">
               <span className="text-3xl font-bold text-text-primary">
                 {formatPrice(product.price)}
@@ -297,7 +305,7 @@ const SingleProductPage: React.FC = () => {
               )}
             </div>
 
-            {/* Stock Status */}
+            
             <div className="flex items-center gap-2 mb-6">
               <span className={`text-sm font-medium ${getStockStatusColor()}`}>
                 {getStockStatus()}
@@ -309,7 +317,7 @@ const SingleProductPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Product Details */}
+          
           <div className="space-y-4">
             {product.brand && (
               <div className="flex items-center gap-2">
@@ -347,9 +355,9 @@ const SingleProductPage: React.FC = () => {
             )}
           </div>
 
-          {/* Quantity Selector & Actions */}
+          
           <div className="space-y-4">
-            {/* Quantity */}
+            
             <div className="flex items-center gap-4">
               <span className="font-medium text-text-primary">Quantity:</span>
               <div className="flex items-center border border-border-primary rounded-lg">
@@ -371,7 +379,7 @@ const SingleProductPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Action Buttons */}
+            
             <div className="flex gap-3">
               <Button
                 onClick={handleAddToCart}
@@ -400,7 +408,7 @@ const SingleProductPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Features */}
+          
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-border-primary">
             <div className="flex items-center gap-3">
               <Truck className="w-5 h-5 text-text-quaternary" />
@@ -429,9 +437,9 @@ const SingleProductPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Product Description & Specifications */}
+      
       <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Description */}
+        
         <div className="lg:col-span-2">
           <h2 className="text-2xl font-bold text-text-primary mb-4">Description</h2>
           <div className="prose prose-gray max-w-none">

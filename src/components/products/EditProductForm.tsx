@@ -204,7 +204,7 @@ const EditProductForm = () => {
                 description: productData.description,
                 category: productData.category,
                 productImages: [],
-                productImageStrings: productData.productImageStrings || [], // Pass existing images
+                productImageStrings: productData.productImageStrings || [],
               }}
             />
 

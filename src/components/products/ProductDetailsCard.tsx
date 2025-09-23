@@ -16,7 +16,7 @@ const ProductDetailsCard = ({
           <Image
             src={
               order?.product?.firstImageBase64
-                ? `data:image/jpeg;base64,${order.product.firstImageBase64}`
+                ? order.product.firstImageBase64
                 : "https://via.placeholder.com/200"
             }
             alt={order?.product?.title}

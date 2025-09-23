@@ -28,7 +28,6 @@ const PricingInventoryForm = ({ initialData }: PricingInventoryFormProps) => {
 
   useEffect(() => {
     if (initialData && !isInitialized.current) {
-      // Set individual field values instead of using reset
       if (initialData.price !== undefined) setValue("price", initialData.price.toString());
       if (initialData.salePrice !== undefined) setValue("salePrice", initialData.salePrice.toString());
       if (initialData.quantity !== undefined) setValue("quantity", initialData.quantity.toString());

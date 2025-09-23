@@ -65,7 +65,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
                   height={60}
                   src={
                     product?.image && product?.image !== "null"
-                      ? `data:image/jpeg;base64,${product?.image}`
+                      ? product?.image
                       : "https://example.com/default-image.jpg"
                   }
                   alt={product?.title}
@@ -87,7 +87,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
                 <div>
                   <div className="text-sm text-text-secondary mb-1">Price</div>
                   <div className="text-base font-medium text-text-primary">
-                    ${product?.price.toFixed(2)}
+                    ${(product?.price ?? 0).toFixed(2)}
                   </div>
                 </div>
                 <div>
@@ -185,7 +185,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
                       height={44}
                       src={
                         product?.image && product?.image !== "null"
-                          ? `data:image/jpeg;base64,${product?.image}`
+                          ? product?.image
                           : "https://example.com/default-image.jpg"
                       }
                       alt={product?.title}
@@ -199,7 +199,7 @@ const ProductTable = ({ products }: ProductTableProps) => {
                     {product?.sku}
                   </TableCell>
                   <TableCell className="text-text-primary px-4 py-4 text-base hidden lg:table-cell">
-                    ${product?.price.toFixed(2)}
+                    ${(product?.price ?? 0).toFixed(2)}
                   </TableCell>
                   <TableCell className="text-text-primary px-4 py-4 text-base hidden lg:table-cell">
                     {product?.stock}

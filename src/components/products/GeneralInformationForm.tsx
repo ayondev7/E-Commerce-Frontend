@@ -251,7 +251,7 @@ const GeneralInformationForm = ({
                   <Image
                     width={220}
                     height={220}
-                    src={`data:image/jpeg;base64,${imageBase64}`}
+                    src={imageBase64 ?? "/placeholder-product.jpg"}
                     alt={`Existing ${index + 1}`}
                     className="w-full h-45 object-cover rounded-md"
                   />

@@ -154,11 +154,7 @@ const Navbar = () => {
                     <Image
                       width={32}
                       height={32}
-                      src={
-                        data?.data?.image
-                          ? `data:image/jpeg;base64,${data?.data?.image}`
-                          : "https://github.com/shadcn.png"
-                      }
+                      src={data?.data?.image ?? "https://github.com/shadcn.png"}
                       alt="Profile"
                       className="w-full h-full rounded-full object-cover"
                     />
@@ -249,11 +245,7 @@ const Navbar = () => {
                     <Image
                       width={32}
                       height={32}
-                      src={
-                        data?.data?.image
-                          ? `data:image/jpeg;base64,${data?.data?.image}`
-                          : "https://github.com/shadcn.png"
-                      }
+                      src={data?.data?.image ?? "https://github.com/shadcn.png"}
                       alt="Profile"
                       className="w-full h-full rounded-full object-cover"
                     />

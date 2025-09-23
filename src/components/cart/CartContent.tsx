@@ -137,7 +137,7 @@ const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
 
                 <div className="w-24 h-24 bg-gray-200 rounded-md overflow-hidden flex-shrink-0">
                   <img
-                    src={`data:image/jpeg;base64,${item?.image}`}
+                    src={item?.image ?? "/placeholder-product.jpg"}
                     alt={item?.title}
                     className="w-full h-full object-cover"
                   />
@@ -168,7 +168,7 @@ const CartContent: React.FC<CartContentProps> = ({ type, list }) => {
                     }`}
                   >
                     <p className="text-xl font-medium text-text-primary">
-                      ${item?.price.toFixed(2)}
+                      ${(item?.price ?? 0).toFixed(2)}
                     </p>
                     {type === "cart" ? (
                       <div className="flex items-center gap-x-2">
