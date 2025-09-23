@@ -101,7 +101,7 @@ export const useSearchProducts = (category?: string, keyword?: string) => {
       const response = await apiClient.get(`${PRODUCT_ENDPOINTS.SEARCH}?${params.toString()}`);
       return response.data;
     },
-    enabled:false,
+    enabled: !!keyword?.trim(),
     staleTime: 0,
   });
 };

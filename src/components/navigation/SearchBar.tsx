@@ -15,9 +15,7 @@ import {
   Search,
   Heart,
   ShoppingCart,
-  Loader2,
   PlusIcon,
-  LoaderCircle,
 } from "lucide-react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
@@ -28,23 +26,17 @@ const SearchBar: React.FC<{}> = ({}) => {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [category, setCategory] = useState<string | undefined>(undefined);
   const [keyword, setKeyword] = useState("");
-  const [searchTriggered, setSearchTriggered] = useState(false);
+  const [debouncedKeyword, setDebouncedKeyword] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
   );
   const [showModal, setShowModal] = useState(false);
 
-  const { data, isLoading, refetch } = useSearchProducts(category, keyword);
+  const { data, isLoading } = useSearchProducts(category, debouncedKeyword);
 
   const { mutate: addToWishlist, isPending: wishlistLoading } =
     useAddToWishlist();
-
-  const handleSearchClick = () => {
-    if (keyword.trim()) {
-      setSearchTriggered(true);
-      refetch();
-    }
-  };
 
   const handleAddWishlistClick = (productId: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -75,26 +67,34 @@ const SearchBar: React.FC<{}> = ({}) => {
   };
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedKeyword(keyword);
+      setShowDropdown(!!keyword.trim());
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [keyword]);
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setSearchTriggered(false);
+        setShowDropdown(false);
       }
     };
 
-    if (searchTriggered) {
+    if (showDropdown) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [searchTriggered]);
+  }, [showDropdown]);
 
   return (
-    <div className="w-full border-t border-b border-border-primary px-4 md:px-8 lg:px-18 py-5">
+    <div className="w-full px-4 md:px-8 lg:px-6">
       <div className="container h-full flex flex-col">
         <div className="w-full relative flex items-center gap-x-5">
           <div className="flex-1 relative flex items-center border border-text-secondary rounded-lg">
@@ -137,55 +137,20 @@ const SearchBar: React.FC<{}> = ({}) => {
                 className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none rounded-r-lg text-base"
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearchClick()}
               />
             </div>
           </div>
 
-          <button
-            className={`lg:h-12 h-10.5 absolute ${
-              userType === "seller"
-                ? "right-2"
-                : userType === "customer"
-                ? "right-30"
-                : ""
-            } lg:static min-w-10.5 lg:min-w-29 lg:px-4 lg:py-2 font-medium bg-button-primary text-white rounded-sm hover:bg-opacity-90 transition-colors text-base flex items-center justify-center gap-2`}
-            onClick={handleSearchClick}
-            disabled={isLoading}
-          >
-            <span className="lg:hidden">
-              {isLoading ? (
-                <LoaderCircle className="h-6 w-6 animate-spin" />
-              ) : (
-                <Search className="h-6 w-6" />
-              )}
-            </span>
-
-            <span className="hidden lg:flex items-center gap-2">
-              {isLoading ? (
-                <>
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Searching...
-                </>
-              ) : (
-                <>
-                  <Search className="h-5 w-5" />
-                  Search
-                </>
-              )}
-            </span>
-          </button>
-
           {userType === "customer" && (
             <div className="flex gap-x-2.5">
               <Link className="text-decoration: none" href="/customer/wishlist">
-                <div className="flex items-center px-2 lg:px-4 py-2 justify-center gap-x-2.5 text-base text-text-secondary hover:cursor-pointer">
+                <div className="flex items-center px-2 lg:px-2 py-2 justify-center gap-x-2.5 text-base text-text-secondary hover:cursor-pointer">
                   <Heart className="w-6 h-6" />
                   <span className="hidden lg:block">Wishlist</span>
                 </div>
               </Link>
               <Link className="text-decoration: none" href="/shopping-cart">
-                <div className="flex items-center px-2 lg:px-4 py-2 gap-x-2.5 justify-center text-base text-text-secondary hover:cursor-pointer">
+                <div className="flex items-center px-2 lg:px-2 py-2 gap-x-2.5 justify-center text-base text-text-secondary hover:cursor-pointer">
                   <ShoppingCart className="w-6 h-6" />
                   <span className="hidden lg:block">Cart</span>
                 </div>
@@ -194,10 +159,10 @@ const SearchBar: React.FC<{}> = ({}) => {
           )}
         </div>
 
-        {searchTriggered && data?.products && data.products.length > 0 && (
+        {showDropdown && data?.products && data.products.length > 0 && (
           <div
             ref={dropdownRef}
-            className="mt-6 space-y-6 max-h-[500px] overflow-y-scroll border border-border-secondary rounded-lg p-5 z-20 top-40 bg-white w-full max-w-sm md:max-w-xl lg:max-w-5xl absolute"
+            className="mt-6 space-y-6 max-h-[500px] hide-scrollbar overflow-y-scroll border border-border-secondary rounded-lg p-5 z-20 top-14 bg-white w-full max-w-sm md:max-w-xl lg:max-w-[800px] absolute"
           >
             {data.products.map((item) => (
               <div key={item._id} className="flex items-center gap-4">
@@ -247,7 +212,7 @@ const SearchBar: React.FC<{}> = ({}) => {
           </div>
         )}
 
-        {searchTriggered && data?.products && data.products.length === 0 && (
+        {showDropdown && data?.products && data.products.length === 0 && (
           <p className="text-text-secondary text-center py-4 mt-6">
             No products found
           </p>

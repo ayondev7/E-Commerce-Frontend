@@ -25,6 +25,7 @@ import {
   useUpdateLastNotificationSeen,
 } from "@/hooks/sellerHooks";
 import SellerNotificationContainer from "../notifications/SellerNotificationContainer";
+import SearchBar from "./SearchBar";
 
 const Navbar = () => {
   const router = useRouter();
@@ -128,7 +129,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full bg-white">
+    <div className="w-full bg-white border-b border-border-primary">
       <nav className="md:hidden block w-full py-6 px-4 lg:px-18">
         <div className="container w-full h-full flex items-center justify-between">
           <MobileSidebar
@@ -146,6 +147,9 @@ const Navbar = () => {
           >
             ShopNest
           </Link>
+
+          <div></div>
+
           <div className="flex items-center gap-x-5">
             <Select onValueChange={handleUserMenuChange}>
               <SelectTrigger className="w-15 px-0 py-0 justify-start rounded-none border-0 focus:ring-0 focus:ring-offset-0 [&>svg]:ml-1.5 [&>svg]:w-5 [&>svg]:h-5 [&[data-state=open]>svg]:rotate-180">
@@ -179,35 +183,12 @@ const Navbar = () => {
           >
             ShopNest
           </Link>
+
+          <div>
+            <SearchBar />
+          </div>
+
           <div className="flex items-center gap-x-5">
-            <Select>
-              <SelectTrigger className="space-x-2.5 w-30 border-0 px-4 py-2 focus:ring-0 text-text-secondary text-base focus:ring-offset-0 [&>svg]:w-6 [&>svg]:h-6 rounded-none rounded-l-md [&[data-state=open]>svg]:rotate-180">
-                <div className="flex items-center gap-x-2.5">
-                  <Globe className="h-6 w-6 text-text-secondary" />
-                  <SelectValue placeholder="EN" />
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="en" className="text-text-primary text-base">
-                  EN
-                </SelectItem>
-                <SelectItem value="es" className="text-text-primary text-base">
-                  ES
-                </SelectItem>
-                <SelectItem value="fr" className="text-text-primary text-base">
-                  FR
-                </SelectItem>
-                <SelectItem value="de" className="text-text-primary text-base">
-                  DE
-                </SelectItem>
-              </SelectContent>
-            </Select>
-
-            <button className="flex gap-x-2.5 px-4 py-2">
-              <HelpCircle className="h-6 w-6 text-text-secondary" />
-              <span className="text-base text-text-secondary">Help</span>
-            </button>
-
             <div className="relative" ref={notifRef}>
               <button
                 className="w-10 h-10 p-[1px] border border-border-primary rounded-md flex justify-center items-center"

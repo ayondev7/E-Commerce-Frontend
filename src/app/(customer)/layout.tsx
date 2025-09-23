@@ -1,6 +1,5 @@
 import React from 'react'
 import Navbar from '@/components/navigation/Navbar' 
-import SearchBar from '@/components/navigation/SearchBar' 
 import Sidebar from '@/components/navigation/Sidebar' 
 
 const CustomerLayout = ({
@@ -12,7 +11,6 @@ const CustomerLayout = ({
     <div className="h-screen bg-background-primary flex flex-col overflow-hidden">
       <div>
         <Navbar />
-        <SearchBar/>
       </div>
       
       <div className="flex flex-1 overflow-hidden">
