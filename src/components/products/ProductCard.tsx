@@ -5,9 +5,10 @@ import { Heart, ShoppingCart, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SimplifiedProduct } from "@/types/productTypes";
 import { useAddProductDirectToCart } from "@/hooks/cartHooks";
-import { useAddToWishlist, useGetAllLists } from "@/hooks/wishlistHooks";
+import { useAddToWishlist } from "@/hooks/wishlistHooks";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import WishListModal from "@/components/cart/WishListModal";
 
 interface ProductCardProps {
   product: SimplifiedProduct;
@@ -17,11 +18,12 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
   const [isWishlistLoading, setIsWishlistLoading] = useState(false);
   const [isCartLoading, setIsCartLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
   const router = useRouter();
 
   const { mutate: addToCart } = useAddProductDirectToCart();
   const { mutate: addToWishlist } = useAddToWishlist();
-  const { data: wishlistsData } = useGetAllLists();
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -70,39 +72,27 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
       return;
     }
 
-    setIsWishlistLoading(true);
+    setSelectedProductId(product._id);
+    setShowModal(true);
+  };
 
-    try {
-      const defaultWishlistId = wishlistsData?.wishlists?.[0]?._id;
-
-      if (!defaultWishlistId) {
-        toast.error("Please create a wishlist first");
-        return;
-      }
-
-      addToWishlist(
-        {
-          wishlistId: defaultWishlistId,
-          productId: product._id,
+  const handleModalSelect = (wishlistId: string) => {
+    if (!selectedProductId) return;
+    addToWishlist(
+      { wishlistId, productId: selectedProductId },
+      {
+        onSuccess: () => {
+          toast.success("Added to wishlist successfully!");
+          setShowModal(false);
+          setSelectedProductId(null);
         },
-        {
-          onSuccess: () => {
-            toast.success("Added to wishlist successfully!");
-          },
-          onError: (error: any) => {
-            toast.error(
-              error?.response?.data?.message || "Failed to add to wishlist"
-            );
-          },
-          onSettled: () => {
-            setIsWishlistLoading(false);
-          },
-        }
-      );
-    } catch (error) {
-      toast.error("Failed to add to wishlist");
-      setIsWishlistLoading(false);
-    }
+        onError: (error: any) => {
+          toast.error(
+            error?.response?.data?.message || "Failed to add to wishlist"
+          );
+        },
+      }
+    );
   };
 
   const handleCardClick = () => {
@@ -144,7 +134,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
 
         <button
           onClick={handleAddToWishlist}
-          disabled={isWishlistLoading}
           title={
             product.isWishlisted ? "Already in wishlist" : "Add to wishlist"
           }
@@ -156,9 +145,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
         >
           <Heart
             className={`w-4 h-4 transition-colors ${
-              isWishlistLoading
-                ? "text-text-secondary animate-pulse"
-                : product.isWishlisted
+              product.isWishlisted
                 ? "text-white fill-current"
                 : "text-text-secondary hover:text-button-primary hover:fill-current"
             }`}
@@ -212,6 +199,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
             : "Add to Cart"}
         </Button>
       </div>
+
+      <WishListModal
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        onSelect={handleModalSelect}
+      />
     </div>
   );
 };

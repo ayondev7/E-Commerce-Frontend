@@ -104,7 +104,9 @@ const MobileSidebar = ({ isOpen, setIsOpen, trigger }: MobileSidebarProps) => {
                 (item.href === "/seller/orders" &&
                   ["/seller/orders", "/seller/view-order"].some((p) =>
                     pathname.startsWith(p)
-                  ));
+                  )) ||
+                (item.href === "/customer/products" &&
+                  pathname.startsWith("/customer/products"));
 
               return (
                 <Link

@@ -21,12 +21,13 @@ const ProductGallery: React.FC<Props> = ({
 }) => {
   return (
     <div className="space-y-4">
-      <div className="aspect-square relative bg-background-secondary rounded-lg overflow-hidden">
+      <div className="relative bg-background-secondary rounded-lg overflow-hidden">
         <Image
           src={getImageSrc(selectedImageIndex)}
           alt={product.title}
-          fill
-          className="object-cover"
+         width={1000}
+         height={1000}
+          className="object-cover w-[400px] h-[400px]"
         />
 
         <div className={`absolute top-4 left-4 px-3 py-1 text-xs font-medium rounded-full ${

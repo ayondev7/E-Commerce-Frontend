@@ -2,18 +2,18 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { 
-  Heart, 
-  ShoppingCart, 
-  Star, 
-  Truck, 
-  Shield, 
-  RotateCcw, 
+import {
+  Heart,
+  ShoppingCart,
+  Star,
+  Truck,
+  Shield,
+  RotateCcw,
   Share2,
   Minus,
   Plus,
   Check,
-  X
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSingleProduct } from "@/hooks/productHooks";
@@ -30,7 +30,7 @@ const SingleProductPage: React.FC = () => {
   const params = useParams();
   const router = useRouter();
   const productId = params?.id as string;
-  
+
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isWishlistLoading, setIsWishlistLoading] = useState(false);
@@ -41,11 +41,9 @@ const SingleProductPage: React.FC = () => {
   const { mutate: addToWishlist } = useAddToWishlist();
   const { data: wishlistsData } = useGetAllLists();
 
-  
-
   const handleAddToCart = async () => {
     if (!product || quantity <= 0) return;
-    
+
     if (parseInt(product.quantity) === 0) {
       toast.error("Product is out of stock");
       return;
@@ -57,10 +55,10 @@ const SingleProductPage: React.FC = () => {
     }
 
     setIsCartLoading(true);
-    
+
     try {
       const defaultWishlistId = wishlistsData?.wishlists?.[0]?._id;
-      
+
       if (!defaultWishlistId) {
         toast.error("Please create a wishlist first");
         return;
@@ -72,20 +70,19 @@ const SingleProductPage: React.FC = () => {
         productId: productId,
       }));
 
-      addToCart(
-        cartEntries,
-        {
-          onSuccess: () => {
-            toast.success(`Added ${quantity} item(s) to cart successfully!`);
-          },
-          onError: (error: any) => {
-            toast.error(error?.response?.data?.message || "Failed to add to cart");
-          },
-          onSettled: () => {
-            setIsCartLoading(false);
-          },
-        }
-      );
+      addToCart(cartEntries, {
+        onSuccess: () => {
+          toast.success(`Added ${quantity} item(s) to cart successfully!`);
+        },
+        onError: (error: any) => {
+          toast.error(
+            error?.response?.data?.message || "Failed to add to cart"
+          );
+        },
+        onSettled: () => {
+          setIsCartLoading(false);
+        },
+      });
     } catch (error) {
       toast.error("Failed to add to cart");
       setIsCartLoading(false);
@@ -94,12 +91,12 @@ const SingleProductPage: React.FC = () => {
 
   const handleAddToWishlist = async () => {
     if (!product) return;
-    
+
     setIsWishlistLoading(true);
-    
+
     try {
       const defaultWishlistId = wishlistsData?.wishlists?.[0]?._id;
-      
+
       if (!defaultWishlistId) {
         toast.error("Please create a wishlist first");
         return;
@@ -115,7 +112,9 @@ const SingleProductPage: React.FC = () => {
             toast.success("Added to wishlist successfully!");
           },
           onError: (error: any) => {
-            toast.error(error?.response?.data?.message || "Failed to add to wishlist");
+            toast.error(
+              error?.response?.data?.message || "Failed to add to wishlist"
+            );
           },
           onSettled: () => {
             setIsWishlistLoading(false);
@@ -141,10 +140,10 @@ const SingleProductPage: React.FC = () => {
   };
 
   const formatPrice = (price: string | number) => {
-    const numPrice = typeof price === 'string' ? parseFloat(price) : price;
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    const numPrice = typeof price === "string" ? parseFloat(price) : price;
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
     }).format(numPrice);
   };
 
@@ -166,25 +165,28 @@ const SingleProductPage: React.FC = () => {
 
   const getImageSrc = (index: number) => {
     const src =
-      product?.productImageStrings?.[index] ?? product?.productImages?.[index] ?? "/placeholder-product.jpg";
+      product?.productImageStrings?.[index] ??
+      product?.productImages?.[index] ??
+      "/placeholder-product.jpg";
     return src as unknown as string;
   };
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
           <div className="space-y-4">
-            <div className="aspect-square bg-background-secondary animate-pulse rounded-lg" />
+            <div className=" bg-background-secondary animate-pulse rounded-lg" />
             <div className="grid grid-cols-4 gap-2">
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="aspect-square bg-background-secondary animate-pulse rounded-lg" />
+                <div
+                  key={i}
+                  className=" bg-background-secondary animate-pulse rounded-lg"
+                />
               ))}
             </div>
           </div>
-          
-          
+
           <div className="space-y-4">
             <div className="h-8 bg-background-secondary animate-pulse rounded" />
             <div className="h-6 bg-background-secondary animate-pulse rounded w-3/4" />
@@ -198,7 +200,7 @@ const SingleProductPage: React.FC = () => {
 
   if (isError || !product) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div>
         <div className="text-center">
           <h1 className="text-2xl font-bold text-danger-primary mb-4">
             Product Not Found
@@ -215,8 +217,8 @@ const SingleProductPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div className="overflow-y-hidden">
+      <div className="flex justify-start gap-x-10">
         <ProductGallery
           product={product}
           selectedImageIndex={selectedImageIndex}
