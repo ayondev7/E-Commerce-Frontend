@@ -228,7 +228,8 @@ const SingleProductPage: React.FC = () => {
           getStockStatusColor={getStockStatusColor}
         />
 
-        <ProductInfo
+       <div className="grid grid-cols-[50%_45%] gap-x-[5%]">
+         <ProductInfo
           product={product}
           quantity={quantity}
           incrementQuantity={incrementQuantity}
@@ -243,6 +244,7 @@ const SingleProductPage: React.FC = () => {
         />
 
         <ProductDescription product={product} />
+       </div>
       </div>
     </div>
   );

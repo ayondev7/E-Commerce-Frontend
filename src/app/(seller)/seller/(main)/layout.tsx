@@ -5,10 +5,9 @@ import Sidebar from "@/components/navigation/Sidebar";
 
 const SellerLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="h-screen bg-background-primary flex flex-col overflow-hidden">
+    <div className="min-h-screen bg-background-primary flex flex-col overflow-hidden">
       <div>
         <Navbar />
-        <SearchBar />
       </div>
 
       <div className="flex flex-1 overflow-hidden">
