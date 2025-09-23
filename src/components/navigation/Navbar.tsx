@@ -184,11 +184,11 @@ const Navbar = () => {
             ShopNest
           </Link>
 
-          <div>
+          <div className="flex gap-x-5">
+            
             <SearchBar />
-          </div>
-
-          <div className="flex items-center gap-x-5">
+      
+          <div className="flex items-center gap-x-5 w-[200px]">
             <div className="relative" ref={notifRef}>
               <button
                 className="w-10 h-10 p-[1px] border border-border-primary rounded-md flex justify-center items-center"
@@ -220,7 +220,7 @@ const Navbar = () => {
             </div>
 
             <Select onValueChange={handleUserMenuChange}>
-              <SelectTrigger className="min-w-36.5 px-0 py-0 justify-start rounded-none border-0 focus:ring-0 focus:ring-offset-0 [&>svg]:ml-1.5 [&>svg]:w-5 [&>svg]:h-5 [&[data-state=open]>svg]:rotate-180">
+              <SelectTrigger className="w-[100px] px-0 py-0 justify-start rounded-none border-0 focus:ring-0 focus:ring-offset-0 [&>svg]:ml-1.5 [&>svg]:w-5 [&>svg]:h-5 [&[data-state=open]>svg]:rotate-180">
                 <div className="flex items-center gap-1.5">
                   <div className="w-8 h-8 rounded-full">
                     <Image
@@ -232,7 +232,7 @@ const Navbar = () => {
                     />
                   </div>
                   <p className="text-base text-text-primary font-medium">
-                    {data?.data?.name}
+                    {data?.data?.name?.split(' ')[0]}
                   </p>
                 </div>
               </SelectTrigger>
@@ -242,6 +242,7 @@ const Navbar = () => {
                 </SelectItem>
               </SelectContent>
             </Select>
+          </div>
           </div>
         </div>
       </nav>

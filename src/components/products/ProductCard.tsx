@@ -139,7 +139,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
           alt={product.title}
           width={600}
           height={600}
-          className="object-cover w-[400px] h-[300px] group-hover:scale-105 transition-transform duration-300"
+          className="object-cover w-[400px] h-[200px] group-hover:scale-105 transition-transform duration-300"
         />
 
         <button
