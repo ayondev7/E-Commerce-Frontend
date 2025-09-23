@@ -241,16 +241,8 @@ const SingleProductPage: React.FC = () => {
           getStockStatus={getStockStatus}
           getStockStatusColor={getStockStatusColor}
         />
-      </div>
 
-      <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <ProductDescription product={product} />
-        </div>
-
-        <div>
-          <ProductSpecifications product={product} />
-        </div>
+        <ProductDescription product={product} />
       </div>
     </div>
   );
