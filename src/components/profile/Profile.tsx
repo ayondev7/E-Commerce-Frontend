@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import Tab from "./Tab";
+import Tab from "@/components/navigation/Tab";
 import PersonalInfo from "./PersonalInfo";
 import AddressInfo from "./AddressInfo";
-import PaymentTransactions from "./PaymentTransactions";
+import PaymentTransactions from "@/components/checkout/PaymentTransactions";
 const Profile = () => {
   const [tabValue, setTabValue] = useState<string>("personal");
 
