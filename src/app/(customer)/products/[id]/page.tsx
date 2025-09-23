@@ -21,6 +21,10 @@ import { useAddToCart } from "@/hooks/cartHooks";
 import { useAddToWishlist, useGetAllLists } from "@/hooks/wishlistHooks";
 import toast from "react-hot-toast";
 import { Badge } from "@/components/ui/badge";
+import ProductGallery from "@/components/products/SingleProduct/ProductGallery";
+import ProductInfo from "@/components/products/SingleProduct/ProductInfo";
+import ProductDescription from "@/components/products/SingleProduct/ProductDescription";
+import ProductSpecifications from "@/components/products/SingleProduct/ProductSpecifications";
 
 const SingleProductPage: React.FC = () => {
   const params = useParams();
@@ -213,288 +217,37 @@ const SingleProductPage: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
-        <div className="space-y-4">
-          
-          <div className="aspect-square relative bg-background-secondary rounded-lg overflow-hidden">
-            <Image
-              src={getImageSrc(selectedImageIndex)}
-              alt={product.title}
-              fill
-              className="object-cover"
-            />
-            
-            
-            <div className={`absolute top-4 left-4 px-3 py-1 text-xs font-medium rounded-full ${
-              parseInt(product.quantity) === 0 
-                ? "bg-danger-secondary text-danger-primary border border-danger-border" 
-                : parseInt(product.quantity) <= 10 
-                ? "bg-warning-secondary text-warning-primary border border-warning-border"
-                : "bg-success-secondary text-success-primary"
-            }`}>
-              {getStockStatus()}
-            </div>
-          </div>
+        <ProductGallery
+          product={product}
+          selectedImageIndex={selectedImageIndex}
+          setSelectedImageIndex={setSelectedImageIndex}
+          getImageSrc={getImageSrc}
+          getStockStatus={getStockStatus}
+          getStockStatusColor={getStockStatusColor}
+        />
 
-          
-          {(product.productImageStrings?.length || product.productImages?.length || 0) > 1 && (
-            <div className="grid grid-cols-4 gap-2">
-              {(product.productImageStrings || product.productImages || []).map((image: any, index: number) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedImageIndex(index)}
-                  className={`aspect-square relative bg-background-secondary rounded-lg overflow-hidden border-2 transition-colors ${
-                    selectedImageIndex === index 
-                      ? "border-text-quaternary" 
-                      : "border-border-primary hover:border-text-secondary"
-                  }`}
-                >
-                  <Image
-                    src={getImageSrc(index)}
-                    alt={`${product.title} ${index + 1}`}
-                    fill
-                    className="object-cover"
-                  />
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        
-        <div className="space-y-6">
-          
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <Badge variant="secondary" className="text-xs">
-                {product.category}
-              </Badge>
-              {product.sku && (
-                <span className="text-xs text-text-secondary">SKU: {product.sku}</span>
-              )}
-            </div>
-            
-            <h1 className="text-3xl font-bold text-text-primary mb-2">
-              {product.title}
-            </h1>
-
-            
-            <div className="flex items-center gap-2 mb-4">
-              <div className="flex items-center">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`w-4 h-4 ${
-                      i < 4 ? "text-yellow-400 fill-current" : "text-gray-300"
-                    }`}
-                  />
-                ))}
-              </div>
-              <span className="text-sm text-text-secondary">(4.0) • 24 reviews</span>
-            </div>
-
-            
-            <div className="flex items-center gap-4 mb-4">
-              <span className="text-3xl font-bold text-text-primary">
-                {formatPrice(product.price)}
-              </span>
-              {product.salePrice && (
-                <span className="text-lg text-text-secondary line-through">
-                  {formatPrice(product.salePrice)}
-                </span>
-              )}
-            </div>
-
-            
-            <div className="flex items-center gap-2 mb-6">
-              <span className={`text-sm font-medium ${getStockStatusColor()}`}>
-                {getStockStatus()}
-              </span>
-              <span className="text-text-secondary">•</span>
-              <span className="text-sm text-text-secondary">
-                {product.quantity} left in stock
-              </span>
-            </div>
-          </div>
-
-          
-          <div className="space-y-4">
-            {product.brand && (
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-text-primary">Brand:</span>
-                <span className="text-text-secondary">{product.brand}</span>
-              </div>
-            )}
-            
-            {product.model && (
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-text-primary">Model:</span>
-                <span className="text-text-secondary">{product.model}</span>
-              </div>
-            )}
-
-            {(product.color || product.colour) && (
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-text-primary">Color:</span>
-                <span className="text-text-secondary">{product.color || product.colour}</span>
-              </div>
-            )}
-
-            {product.storage && (
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-text-primary">Storage:</span>
-                <span className="text-text-secondary">{product.storage}</span>
-              </div>
-            )}
-
-            {product.ram && (
-              <div className="flex items-center gap-2">
-                <span className="font-medium text-text-primary">RAM:</span>
-                <span className="text-text-secondary">{product.ram}</span>
-              </div>
-            )}
-          </div>
-
-          
-          <div className="space-y-4">
-            
-            <div className="flex items-center gap-4">
-              <span className="font-medium text-text-primary">Quantity:</span>
-              <div className="flex items-center border border-border-primary rounded-lg">
-                <button
-                  onClick={decrementQuantity}
-                  disabled={quantity <= 1}
-                  className="p-2 hover:bg-background-hover disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Minus className="w-4 h-4" />
-                </button>
-                <span className="px-4 py-2 font-medium">{quantity}</span>
-                <button
-                  onClick={incrementQuantity}
-                  disabled={!product || quantity >= parseInt(product.quantity)}
-                  className="p-2 hover:bg-background-hover disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            
-            <div className="flex gap-3">
-              <Button
-                onClick={handleAddToCart}
-                disabled={parseInt(product.quantity) === 0 || isCartLoading}
-                className="flex-1 bg-button-primary hover:bg-button-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                <ShoppingCart className="w-5 h-5" />
-                {isCartLoading ? "Adding..." : parseInt(product.quantity) === 0 ? "Out of Stock" : "Add to Cart"}
-              </Button>
-              
-              <Button
-                onClick={handleAddToWishlist}
-                disabled={isWishlistLoading}
-                variant="outline"
-                className="px-4 py-3 border-border-primary hover:border-text-quaternary hover:text-text-quaternary transition-all duration-200"
-              >
-                <Heart className={`w-5 h-5 ${isWishlistLoading ? "animate-pulse" : ""}`} />
-              </Button>
-
-              <Button
-                variant="outline"
-                className="px-4 py-3 border-border-primary hover:border-text-quaternary hover:text-text-quaternary transition-all duration-200"
-              >
-                <Share2 className="w-5 h-5" />
-              </Button>
-            </div>
-          </div>
-
-          
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-border-primary">
-            <div className="flex items-center gap-3">
-              <Truck className="w-5 h-5 text-text-quaternary" />
-              <div>
-                <p className="font-medium text-text-primary text-sm">Free Shipping</p>
-                <p className="text-xs text-text-secondary">On orders over $50</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-3">
-              <Shield className="w-5 h-5 text-text-quaternary" />
-              <div>
-                <p className="font-medium text-text-primary text-sm">Warranty</p>
-                <p className="text-xs text-text-secondary">1 year protection</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-3">
-              <RotateCcw className="w-5 h-5 text-text-quaternary" />
-              <div>
-                <p className="font-medium text-text-primary text-sm">Easy Returns</p>
-                <p className="text-xs text-text-secondary">30 day return policy</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ProductInfo
+          product={product}
+          quantity={quantity}
+          incrementQuantity={incrementQuantity}
+          decrementQuantity={decrementQuantity}
+          handleAddToCart={handleAddToCart}
+          handleAddToWishlist={handleAddToWishlist}
+          isCartLoading={isCartLoading}
+          isWishlistLoading={isWishlistLoading}
+          formatPrice={formatPrice}
+          getStockStatus={getStockStatus}
+          getStockStatusColor={getStockStatusColor}
+        />
       </div>
 
-      
       <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
         <div className="lg:col-span-2">
-          <h2 className="text-2xl font-bold text-text-primary mb-4">Description</h2>
-          <div className="prose prose-gray max-w-none">
-            <p className="text-text-secondary leading-relaxed">
-              {product.description}
-            </p>
-          </div>
-
-          {/* Features */}
-          {product.features && product.features.length > 0 && (
-            <div className="mt-8">
-              <h3 className="text-xl font-semibold text-text-primary mb-4">Features</h3>
-              <ul className="space-y-2">
-                {product.features.map((feature, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-success-primary mt-0.5 flex-shrink-0" />
-                    <span className="text-text-secondary">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <ProductDescription product={product} />
         </div>
 
-        {/* Specifications */}
         <div>
-          <h2 className="text-xl font-bold text-text-primary mb-4">Specifications</h2>
-          <div className="bg-background-primary rounded-lg border border-border-primary p-6">
-            <div className="space-y-3">
-              {product.specifications && product.specifications.length > 0 ? (
-                product.specifications.map((spec, index) => (
-                  <div key={index} className="flex justify-between items-center py-2 border-b border-border-primary last:border-b-0">
-                    <span className="font-medium text-text-primary text-sm">{spec}</span>
-                  </div>
-                ))
-              ) : (
-                <p className="text-text-secondary text-sm">No specifications available</p>
-              )}
-            </div>
-          </div>
-
-          {/* Seller Information */}
-          <div className="mt-6 bg-background-primary rounded-lg border border-border-primary p-6">
-            <h3 className="font-semibold text-text-primary mb-3">Seller Information</h3>
-            <div className="space-y-2">
-              <p className="text-sm">
-                <span className="font-medium text-text-primary">Store:</span>
-                <span className="text-text-secondary ml-2">Premium Electronics</span>
-              </p>
-              <p className="text-sm">
-                <span className="font-medium text-text-primary">Rating:</span>
-                <span className="text-text-secondary ml-2">4.8/5 (1,234 reviews)</span>
-              </p>
-            </div>
-          </div>
+          <ProductSpecifications product={product} />
         </div>
       </div>
     </div>
