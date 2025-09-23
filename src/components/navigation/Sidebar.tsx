@@ -20,7 +20,7 @@ const Sidebar = () => {
   const { userType } = useUserStore();
 
   const sellerNavItems = [
-    { name: "Overview", href: "/seller/overview", icon: Home },
+    { name: "Dashboard", href: "/seller/overview", icon: Home },
     { name: "Products", href: "/seller/products", icon: Box },
     { name: "Orders", href: "/seller/orders", icon: ShoppingCart },
     { name: "Payments", href: "/seller/payments", icon: CreditCard },
@@ -28,7 +28,8 @@ const Sidebar = () => {
   ];
 
   const customerNavItems = [
-    { name: "Overview", href: "/customer/overview", icon: Home },
+    { name: "Dashboard", href: "/customer/overview", icon: Home },
+    { name: "Products", href: "/customer/products", icon: Box },
     { name: "My Orders", href: "/customer/my-orders", icon: Truck },
     { name: "Wishlist", href: "/customer/wishlist", icon: Heart },
     { name: "Profile", href: "/customer/profile", icon: UserRound },

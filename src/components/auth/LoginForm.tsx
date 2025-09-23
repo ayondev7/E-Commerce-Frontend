@@ -65,7 +65,7 @@ const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
             ? user?.name || "Seller"
             : `${user?.firstName || ""} ${user?.lastName || ""}`.trim(),
       });
-      router.push(`/${data.userType}/overview`);
+      router.push(data.userType === "customer" ? "/customer/products" : `/${data.userType}/overview`);
     } catch (err: any) {
       if (err.status === 401)
         toast.error("Email or Password is incorrect! Please try again.");
@@ -99,7 +99,7 @@ const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
             ? user?.name || "Seller"
             : `${user?.firstName || ""} ${user?.lastName || ""}`.trim(),
       });
-      router.push(`/${guestType}/overview`);
+      router.push(guestType === "customer" ? "/customer/products" : `/${guestType}/overview`);
     } catch (err: any) {
       if (err.response?.status === 401)
         toast.error("Guest login failed: incorrect credentials.");

@@ -101,7 +101,7 @@ const CustomerRegistrationForm = ({ onBack }: { onBack: () => void }) => {
       });
 
       toast.success("Registration successful!");
-      router.push("/customer/overview");
+      router.push("/customer/products");
     } catch (err: any) {
       toast.error(
         err.response?.data?.error || "Registration failed. Please try again."
