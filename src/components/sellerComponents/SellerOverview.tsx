@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import SalesAnalyticsCard from "../SalesAnalyticsCard";
-import OrderStatus from "../OrderStatus";
+import SalesAnalyticsCard from "../dashboard/SalesAnalyticsCard";
+import OrderStatus from "../orders/OrderStatus";
 import { AlertCircle } from "lucide-react";
-import RevenueChart from "../RevenueChart";
+import RevenueChart from "../dashboard/RevenueChart";
 import Link from "next/link";
 import { useOrderStatusCounts } from "@/hooks/orderHooks";
 import useAuthCheck from "@/hooks/useAuthCheck";

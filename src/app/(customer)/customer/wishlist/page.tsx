@@ -1,4 +1,4 @@
-import Wishlist from "@/components/Wishlist";
+import Wishlist from "@/components/cart/Wishlist";
 import React from "react";
 
 const page = () => {

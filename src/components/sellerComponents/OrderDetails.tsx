@@ -2,11 +2,11 @@
 import { ArrowLeft, Printer, Phone, X, Truck, Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
-import Timeline from "../Timeline";
-import BuyerInformation from "../BuyerInformation";
-import PaymentInformation from "../PaymentInformation";
-import ProductDetailsCard from "../ProductDetailsCard";
-import { CancelOrderModal } from "../CancelOrderModal";
+import Timeline from "../dashboard/Timeline";
+import BuyerInformation from "../profile/BuyerInformation";
+import PaymentInformation from "../checkout/PaymentInformation";
+import ProductDetailsCard from "../products/ProductDetailsCard";
+import { CancelOrderModal } from "../orders/CancelOrderModal";
 import { useGetOrderDetails, useUpdateOrderStatus } from "@/hooks/orderHooks";
 import toast from "react-hot-toast";
 import { OrderDetailsResponse } from "@/types/ordertypes";

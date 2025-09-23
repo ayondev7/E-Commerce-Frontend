@@ -4,7 +4,7 @@ import {
   getNotificationPreferences,
   saveNotificationPreferences,
   NotificationPreferences as NotificationPrefsType,
-} from "../store/notificationStore";
+} from "@/store/notificationStore";
 import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 

@@ -7,7 +7,7 @@ import GeneralInformationForm from "./GeneralInformationForm";
 import SpecificationsForm from "./SpecificationsForm";
 import PricingInventoryForm from "./PricingInventoryForm";
 import AdditionalInformationForm from "./AdditionalInformationForm";
-import { Checkbox } from "./ui/checkbox";
+import { Checkbox } from "../ui/checkbox";
 import { ProductFormData } from "@/types/productTypes";
 import { useSingleProduct } from "@/hooks/productHooks";
 import apiClient from "@/lib/apiClient";

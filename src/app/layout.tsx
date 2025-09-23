@@ -11,7 +11,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Multivendor E-Commerce Platform",
+  title: "ShopNest - Multivendor E-Commerce Platform",
   description: "Discover and shop from a wide range of products offered by multiple sellers. Enjoy seamless shopping, secure payments, and fast delivery at ShopSphere.",
 };
 
