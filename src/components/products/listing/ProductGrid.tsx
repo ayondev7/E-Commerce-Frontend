@@ -34,7 +34,10 @@ const ProductGrid: React.FC<ProductGridProps> = ({
         <p className="text-text-secondary">
           {isLoading
             ? "Loading products..."
-            : `Showing ${startIndex + 1}-${Math.min(endIndex, total)} of ${total} products`}
+            : `Showing ${startIndex + 1}-${Math.min(
+                endIndex,
+                total
+              )} of ${total} products`}
         </p>
       </div>
 
@@ -43,19 +46,23 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           {[...Array(8)].map((_, index) => (
             <div
               key={index}
-              className="bg-background-primary rounded-lg border border-border-primary overflow-hidden"
+              className="bg-background-primary h-[344px] rounded-lg border border-border-primary overflow-hidden"
             >
-              <div className="aspect-square bg-background-secondary animate-pulse" />
+              <div className=" bg-background-secondary animate-pulse" />
               <div className="p-4 space-y-3">
-                <div className="h-4 bg-background-secondary rounded animate-pulse" />
-                <div className="h-4 bg-background-secondary rounded animate-pulse w-3/4" />
-                <div className="h-8 bg-background-secondary rounded animate-pulse" />
+                <div className="h-[200px] bg-gray-200 rounded animate-pulse" />
+                <div className="h-4 bg-gray-200 rounded animate-pulse" />
+                <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4" />
+                <div className="h-4 bg-gray-200 rounded animate-pulse" />
+                <div className="h-4 bg-bg-gray-200 rounded animate-pulse" />
               </div>
             </div>
           ))}
         </div>
       ) : products.length > 0 ? (
-        <div className={`grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3`}>
+        <div
+          className={`grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3`}
+        >
           {products.map((product) => (
             <ProductCard key={product._id} product={product as any} />
           ))}
@@ -66,7 +73,8 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             No products found
           </h3>
           <p className="text-text-secondary mb-4">
-            Try adjusting your search or filters to find what you're looking for.
+            Try adjusting your search or filters to find what you're looking
+            for.
           </p>
           {onClearFilters && (
             <Button onClick={onClearFilters} variant="outline">

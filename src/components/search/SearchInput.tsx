@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/select";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { SEARCH_CATEGORIES } from "@/constants/searchConstants";
 
 interface SearchInputProps {
   category: string | undefined;
@@ -33,24 +34,15 @@ const SearchInput: React.FC<SearchInputProps> = ({
           />
         </SelectTrigger>
         <SelectContent className="z-[100] text-base text-text-secondary bg-white border-text-secondary">
-          <SelectItem
-            value="electronics"
-            className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer"
-          >
-            Electronics
-          </SelectItem>
-          <SelectItem
-            value="clothing"
-            className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer"
-          >
-            Clothing
-          </SelectItem>
-          <SelectItem
-            value="books"
-            className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer"
-          >
-            Books
-          </SelectItem>
+          {SEARCH_CATEGORIES.map((category) => (
+            <SelectItem
+              key={category.value}
+              value={category.value}
+              className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer"
+            >
+              {category.label}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
 

@@ -3,6 +3,7 @@ import React from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { SORT_OPTIONS, PRICE_RANGES, CATEGORY_OPTIONS } from "@/constants/toolbarConstants";
 
 type ProductsToolbarProps = {
   title?: string;
@@ -31,21 +32,25 @@ const ProductsToolbar: React.FC<ProductsToolbarProps> = ({
     <div className="container">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-4">
-          <h1 className="text-3xl font-bold text-text-primary">{title}</h1>
+          <h1 className="text-3xl font-semibold text-text-primary">{title}</h1>
 
           <div className="hidden lg:flex items-center gap-4 ml-auto">
             <div>
               <label className="sr-only">Sort By</label>
               <Select value={sortBy} onValueChange={onSortByChange}>
-                <SelectTrigger>
+                <SelectTrigger className="text-text-secondary border border-text-secondary text-base focus:ring-0 focus:ring-offset-0 space-x-3 [&>svg]:w-5 [&>svg]:h-5 [&[data-state=open]>svg]:rotate-180">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="newest">Newest</SelectItem>
-                  <SelectItem value="price-low">Price: Low to High</SelectItem>
-                  <SelectItem value="price-high">Price: High to Low</SelectItem>
-                  <SelectItem value="name-asc">Name: A to Z</SelectItem>
-                  <SelectItem value="name-desc">Name: Z to A</SelectItem>
+                <SelectContent className="z-[100] text-base text-text-secondary bg-white border-text-secondary">
+                  {SORT_OPTIONS.map((option) => (
+                    <SelectItem
+                      key={option.value}
+                      value={option.value}
+                      className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer"
+                    >
+                      {option.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -53,13 +58,25 @@ const ProductsToolbar: React.FC<ProductsToolbarProps> = ({
             <div>
               <label className="sr-only">Category</label>
               <Select value={categoryFilter} onValueChange={onCategoryChange}>
-                <SelectTrigger>
+                <SelectTrigger className="text-text-secondary border border-text-secondary text-base focus:ring-0 focus:ring-offset-0 space-x-3 [&>svg]:w-5 [&>svg]:h-5 [&[data-state=open]>svg]:rotate-180">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
+                <SelectContent className="z-[100] text-base text-text-secondary bg-white border-text-secondary">
+                  {CATEGORY_OPTIONS.map((option) => (
+                    <SelectItem
+                      key={option.value}
+                      value={option.value}
+                      className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer"
+                    >
+                      {option.label}
+                    </SelectItem>
+                  ))}
                   {categories.map((category) => (
-                    <SelectItem key={category} value={category.toLowerCase()}>
+                    <SelectItem
+                      key={category}
+                      value={category.toLowerCase()}
+                      className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer"
+                    >
                       {category}
                     </SelectItem>
                   ))}
@@ -70,15 +87,19 @@ const ProductsToolbar: React.FC<ProductsToolbarProps> = ({
             <div>
               <label className="sr-only">Price Range</label>
               <Select value={priceRange} onValueChange={onPriceRangeChange}>
-                <SelectTrigger>
+                <SelectTrigger className="text-text-secondary border border-text-secondary text-base focus:ring-0 focus:ring-offset-0 space-x-3 [&>svg]:w-5 [&>svg]:h-5 [&[data-state=open]>svg]:rotate-180">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Prices</SelectItem>
-                  <SelectItem value="under-50">Under $50</SelectItem>
-                  <SelectItem value="50-100">$50 - $100</SelectItem>
-                  <SelectItem value="100-200">$100 - $200</SelectItem>
-                  <SelectItem value="over-200">Over $200</SelectItem>
+                <SelectContent className="z-[100] text-base text-text-secondary bg-white border-text-secondary">
+                  {PRICE_RANGES.map((option) => (
+                    <SelectItem
+                      key={option.value}
+                      value={option.value}
+                      className="text-base hover:bg-background-hover hover:text-text-primary cursor-pointer"
+                    >
+                      {option.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
