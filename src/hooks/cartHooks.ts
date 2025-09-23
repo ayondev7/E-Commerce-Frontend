@@ -18,6 +18,11 @@ export interface CartEntry {
   productId: string | string[];
 }
 
+export interface DirectCartEntry {
+  productId: string;
+  quantity?: number;
+}
+
 export const useGetCart = () => {
   return useQuery<{ lists: WishlistGroup[]}>({
     queryKey: CART_QUERY_KEY,
@@ -41,6 +46,20 @@ export const useAddToCart = () => {
       queryClient.invalidateQueries({ queryKey: CART_QUERY_KEY });
       queryClient.invalidateQueries({ queryKey: WISHLIST_QUERY_KEY });
       queryClient.refetchQueries({ queryKey: WISHLIST_QUERY_KEY, exact: true });
+    },
+  });
+};
+
+export const useAddProductDirectToCart = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (entry: DirectCartEntry) => {
+      const res = await apiClient.post(CART_ENDPOINTS.ADD_PRODUCT_DIRECT, entry);
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: CART_QUERY_KEY });
     },
   });
 };

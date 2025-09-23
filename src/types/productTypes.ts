@@ -77,4 +77,5 @@ export interface SimplifiedProduct {
   model: string;
   colour: string;
   status: 'active' | 'low-stock' | 'out-of-stock';
+  isWishlisted?: boolean;
 }

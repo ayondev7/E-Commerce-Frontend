@@ -17,10 +17,12 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
   className,
 }) => {
   const getPageNumbers = () => {
-    const delta = 2;
-    const range = [];
-    const rangeWithDots = [];
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
 
+    const delta = 2;
+    const range = [] as Array<number>;
     for (
       let i = Math.max(2, currentPage - delta);
       i <= Math.min(totalPages - 1, currentPage + delta);
@@ -29,24 +31,24 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
       range.push(i);
     }
 
-    if (currentPage - delta > 2) {
-      rangeWithDots.push(1, "...");
-    } else {
-      rangeWithDots.push(1);
+    const rangeWithDots: Array<number | string> = [1];
+
+    if (range[0] > 2) {
+      rangeWithDots.push("...");
     }
 
     rangeWithDots.push(...range);
 
-    if (currentPage + delta < totalPages - 1) {
-      rangeWithDots.push("...", totalPages);
-    } else {
-      rangeWithDots.push(totalPages);
+    if (range[range.length - 1] < totalPages - 1) {
+      rangeWithDots.push("...");
     }
+
+    rangeWithDots.push(totalPages);
 
     return rangeWithDots;
   };
 
-  const pageNumbers = totalPages > 1 ? getPageNumbers() : [];
+  const pageNumbers = getPageNumbers();
 
   const handlePrevious = () => {
     if (currentPage > 1) {
@@ -66,7 +68,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
     }
   };
 
-  if (totalPages <= 1) {
+  if (totalPages < 1) {
     return null;
   }
 

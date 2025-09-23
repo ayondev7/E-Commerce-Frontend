@@ -30,15 +30,28 @@ export const useSingleProduct = (productId?: string) => {
   });
 };
 
-export const useProducts = () => {
-  return useQuery<{ products: SimplifiedProduct[] }>({
-    queryKey: PRODUCT_QUERY_KEY,
-    queryFn: async () => {
-      const response = await apiClient.get(PRODUCT_ENDPOINTS.GET_ALL);
-      return response.data;
-    },
-    staleTime: 0, 
-  });
+export const useProducts = (
+  page: number = 1,
+  limit: number = 8,
+  sortBy?: string,
+  category?: string,
+  priceRange?: string
+) => {
+  return useQuery<{ products: SimplifiedProduct[]; total?: number; categories?: string[] }>(
+    {
+      queryKey: [...PRODUCT_QUERY_KEY, page, limit, sortBy, category, priceRange],
+      queryFn: async () => {
+        const params: Record<string, any> = { page, limit };
+        if (sortBy) params.sortBy = sortBy;
+        if (category && category !== 'all') params.category = category;
+        if (priceRange && priceRange !== 'all') params.priceRange = priceRange;
+
+        const response = await apiClient.get(PRODUCT_ENDPOINTS.GET_ALL, { params });
+        return response.data;
+      },
+      staleTime: 0,
+    }
+  );
 };
 
 export const useProductsById = (

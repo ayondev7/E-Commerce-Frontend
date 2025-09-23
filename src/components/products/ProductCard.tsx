@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Heart, ShoppingCart, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SimplifiedProduct } from "@/types/productTypes";
-import { useAddToCart } from "@/hooks/cartHooks";
+import { useAddProductDirectToCart } from "@/hooks/cartHooks";
 import { useAddToWishlist, useGetAllLists } from "@/hooks/wishlistHooks";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -19,7 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
   const [isCartLoading, setIsCartLoading] = useState(false);
   const router = useRouter();
 
-  const { mutate: addToCart } = useAddToCart();
+  const { mutate: addToCart } = useAddProductDirectToCart();
   const { mutate: addToWishlist } = useAddToWishlist();
   const { data: wishlistsData } = useGetAllLists();
 
@@ -35,17 +35,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
     setIsCartLoading(true);
     
     try {
-      const defaultWishlistId = wishlistsData?.wishlists?.[0]?._id;
-      
-      if (!defaultWishlistId) {
-        toast.error("Please create a wishlist first");
-        return;
-      }
-
       addToCart(
         {
-          wishlistId: defaultWishlistId,
           productId: product._id,
+          quantity: 1,
         },
         {
           onSuccess: () => {
@@ -68,6 +61,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
   const handleAddToWishlist = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    // Check if product is already wishlisted
+    if (product.isWishlisted) {
+      toast.error("Product is already in your wishlist!");
+      return;
+    }
     
     setIsWishlistLoading(true);
     
@@ -143,11 +142,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
         <button
           onClick={handleAddToWishlist}
           disabled={isWishlistLoading}
-          className="absolute top-3 right-3 p-2 bg-background-primary/80 hover:bg-background-primary rounded-full shadow-md transition-all duration-200 hover:scale-110"
+          title={product.isWishlisted ? "Already in wishlist" : "Add to wishlist"}
+          className={`absolute top-3 right-3 p-2 rounded-full shadow-md transition-all duration-200 hover:scale-110 ${
+            product.isWishlisted 
+              ? "bg-button-primary/90 hover:bg-button-primary" 
+              : "bg-background-primary/80 hover:bg-background-primary"
+          }`}
         >
           <Heart 
             className={`w-4 h-4 transition-colors ${
-              isWishlistLoading ? "text-text-secondary animate-pulse" : "text-text-secondary hover:text-button-primary hover:fill-current"
+              isWishlistLoading 
+                ? "text-text-secondary animate-pulse" 
+                : product.isWishlisted
+                ? "text-white fill-current"
+                : "text-text-secondary hover:text-button-primary hover:fill-current"
             }`} 
           />
         </button>
@@ -167,45 +175,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView }) => {
       
       <div className="p-4">
         
-        <p className="text-xs font-medium text-text-secondary uppercase tracking-wide mb-1">
+       <div className="flex justify-between">
+         <p className="text-xs font-medium text-text-secondary uppercase tracking-wide mb-1">
           {product.category}
         </p>
 
         
-        <h3 className="font-semibold text-text-primary text-sm leading-tight mb-2 line-clamp-2 group-hover:text-text-quaternary transition-colors">
+        <h3 className="font-semibold text-text-primary text-sm leading-tight mb-2 line-clamp-2 transition-colors">
           {product.title}
         </h3>
-
-        
-        <div className="flex items-center gap-2 mb-2">
-          {product.model && (
-            <span className="text-xs text-text-secondary">
-              {product.model}
-            </span>
-          )}
-          {product.colour && (
-            <>
-              <span className="text-xs text-text-secondary">•</span>
-              <span className="text-xs text-text-secondary">
-                {product.colour}
-              </span>
-            </>
-          )}
-        </div>
-
-        
-        <div className="flex items-center gap-1 mb-3">
-          {[...Array(5)].map((_, i) => (
-            <Star
-              key={i}
-              className={`w-3 h-3 ${
-                i < 4 ? "text-yellow-400 fill-current" : "text-gray-300"
-              }`}
-            />
-          ))}
-          <span className="text-xs text-text-secondary ml-1">(4.0)</span>
-        </div>
-
+       </div>
         
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
