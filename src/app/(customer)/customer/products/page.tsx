@@ -6,7 +6,7 @@ import ProductsToolbar from "@/components/products/listing/ProductsToolbar";
 import MobileFilters from "@/components/products/listing/MobileFilters";
 import ProductGrid from "@/components/products/listing/ProductGrid";
 
-const PRODUCTS_PER_PAGE = 8;
+const PRODUCTS_PER_PAGE = 6;
 
 const ProductsPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
