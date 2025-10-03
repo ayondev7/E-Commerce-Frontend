@@ -186,7 +186,7 @@ const Navbar = () => {
 
           <div className="flex gap-x-5">
             
-            <SearchBar />
+            {userType === "customer" && <SearchBar />}
       
           <div className="flex items-center gap-x-5 w-[200px]">
             <div className="relative" ref={notifRef}>
