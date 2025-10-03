@@ -204,7 +204,7 @@ export interface OrderDetailsResponse {
     sku: string;
     negotiable: boolean;
     tags: string[];
-    firstImageBase64: string | null;
+    firstImageUrl: string | null;
     stockStatus:string;
   };
 

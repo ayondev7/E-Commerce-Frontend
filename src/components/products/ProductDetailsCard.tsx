@@ -13,17 +13,19 @@ const ProductDetailsCard = ({
     <div className="flex flex-col md:flex-row gap-y-4 md:gap-x-5 border bg-white border-border-primary rounded-md p-5 w-max max-w-full">
       <div className="flex md:block items-center gap-x-4">
         <div className="md:max-w-29.5 md:max-h-29.5 max-w-11.5 max-h-11.5 rounded-sm overflow-hidden">
-          <Image
-            src={
-              order?.product?.firstImageBase64
-                ? order.product.firstImageBase64
-                : "https://via.placeholder.com/200"
-            }
-            alt={order?.product?.title}
-            width={118}
-            height={118}
-            className="h-full w-full object-cover"
-          />
+          {(() => {
+            const imgSrc: string = order?.product?.firstImageUrl ?? "/images/placeholder.svg";
+            const altText: string = order?.product?.title ?? "product image";
+            return (
+              <Image
+                src={imgSrc}
+                alt={altText}
+                width={118}
+                height={118}
+                className="h-full w-full object-cover"
+              />
+            );
+          })()}
         </div>
         <div className="flex-1 flex justify-between items-center md:hidden">
           <h2 className="text-base font-medium">{order?.product?.title}</h2>
