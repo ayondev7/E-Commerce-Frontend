@@ -37,9 +37,9 @@ const ProductTable = ({ products }: ProductTableProps) => {
     switch (status) {
       case "active":
         return "bg-success-secondary text-success-primary";
-      case "low stock":
+      case "low-stock":
         return "bg-warning-secondary text-warning-primary";
-      case "out of stock":
+      case "out-of-stock":
         return "bg-danger-secondary text-danger-primary";
       default:
         return "";

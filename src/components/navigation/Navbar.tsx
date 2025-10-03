@@ -220,7 +220,7 @@ const Navbar = () => {
             </div>
 
             <Select onValueChange={handleUserMenuChange}>
-              <SelectTrigger className="w-[100px] px-0 py-0 justify-start rounded-none border-0 focus:ring-0 focus:ring-offset-0 [&>svg]:ml-1.5 [&>svg]:w-5 [&>svg]:h-5 [&[data-state=open]>svg]:rotate-180">
+              <SelectTrigger className="w-[120px] px-0 py-0 justify-start rounded-none border-0 focus:ring-0 focus:ring-offset-0 [&>svg]:ml-1.5 [&>svg]:w-5 [&>svg]:h-5 [&[data-state=open]>svg]:rotate-180">
                 <div className="flex items-center gap-1.5">
                   <div className="w-8 h-8 rounded-full">
                     <Image
